@@ -10,34 +10,31 @@
     <div class="container text-center">
     <div class="home-search p-5">
         <div class="overlay p-5">
-        <h1 class="display-4 mb-4">Clinic Searching Just Got So Easy</h1>
+        <h1 class="display-4 mb-4">Searching for jobs</h1>
         <p class="lead">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-            Recusandae quas, asperiores eveniet vel nostrum magnam voluptatum
-            tempore! Consectetur, id commodi!
+            freelancego website can help you work from home
         </p>
         <div class="search">
-            {% comment %} changed {% endcomment %}
+            {% comment %} url need change {% endcomment %}
             <form action="{% url "listings:search" %}" method = "GET">
             <!-- Form Row 1 -->
             <div class="form-row">
                 <div class="col-md-12 mb-3">
-                <label class="sr-only">Keywords</label>
+                <label class="sr-only">jobs</label>
                 <input
                     type="text"
                     name="keywords"
                     class="form-control"
-                    placeholder="Keyword (Clinic, Doctor, City name, Town name, etc)"
+                    placeholder="Keyword (title,type,budget )"
                 />
                 </div>
             </div>
             <!-- Form Row 2 -->
             <div class="form-row">
                 <div class="col-md-4 mb-3">
-                <label class="sr-only">District</label>
+                <label class="sr-only">Title</label>
                 <select name="district" class="form-control">
                     <option selected="true" disabled="disabled">
-                    District (All)
                     </option>
                     {% for key, value in district_choices.items %}
                     <option value="{{key}}">{{value}}</option>
@@ -46,7 +43,7 @@
                 </select>
                 </div>
                 <div class="col-md-4 mb-3">
-                <label class="sr-only">rooms</label>
+                <label class="sr-only">Jobs</label>
                 <select name="rooms" class="form-control">
                     <option selected="true" disabled="disabled">
                     Rooms (All)
@@ -59,7 +56,7 @@
                 <div class="col-md-4 mb-3">
                 <select name="room_type" class="form-control" id="type">
                     <option selected="true" disabled="disabled">
-                    Roomtype (All)
+                    Type
                     </option>
                     {% for key, value in room_choices.items %}
                     <option value="{{key}}">{{value}}</option>
