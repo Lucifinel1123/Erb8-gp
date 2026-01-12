@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %} | {{user.username | title}}{% endblock title %}
+{% block content %}
+
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+    <div class="row text-center">
+        <div class="col-md-12">
+        <h1 class="display-4">{{user.username | title}} Dashboard</h1>
+        <p class="lead">Manage your BC Health Care account</p>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- Breadcrumb -->
+<section id="bc" class="mt-3">
+    <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url "pages:index" %}">
+                <i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+    </div>
+</section>
+
+{% include 'partials/_alert.html' %}
+<section id="dashboard" class="py-4">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        <h2>Welcome {{user.username | title}}</h2>
+        {% if contacts %}
+        <p>Here are the clinic listings that you have inquired about</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Date</th>
+                <th scope="col">Clinic</th>
+                <th></th>
+            </tr>
+            </thead>
+            
+            <tbody>
+                {% for contact in contacts %}
+                <tr>
+                    <td>{{contact.listing_id}}</td>
+                    <td>{{contact.contact_date | date}}</td>
+                    <td>{{contact.listing | title}}</td>
+                    <td>
+                    <a class="btn btn-light" href="{% url "listings:listing" contact.listing_id %}"
+                    >View Listing</a>
+                {% comment %} Edit message {% endcomment %}
+                    <a class="btn btn-success" href="{% url "contacts:edit_contact" contact.id %}"
+                    >Edit</a>
+                {% comment %} Delete inquired{% endcomment %}
+                    <button 
+                    class="btn btn-danger" 
+                    data-url="{% url "contacts:delete_contact" contact.id %}"
+                    data-toggle="modal"
+                    {% comment %} on/off {% endcomment %}
+                    data-target="#deleteConfirmModal"
+                    {% comment %} using id name to direct the modal below {% endcomment %}
+                    data-id="{{contact.id}}"
+                    >Delete</button>
+                    
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+        {% else %}
+        <p>You have not made any inquiries yet. </p>
+        {% endif %}
+        </div>
+    </div>
+    </div>
+</section>
+
+{% comment %} delete modal {% endcomment %}
+<div class="modal fade" id="deleteConfirmModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm DELETE</h5>
+                {% comment %} the "X" for cencel the message {% endcomment %}
+                <button class="close" type="button" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure cencel?</p>
+                <a href="" class="btn btn-danger" id="confirmDeleteBtn">Yes</a>
+                <button class="btn btn-info" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
