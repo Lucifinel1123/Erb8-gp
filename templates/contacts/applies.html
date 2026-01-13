@@ -1,0 +1,84 @@
+<!-- apply Modal -->
+<div class="modal fade" id="inquiryModal" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="inquiryModalLabel">Apply for this job:</h5>
+        <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        <form method='POST' action= "{% url 'contacts:contact'%}">
+        {% csrf_token %}
+        <input type="hidden" name="listing_id" value="{{listing.id}}"/>
+        <input 
+        type="hidden" 
+        name="doctor_email" 
+        value="{{listing.doctor.email}}"/>
+        {% if user.is_authenticated %}
+        <input type="hidden" name="user_id" value="{{user.id}}"/>
+        {% else %}
+        <input type="hidden" name="user_id" value="0"/>
+        {% endif %}
+            <div class="form-group">
+            <label for="listing" class="col-form-label">Job name:</label>
+            <input
+                type="text"
+                name="listing"
+                class="form-control"
+                value="{{listing.title | title}}"
+                readonly
+            />
+            </div>
+            <div class="form-group">
+            <label for="name" class="col-form-label">Name:</label>
+            <input 
+                type="text" 
+                name="name" 
+                class="form-control"
+                
+                {% if user.is_authenticated %}
+                value="{{user.first_name}} {{user.last_name}}"
+                readonly
+                {% else %}
+                placeholder="Please login first"
+                disabled
+                {% endif %}
+            />
+            </div>
+            <div class="form-group">
+            <label for="email" class="col-form-label">Email:</label>
+            <!--prettier-ignore-->
+            <input
+                type="email"
+                name="email"
+                class="form-control"
+                {% if user.is_authenticated %}
+                value="{{user.email}}"
+                readonly
+                {% endif %}
+            />
+            </div>
+            <div class="form-group">
+            <label for="phone" class="col-form-label">Phone:</label>
+            <input type="text" name="phone" class="form-control" />
+            </div>
+            <div class="form-group">
+            <div style="margin: 15px 0;">
+            <label class="col-form-label">Upload CV(PDF/Word,10≤10M)</label>
+            <input
+            type="file"
+            name="cv-file"
+            accept=".pdf,.doc,.docx" required
+            style="margin-top: 8px =;"
+            />
+            </div>
+            <button type="submit" style="display:block; margin:20px auto 0;
+            padding:6px 20px;">apply</button>
+        </form>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
