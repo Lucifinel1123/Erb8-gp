@@ -5,7 +5,7 @@ from .models import Company
 class CompanyAdmin(admin.ModelAdmin):
 
     list_display = 'industry', 'title', 'size', 'contact_name', 'register_date',
-    list_display_links = 'title', 'contact_email'
+    list_display_links = 'title',
     list_editable = 'industry',
     search_fields = 'industry', 'title', 'size', 'description', 'contact_name', 'register_date',
     list_per_page = 25

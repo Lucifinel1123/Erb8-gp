@@ -37,14 +37,16 @@
 
             <li {% if 'dashboard' in request.path %} class="nav-item mr-3 active "{% else %} 
             class="nav-item mr-3" {% endif %}>
-                <a class="nav-link" href={% url "accounts:dashboard" %}>
+                {% comment %} <a class="nav-link" href={% url "accounts:dashboard" %}> {% endcomment %}
+                    <a class="nav-link" href="#">
                 <i class="fas fa-sign-in-alt"></i> Dashboard </a>
             </li>
 
             <li class="nav-item mr-3">
                 <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
                     <i class="fas fa-sign-out-alt"></i>Logout</a>
-                <form action='{% url "accounts:logout" %}' method="POST" id="logout">
+                <form action='#' method="POST" id="logout">
+                    {% comment %} <form action='{% url "accounts:logout" %}' method="POST" id="logout"> {% endcomment %}
                     {% csrf_token %}
                     <input type="hidden" />
                 </form>
