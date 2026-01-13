@@ -39,8 +39,8 @@
     <div class="row">
         <div class="col-md-8">
         <h2>
-            We Search For The Your health, your home – we help you find the
-            right clinic.
+            We Search For Freelance – we help you find the
+            right candidate.
         </h2>
         <p class="lead">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
@@ -49,11 +49,7 @@
         {% comment %} changed {% endcomment %}
         <img src= {% static "img/about.jpg" %} alt="" />
         <p class="mt-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Perspiciatis esse officia repudiandae ad saepe ex, amet neque quod
-            accusamus rem quia magnam magni dolorum facilis ullam minima
-            perferendis? Exercitationem at quaerat commodi id libero eveniet
-            harum perferendis laborum molestias quia.
+            Freelance to go
         </p>
         </div>
         <div class="col-md-4">
@@ -64,10 +60,10 @@
             class="card-img-top"
             {% comment %} mvp doctor img {% endcomment %}
             src="{{mvp_doctor.photo.url}}"
-            alt="Top Doctor of the month"
+            alt="Jobs of the month"
             />
             <div class="card-body">
-            <h5 class="card-title">{{ forloop.counter | ordinal }} Doctor</h5>
+            <h5 class="card-title">{{ forloop.counter | ordinal }} Job_Type</h5>
             <h6 class="text-secondary">{{mvp_doctor.name}}</h6>
             <p class="card-text">
                 {{mvp_doctor.description}}
@@ -96,27 +92,27 @@
 </section>
 
 <!-- Team -->
-{% if doctors %}
+{% if companies %}
 <section id="team" class="py-5">
     <div class="container">
-    <h2 class="text-center pb-4">Our Team</h2>
+    <h2 class="text-center pb-4">Job_Type</h2>
     <div class="row text-center">
-        {% for doctor in doctors %}
+        {% for job in types %}
         <div class="col-md-4">
         <img
         {% comment %} img {% endcomment %}
-            src="{{doctor.photo.url}}"
+            src="{{company.photo.url}}"
             alt=""
             class="rounded-circle mb-3 img-fluid"
             style="object-fit: cover; width: 300px; height: 300px"
         />
-        <h4>{{doctor.name}}</h4>
+        <h4>{{company.name}}</h4>
         <p class="text-success">
             <i class="fas fa-award text-success"></i> Doctor
         </p>
         <hr />
-        <p><i class="fas fa-phone"></i> {{doctor.phone}}</p>
-        <p><i class="fas fa-envelope-open"></i> {{doctor.email}}</p>
+        <p><i class="fas fa-phone"></i> {{company.phone}}</p>
+        <p><i class="fas fa-envelope-open"></i> {{company.email}}</p>
         </div>
         {% endfor %}
 
