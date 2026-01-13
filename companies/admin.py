@@ -3,10 +3,11 @@ from .models import Company
 
 # Register your models here.
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = 'title', 'industry', 'logo', 'register_date' # duple
-    list_display_links = 'title', # duple
-    list_editable = '', # duple
-    search_fields = 'title', 'industry', 'description', 'size', 'register_date'  # duple
+
+    list_display = 'industry', 'title', 'size', 'contact_name', 'register_date',
+    list_display_links = 'title', 'contact_email'
+    list_editable = 'industry',
+    search_fields = 'industry', 'title', 'size', 'description', 'contact_name', 'register_date',
     list_per_page = 25
 
 admin.site.register(Company, CompanyAdmin)
