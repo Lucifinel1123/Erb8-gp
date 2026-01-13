@@ -21,10 +21,12 @@
             {% comment %} <a class="nav-link" href= {% url "pages:index" %} >Home</a> {% endcomment %}
             <a class="nav-link" href="#">Home</a>
         </li>
+        {% comment %} url {% endcomment %}
         <li {% if '/about' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
             {% comment %} <a class="nav-link" href= {% url "pages:about" %} >About</a> {% endcomment %}
             <a class="nav-link" href="#" >About</a>
         </li>
+        {% comment %} url {% endcomment %}
         <li {% if '/listings/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
             {% comment %} <a class="nav-link" href= {% url "listings:index" %} >Inpatient medical services</a> {% endcomment %}
             <a class="nav-link" href="#" >Inpatient medical services</a>
