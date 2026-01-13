@@ -21,3 +21,4 @@ def HR_dashboard(request):
     
     context = {"job_post": job_post, "user_appliers": user_appliers}
     return render(request, 'companies/HR_dashboard.html', context)
+

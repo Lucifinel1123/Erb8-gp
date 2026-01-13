@@ -45,7 +45,6 @@ APPLICATION_APPS = [
     'applies.apps.AppliesConfig',
     'companies.apps.CompaniesConfig',
     'listings.apps.ListingsConfig',
-
 ]
 
 INSTALLED_APPS = DJANGO_APPS + APPLICATION_APPS
