@@ -9,7 +9,7 @@
     <div class="row text-center">
         <div class="col-md-12">
         <h1 class="display-4">{{user.username | title}} Dashboard</h1>
-        <p class="lead">Manage your BC Health Care account</p>
+        <p class="lead">Manage your freelance  account</p>
         </div>
     </div>
     </div>
@@ -37,13 +37,13 @@
         <div class="col-md-12">
         <h2>Welcome {{user.username | title}}</h2>
         {% if contacts %}
-        <p>Here are the clinic listings that you have inquired about</p>
+        <p>Here are the job listings that you have applied about</p>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Date</th>
-                <th scope="col">Clinic</th>
+                <th scope="col">Job_Type</th>
                 <th></th>
             </tr>
             </thead>
@@ -78,7 +78,7 @@
             
         </table>
         {% else %}
-        <p>You have not made any inquiries yet. </p>
+        <p>You have not made any application yet. </p>
         {% endif %}
         </div>
     </div>
