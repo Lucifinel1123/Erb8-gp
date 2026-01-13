@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render,redirect, get_object_or_404, HttpResponse
 from .models import Company
 #from django.contrib import messages
 
@@ -13,6 +13,7 @@ def company(request):
                         email=email, phone=phone)
         company.save()
         return redirect('companies:company', company_id = company_id)
+    return HttpResponse("<h1>company</h1>")
 
 def HR_dashboard(request):
     '''
