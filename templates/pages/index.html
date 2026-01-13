@@ -25,17 +25,19 @@
                     type="text"
                     name="keywords"
                     class="form-control"
-                    placeholder="Keyword (title,type,budget )"
+                    placeholder="Keyword (Job Title, Type, Budget )"
                 />
                 </div>
             </div>
             <!-- Form Row 2 -->
             <div class="form-row">
                 <div class="col-md-4 mb-3">
-                <label class="sr-only">Title</label>
+                <label class="sr-only">Job Title</label>
+                {% comment %} name {% endcomment %}
                 <select name="district" class="form-control">
-                    <option selected="true" disabled="disabled">
+                    <option selected="true" disabled="disabled">Job Title
                     </option>
+                    {% comment %} for {% endcomment %}
                     {% for key, value in district_choices.items %}
                     <option value="{{key}}">{{value}}</option>
                     {% endfor %}
@@ -43,10 +45,10 @@
                 </select>
                 </div>
                 <div class="col-md-4 mb-3">
-                <label class="sr-only">Jobs</label>
+                <label class="sr-only">Type</label>
                 <select name="rooms" class="form-control">
                     <option selected="true" disabled="disabled">
-                    Rooms (All)
+                    Type
                     </option>
                     {% for key, value in rooms_choices.items %}
                     <option value="{{key}}">{{value}}</option>
@@ -56,7 +58,7 @@
                 <div class="col-md-4 mb-3">
                 <select name="room_type" class="form-control" id="type">
                     <option selected="true" disabled="disabled">
-                    Type
+                    Budget
                     </option>
                     {% for key, value in room_choices.items %}
                     <option value="{{key}}">{{value}}</option>
@@ -77,7 +79,7 @@
 <!-- Listings -->
 <section id="listings" class="py-5">
     <div class="container">
-    <h3 class="text-center mb-3">Inpatient medical services</h3>
+    <h3 class="text-center mb-3">Latest Job Posts</h3>
     <div class="row">
         {% if listings %}
         <!-- Listing 1 -->
@@ -140,41 +142,6 @@
     </div>
 </section>
 
-<section id="services" class="py-5 bg-secondary text-white">
-    <div class="container">
-    <div class="row text-center">
-        <div class="col-md-4">
-        <i class="fas fa-comment fa-4x mr-4"></i>
-        <hr />
-        <h3>Consulting Services</h3>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            debitis nam! Repudiandae, provident iste consequatur hic
-            dignissimos ratione ea quae.
-        </p>
-        </div>
-        <div class="col-md-4">
-        <i class="fas fa-home fa-4x mr-4"></i>
-        <hr />
-        <h3>Inpatient Services</h3>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            debitis nam! Repudiandae, provident iste consequatur hic
-            dignissimos ratione ea quae.
-        </p>
-        </div>
-        <div class="col-md-4">
-        <i class="fas fa-suitcase fa-4x mr-4"></i>
-        <hr />
-        <h3>Primary Care Package</h3>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
-            debitis nam! Repudiandae, provident iste consequatur hic
-            dignissimos ratione ea quae.
-        </p>
-        </div>
-    </div>
-    </div>
-</section>
+
 {% endblock %}
 
