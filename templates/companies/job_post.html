@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{% url "accounts:dashboard" %}">
+            <a href="{% url "companys:HR_dashboard" %}">
                 back</a>
         </li>
         </ol>
@@ -17,22 +17,28 @@
     </div>
 </section>
 
-
 <section id="edit" class="py-4">
     <div class="container mt-1">
         <div class="row justify-content-center" >
             <div class="col-md-6">
                 <div class="card-header bg-primary text-white">
-                    <h1 class="text-center mb-2"> Edit Message</h1>
+                    <h1 class="text-center mb-2"> POST JOB</h1>
                 </div>
-                <form action="{% url 'contacts:edit_contact' contact.id %}" method="POST">
+                <form action="{% url 'companies:job_post' company.id %}" method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
-                        {{form.message | add_label_class:"form-label"}}
-                        {% if form.message.errors %}
-                        <div class="text-danger mb-2">{{form.message.errors}}</div>
+                        
+                        {{form.name | add_label_class:"form-label"}}
+                        {% if form.name.errors %}
+                        <div class="text-danger mb-2">{{form.name.errors}}</div>
                         {% endif %}
-                        {{form.message | add_class:"form-control"}}
+                        {{form.name | add_class:"form-control"}}
+
+                        {{form.description | add_label_class:"form-label"}}
+                        {% if form.description.errors %}
+                        <div class="text-danger mb-2">{{form.description.errors}}</div>
+                        {% endif %}
+                        {{form.description | add_class:"form-control"}}
                     </div>
                     <button class="btn btn-primary w-100" type="submit"> submit</button>
                 </form>

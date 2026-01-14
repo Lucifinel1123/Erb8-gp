@@ -9,7 +9,7 @@ from django.shortcuts import render, HttpResponse
     # context = {"listings": paged_listings}
     # return render(request, 'listings/listings.html', 
                 #   context
-                  # )
+                # )
     # return HttpResponse("<h1>about</h1>")
 
 def listings(request):
