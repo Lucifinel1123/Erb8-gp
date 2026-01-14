@@ -1,0 +1,50 @@
+{% extends HR_dashboard.html %}
+{% block content %}
+<div class="container mt_4">
+    <h2>Candidates listing</h2>
+    {% if job_title %}
+    {% for job_title in listings %}
+    <div class="card mb-4 text-center">
+        <div class="card-header bg-primary">
+            <h5>{{job_title}}</h5>
+        <div class="card-body">
+        <table class="table tabel-striped">
+            <thead>
+                <tr>
+                    <th>Candidate Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>CV</th>
+                </tr>
+            </thead>
+        {% endfor %}
+    {% else %}
+    <div class="alert alert-warning">You haven't post any jobs.</div>
+    {% endif %}
+        <tbody>
+            {% if Candidates%}
+            {% for Candidates in job.applications.all%}
+            <tr>
+                <td>{{Candidate Name}}</td>
+                <td>{{Email}}</td>
+                <td>{{Phone Number}}</td>
+                <td>
+                    <a href="{{candidate.cv.url}}" target="_blank" calss="btn btn-sm btn-info">Review CV</a>
+                    <a href="{{candidate.cv.url}}" download calss="btn btn-sm btn-info">Download CV</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td>There's no Candidates</td>
+            </tr>
+            {% endif %}
+        </tbody>
+        </table>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

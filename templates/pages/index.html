@@ -5,7 +5,11 @@
 {% block title %} | Welcome{% endblock title %}
 <!-- index main content -->
 {% block content %}
+
 <!-- Showcase -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
 <section id="showcase">
     <div class="container text-center">
     <div class="home-search p-5">
@@ -95,35 +99,36 @@
                 </div>
                 <div class="card-body">
                 <div class="listing-heading text-center">
+                    {% comment %} change title to job name {% endcomment %}
                     <h4 class="text-primary">{{listing.title | title}}</h4>
                     <p>
-                    <i class="fas fa-map-marker text-secondary"></i> {{listing.district | title}}
-                    </p>
+                    {% comment %} <i class="fas fa-map-marker text-secondary"></i> {{listing.district | title}}
+                    </p> {% endcomment %}
                 </div>
                 <hr />
                 <div class="row py-2 text-secondary">
-                    <div class="col-6">
-                    <i class="fas fa-th-large"></i> Services: {{listing.service | apnumber | capfirst }}
-                    </div>
-                    <div class="col-6">
-                    <i class="fas fa-bed"></i> Rooms:  {{listing.rooms}}
+                    <div class="col-12">
+                    <i class="fa-regular fa-money-bill-1"></i>  Budget: {{listing.service}}
                     </div>
                 </div>
                 <div class="row py-2 text-secondary">
-                    <div class="col-6">
-                    <i class="fas fa-bed"></i> Room_type: {{listing.room_type}}
+                    <div class="col-12">
+                    <i class="fa-solid fa-calendar-days"></i> Period required:  {{listing.rooms}}
                     </div>
-                    <div class="col-6">
-                    <i class="fas fa-bed"></i> Professions: {{listing.professions}}
+                </div>
+                <div class="row py-2 text-secondary">
+                    <div class="col-12">
+                    <i class="fa-solid fa-briefcase"></i> Type: {{listing.room_type}}
                     </div>
                 </div>
                 <hr />
                 <div class="row py-2 text-secondary">
-                    <div class="col-12"><i class="fas fa-user"></i> {{listing.doctor.name}}</div>
+                    <div class="col-12">
+                    <i class="fa-solid fa-building"></i> Company: {{listing.doctor.name}}</div>
                 </div>
                 <div class="row text-secondary pb-2">
                     <div class="col-12">
-                    <i class="fas fa-clock"></i> Post on {{listing.list_date | timesince }}
+                    <i class="fas fa-clock"></i> Post on {{listing.list_date}}
                     </div>
                 </div>
                 <hr />
@@ -137,6 +142,35 @@
             <h2>No Clinic Availbale</h2>
         </div>
         {% endif %}
+<div class="container mt-4">
+<div class="row">
+    <div class="col-md-6"> 
+        <div class="card text-white">
+            <img src="https://picsum.photos/id/870/200/300?grayscale&blur=2" alt="" class="card-img">
+        <div class="card-img-overlay">
+        <h4 class="card-title">Freelancer</h4>
+        <p class="card-text">Explore new sources of employment</p>
+        <h6 class="card-subtitle text-muted"> You can connect with more job opportunities on Freelancergo and have the chance to collaborate with major well-known organizations.</h6>
+        <br/>
+        <a href="#" class="btn btn-outline-info">Join in as freelancer</a>
+        </div>
+        </div>
+    </div>
+    <div class="col-md-6"> 
+        <div class="card text-white">
+            <img src="https://picsum.photos/id/237/200/300" alt="" class="card-img">
+        <div class="card-img-overlay">
+        <h4 class="card-title">HR</h4>
+        <p class="card-text">Let our experts solve your problem</p>
+        <h6 class="card-subtitle text-muted"> Posting jobs directly to get a experts as quickly as possible. And you're sure to find a freelancer you like!</h6>
+        <br/>
+        <a href="#" class="btn btn-outline-info">Join in as HR</a>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
 
     </div>
     </div>
