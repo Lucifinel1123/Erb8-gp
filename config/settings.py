@@ -106,6 +106,11 @@ DATABASES = {
         'PASSWORD' : 'aaaa',
         'HOST': 'localhost',
         'PORT': '5432'
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> d645313 (add company name field)
     }
 }
 

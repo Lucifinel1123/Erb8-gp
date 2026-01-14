@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
-
 from .forms import NormalUserRegisterForm, HRUserRegisterForm
 from .models import Company, Profile
 from contacts.models import Contact
@@ -28,7 +27,7 @@ def register(request):
                 company, _ = Company.objects.get_or_create(
                     name=company_name,
                     defaults={"address": company_address},
-                )
+                )   
 
             # 2) Create profile
             Profile.objects.create(user=user, role=role, company=company)
