@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{% url "companys:HR_dashboard" %}">
+            <a href="{% url "companies:HR_dashboard" company.id %}">
                 back</a>
         </li>
         </ol>
@@ -24,7 +24,7 @@
                 <div class="card-header bg-primary text-white">
                     <h1 class="text-center mb-2"> Edit Company infomation</h1>
                 </div>
-                <form action="{% url 'companies:company_edit_info' company.id %}" method="POST">
+                <form action="{% url 'companies:company_edit_info' company_id=company.id %}" method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
                         {{form.name | add_label_class:"form-label"}}
@@ -32,7 +32,6 @@
                         <div class="text-danger mb-2">{{form.name.errors}}</div>
                         {% endif %}
                         {{form.name | add_class:"form-control"}}
-
                         {{form.description | add_label_class:"form-label"}}
                         {% if form.description.errors %}
                         <div class="text-danger mb-2">{{form.description.errors}}</div>

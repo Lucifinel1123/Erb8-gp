@@ -9,8 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{% url "companys:HR_dashboard" %}">
-                back</a>
+            <a href="{% url "companies:HR_dashboard" company.id %}">back</a>
         </li>
         </ol>
     </nav>
@@ -33,7 +32,6 @@
                         <div class="text-danger mb-2">{{form.name.errors}}</div>
                         {% endif %}
                         {{form.name | add_class:"form-control"}}
-
                         {{form.description | add_label_class:"form-label"}}
                         {% if form.description.errors %}
                         <div class="text-danger mb-2">{{form.description.errors}}</div>
