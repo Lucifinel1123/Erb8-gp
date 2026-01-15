@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-'''
+
 class Apply(models.Model):
     listing = models.CharField(max_length=200)
     listing_id = models.IntegerField()
@@ -15,4 +15,3 @@ class Apply(models.Model):
 
     def __str__(self):
         return self.name
-'''

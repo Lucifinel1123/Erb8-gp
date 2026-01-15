@@ -33,6 +33,14 @@
 {% include 'partials/_alert.html' %}
 <section id="dashboard" class="py-4">
     <div class="container">
+        <a class="btn btn-info" href="{% url "companies:company_edit_info" company.id %}"
+                    >Edit Company infomation</a>
+    </div>
+    <div class="container">
+        <a class="btn btn-info" href="{% url "listings:job_post" company.id %}"
+                    >Post new job</a>
+    </div>
+    <div class="container">
     <div class="row">
         <div class="col-md-12">
         <h2>Welcome {{user.username | title}}</h2>
@@ -51,14 +59,14 @@
             <tbody>
                 {% for listing in listings %}
                 <tr>
-                    <td>{{post.listing_id}}</td>
-                    <td>{{post.post_date | date}}</td>
-                    <td>{{post.listing | title}}</td>
+                    <td>{{listing.post_date | date}}</td>
+                    <td>{{listing | title}}</td>
                     <td>
                     <a class="btn btn-light" href="{% url "listings:listing" post.listing_id %}"
                     >View Job details</a>
                     <a class="btn btn-success" href="{% url "applies:View_candidate" post.id %}"
                     >View Candidate</a>
+                    
                     </td>
                 </tr>
                 {% endfor %}
