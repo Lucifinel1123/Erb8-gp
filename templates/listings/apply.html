@@ -9,7 +9,9 @@
 <div>
     <h1 class="text-center">Apply for job</h1>
     <div class="contanier wd-50 mt-5">
-        <form class="form-group" method="POST" action="{% url 'contacts:contact' %}"
+        {% comment %} <form class="form-group" method="POST" action="{% url 'contacts:contact' %}"
+        style="width: 50% ;margin: 40px auto">  {% endcomment %}
+        <form class="form-group" method="POST" action="#"
         style="width: 50% ;margin: 40px auto"> 
             {% csrf_token %} 
         <input type="hidden" name="listing_id" value="{{listing.id}}"/>

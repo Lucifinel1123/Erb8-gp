@@ -10,7 +10,7 @@ class Company(models.Model):
     email = models.EmailField(max_length=50, unique=True, blank=False)
     industry = models.CharField(max_length=50)
     create_date = models.DateTimeField(auto_now_add=True)
-    cv = models.FileField(upload_to="cv/")
+
 
     def __str__(self):
         return self.name

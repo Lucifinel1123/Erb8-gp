@@ -28,7 +28,7 @@ def listing(request, listing_id):
     return render(request, 'listings/listing.html', context)
 
 def search(request):
-    queryset_list = Listing.objects.order_by('-list_date')
+    queryset_list = Listing.objects.order_by('-publish_date')
     if 'keywords' in request.GET:
         keywords = request.GET['keywords']
         if keywords:
@@ -70,3 +70,9 @@ def search(request):
     }
 
     return render(request, 'listings/search.html', context)
+
+def apply(request):
+    context = {
+    }
+    return render(request, 'listings/apply.html', context)
+    # return HttpResponse("<h1>apply</h1>")
