@@ -18,18 +18,17 @@
         <ul class="navbar-nav">
         <li {% if '/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
             {% comment %} url refer to url.py in config {% endcomment %}
-            {% comment %} <a class="nav-link" href= {% url "pages:index" %} >Home</a> {% endcomment %}
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href= {% url "pages:index" %} >Home</a>
         </li>
         {% comment %} url {% endcomment %}
         <li {% if '/about' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
-            {% comment %} <a class="nav-link" href= {% url "pages:about" %} >About</a> {% endcomment %}
-            <a class="nav-link" href="#" >About</a>
+            <a class="nav-link" href= {% url "pages:about" %} >About</a>
+            {% comment %} <a class="nav-link" href="#" >About</a> {% endcomment %}
         </li>
         {% comment %} url {% endcomment %}
         <li {% if '/listings/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
-            {% comment %} <a class="nav-link" href= {% url "listings:index" %} >Inpatient medical services</a> {% endcomment %}
-            <a class="nav-link" href="#" >Inpatient medical services</a>
+            <a class="nav-link" href= {% url "listings:index" %} >Inpatient medical services</a>
+            {% comment %} <a class="nav-link" href="#" >Inpatient medical services</a> {% endcomment %}
         </li>
         </ul>
         {% comment %} ul: unorder list, li: list {% endcomment %}
@@ -39,8 +38,8 @@
 
             <li {% if 'dashboard' in request.path %} class="nav-item mr-3 active "{% else %} 
             class="nav-item mr-3" {% endif %}>
-                {% comment %} <a class="nav-link" href={% url "accounts:dashboard" %}> {% endcomment %}
-                    <a class="nav-link" href="#">
+                <a class="nav-link" href={% url "accounts:dashboard" %}>
+                    {% comment %} <a class="nav-link" href="#"> {% endcomment %}
                 <i class="fas fa-sign-in-alt"></i> Dashboard </a>
             </li>
 
@@ -57,14 +56,14 @@
             {% else %}
             <li {% if 'register' in request.path %} class="nav-item mr-3 active "{% else %} 
             class="nav-item mr-3" {% endif %}>
-                {% comment %} <a class="nav-link" href={% url "accounts:register" %}> {% endcomment %}
-                <i class="fas fa-user-plus"></i> Register</a>
+                <a class="nav-link" href={% url "accounts:register" %}>
+                {% comment %} <i class="fas fa-user-plus"></i> Register</a> {% endcomment %}
             </li>
 
             <li {% if 'login' in request.path %} class="nav-item mr-3 active "{% else %} 
             class="nav-item mr-3" {% endif %}>
-                {% comment %} <a class="nav-link" href={% url "accounts:login" %}> {% endcomment %}
-                <i class="fas fa-sign-in-alt"></i>Login</a>
+                <a class="nav-link" href={% url "accounts:login" %}>
+                {% comment %} <i class="fas fa-sign-in-alt"></i>Login</a> {% endcomment %}
             </li>
             {% endif %}
         </ul>
