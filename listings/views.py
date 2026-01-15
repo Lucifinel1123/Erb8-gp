@@ -20,3 +20,6 @@ def listing(request, listing_id):
 
 def search(request):
     return render(request, 'listings/search.html')
+
+def apply(request):
+    return render(request,'listings/apply.html')

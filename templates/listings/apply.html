@@ -1,65 +1,59 @@
-
-<!-- Inquiry Modal -->
-<div class="modal fade" id="inquiryModal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-body">
-            {% comment %} url {% endcomment %}
-        <form method='POST' action= "{% url 'contacts:contact'%}">
-        {% csrf_token %}
-        {% comment %} value need update {% endcomment %}
+{% extends "base.html" %}
+<!--load base-->
+{% load static %}
+<!--load static -->
+{% load humanize %}
+<!-- humanize -->
+{% block content %}
+<br/>
+<div>
+    <h1 class="text-center">Apply for job</h1>
+    <div class="contanier wd-50 mt-5">
+        <form class="form-group" method="POST" action="{% url 'contacts:contact' %}"
+        style="width: 50% ;margin: 40px auto"> 
+            {% csrf_token %} 
         <input type="hidden" name="listing_id" value="{{listing.id}}"/>
-        <input 
-        type="hidden" 
-        name="doctor_email" 
-        {% comment %} value {% endcomment %}
-        value="{{listing.doctor.email}}"/>
+        <input type="hidden" name="doctor_email" value="{{listing.doctor.email}}"/>
         {% if user.is_authenticated %}
         <input type="hidden" name="user_id" value="{{user.id}}"/>
         {% else %}
         <input type="hidden" name="user_id" value="0"/>
         {% endif %}
 
-            </div>
-            <div class="form-group">
-            <label for="name" class="col-form-label">Name:</label>
-            <input 
-                type="text" 
-                name="name" 
-                class="form-control"
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" 
                 {% if user.is_authenticated %}
-                value="{{user.first_name}} {{user.last_name}}"
+                value="{{user.name}}"
                 readonly
-                {% endif %}
-            />
+                {% endif %}>    
             </div>
-            <div class="form-group">
-            <label for="email" class="col-form-label">Email:</label>
-            <!--prettier-ignore-->
-            <input
-                type="email"
-                name="email"
-                class="form-control"
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" 
                 {% if user.is_authenticated %}
                 value="{{user.email}}"
                 readonly
-                {% endif %}
-            />
+                {% endif %} >
             </div>
-            <div class="form-group">
-            <label for="phone" class="col-form-label">Phone:</label>
-            <input type="text" name="phone" class="form-control" />
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" required>
             </div>
             <div style="margin; 15px 0;">
-            <label>Upload CV(PDF/Word,≤10M)</label>
-            <input 
-            type="file" 
-            name="cv_file"
-            accept=".pdf,.doc,.docx"
-            required>
+                <label>Upload CV (PDF/Word, ≤10M)</label>
+                <div class="form-group">
+                <input 
+                    type="file" 
+                    name="cv_file"
+                    accept=".pdf,.doc,.docx"
+                    required>
             </div>
-            <button type="submit">Apply</button>
+            </div>
+            <br/>
+            <button type="submit" class="btn btn-primary w-100">Apply</button>
         </form>
-        </div>
-    </div>
     </div>
 </div>
+</div>
+{% endblock %}
