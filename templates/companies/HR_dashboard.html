@@ -8,7 +8,7 @@
     <div class="container">
     <div class="row text-center">
         <div class="col-md-12">
-        <h1 class="display-4">Company Dashboard</h1>
+        <h1 class="display-4">{{user.id}} Dashboard</h1>
         <p class="lead">Manage your Job listing</p>
         </div>
     </div>
@@ -30,14 +30,14 @@
     </div>
 </section>
 
+
 {% include 'partials/_alert.html' %}
 <section id="dashboard" class="py-4">
     {% comment %}  need fix after we have the edit page{% endcomment %}
     <div class="container">
-        <p>Please provide your company informaion before post new job</p>
         <a class="btn btn-info m-5" type="button"
         href='{% url "companies:company_edit_info" %}'
-                    >Edit Company infomation</a>
+                    >Import Company infomation</a>
         <a class="btn btn-info m-5" type="botton"
         href='{% url "companies:job_post" %}'
                     >Post new job</a>

@@ -1,7 +1,6 @@
 from django.db import models
 
 # Create your models here.
-
 class Apply(models.Model):
     listing = models.CharField(max_length=200)
     listing_id = models.IntegerField()
@@ -12,6 +11,6 @@ class Apply(models.Model):
     cv = models.FileField('PDF Dataset')
     apply_date = models.DateTimeField(auto_now_add=True)
     user_id = models.IntegerField(blank=True, null=True)
-
+    
     def __str__(self):
         return self.name

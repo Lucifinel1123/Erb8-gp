@@ -38,64 +38,28 @@
 <section id="listings" class="py-4">
     <div class="container">
         <div class="row">
-
             {% if listings %}
-            <!-- Listing 1 -->
             {% for listing in listings %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card listing-preview">
-                    <img
-                    class="card-img-top"
-                    src= "{{listing.photo_main.url}}"
-                    alt= ""
-                    />
-                    <div class="card-img-overlay">
-                    </div>
-                    <div class="card-body">
-                    <div class="listing-heading text-center">
-                        <h4 class="text-primary">{{listing.title | title}}</h4>
-                        <p>
-                        <i class="fas fa-map-marker text-secondary"></i> {{listing.district | title}}
-                        </p>
-                    </div>
-                    <hr />
-                    <div class="row py-2 text-secondary">
-                        <div class="col-6">
-                        <i class="fas fa-th-large"></i> Services: {{listing.service}}
+            <div class="col-8">
+                <div class="card">
+                    <div class="card columns">
+                        <div class="card-body">
+                            <h4 class="card-title">{{listing.title}}</h4>
+                            <h6 class="card-subtitle text-muted mb-2">{{listing.company}}</h6>
+                            <p class="card-subtitle">{{listing.budget}}</p>
+                            <p class="card-subtitle">{{listing.duration}}</p>
+                            <p class="card-text">{{listing.description|truncatechars:150}}</p>
+                            <p class="card-text">{{listing.requirement|truncatechars:150}}</p>
+                            <p class="card-text">Published {{listing.publish_date|timesince}} ago</p>
+                            <a href="#" class="btn btn-outline-primary">Read More</a>
                         </div>
-                        <div class="col-6">
-                        <i class="fas fa-bed"></i> Rooms:  {{listing.rooms}} 
-                        </div>
-                    </div>
-                    <div class="row py-2 text-secondary">
-                        <div class="col-6">
-                        <i class="fas fa-bed"></i> Room_type: {{listing.room_type}}
-                        </div>
-                        <div class="col-6">
-                        <i class="fas fa-bed"></i> Professions: {{listing.professions}}
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row py-2 text-secondary">
-                        <div class="col-12"><i class="fas fa-user"></i> {{listing.doctor.name}}</div>
-                    </div>
-                    <div class="row text-secondary pb-2">
-                        <div class="col-12">
-                        <i class="fas fa-clock"></i> Reservation required
-                        </div>
-                    </div>
-                    <hr />
-                    {% comment %} changed {% endcomment %}
-                    <a href= {% url "listings:listing" listing.id %} class="btn btn-primary btn-block"
-                        >More Info</a
-                    >
                     </div>
                 </div>
             </div>
             {% endfor %}
             {% else %}
             <div class='col-md-12'>
-                <h2>No listings available at the moment. Please check back later. </h2>
+                <h2>No listings available at the moment. Please chack back later. </h2>
             </div>
             {% endif %}
 
