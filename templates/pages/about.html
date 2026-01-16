@@ -9,11 +9,10 @@
     <div class="container">
     <div class="row text-center">
         <div class="col-md-12">
-        <h1 class="display-4">About Freelance To Go</h1>
-        <p class="lead">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-            pariatur!
-        </p>
+        <h1 class="display-4">Freelancergo Introduction</h1>
+            <p class="lead">
+            A job matching platform for freelancers and companies
+            </p>
         </div>
     </div>
     </div>
@@ -37,42 +36,24 @@
 <section id="about" class="py-4">
     <div class="container">
     <div class="row">
-        <div class="col-md-8">
-        <h2>
-            We Search For Freelance – we help you find the
-            right candidate.
-        </h2>
+        <div class="col-md text-center">
+        <h1 class="display-4">
+            We bridge freelancers and companies.
+        </h1>
         <p class="lead">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt,
-            pariatur!
         </p>
         {% comment %} changed {% endcomment %}
         <img src= {% static "img/about.jpg" %} alt="" />
-        <p class="mt-4">
-            Freelance to go
+        <p class="mt-4 text-left" style="font-size: 20px" !important>
+        FreelancerGo was founded in 2026 by four ERB students majoring in Information Technology and Business Administration, evolving from a classroom project into a dedicated freelancer-matching platform. The team identified a critical gap: independent freelancers struggled to find stable clients, while small and medium-sized enterprises faced difficulties sourcing flexible, skilled talent. To address this, they launched the initial version of the platform—a streamlined information hub—with a core vision of "lightweight, transparent connection."
+<br/>
+<br/>
+        In early 2025, the team upgraded FreelancerGo into a full-fledged service ecosystem in-platform communication tools, and project progress tracking, creating a seamless workflow from "demand posting" and "talent matching" to "collaboration completion." The platform adheres to a user-friendly model: zero entry barriers for both freelancers and enterprises, with a nominal service fee only charged upon successful collaboration.
+<br/>
+<br/>
+        Today, FreelancerGo serves over 5,000 freelancers and 2,000 businesses worldwide. It has also established a long-term partnership with ERB, becoming an official internship and entrepreneurship cooperation base. Rooted in their classroom origins, the founding team remains committed to their original mission—"enabling the fair flow of professional value"—making FreelancerGo a trusted digital hub for young freelancers and growing businesses alike.
+
         </p>
-        </div>
-        <div class="col-md-4">
-        {% if mvp_doctors %}
-        {% for mvp_doctor in mvp_doctors %}
-        <div class="card">
-            <img
-            class="card-img-top"
-            {% comment %} mvp doctor img {% endcomment %}
-            src="{{mvp_doctor.photo.url}}"
-            alt="Jobs of the month"
-            />
-            <div class="card-body">
-            <h5 class="card-title">{{ forloop.counter | ordinal }} Job_Type</h5>
-            <h6 class="text-secondary">{{mvp_doctor.name}}</h6>
-            <p class="card-text">
-                {{mvp_doctor.description}}
-            </p>
-            </div>
-            
-        </div>
-        {% endfor %}
-        {% endif %}
         </div>
     </div>
     </div>
@@ -81,44 +62,26 @@
 <!-- Work -->
 <section id="work" class="bg-dark text-white text-center">
     <h2 class="display-4">We Work For You</h2>
-    <h4>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem velit
-    aperiam, unde aliquid at similique!
-    </h4>
     <hr />
     <a href={% url "listings:index" %} class="btn btn-secondary text-white btn-lg"
-    >View Our Featured Listings</a
+    >View More Jobs</a
     >
 </section>
 
 <!-- Team -->
-{% if companies %}
 <section id="team" class="py-5">
     <div class="container">
-    <h2 class="text-center pb-4">Job_Type</h2>
-    <div class="row text-center">
-        {% for job in types %}
-        <div class="col-md-4">
+    <h2 class="text-center pb-4">Cooperation Companies</h2>
+    <div class="container">
+        {% comment %}A picture contains all the companies logo that we worked with{% endcomment %}
         <img
-        {% comment %} img {% endcomment %}
-            src="{{company.photo.url}}"
-            alt=""
+            src="{% static "img/about.jpg" %} ""
+            alt="" 
             class="rounded-circle mb-3 img-fluid"
-            style="object-fit: cover; width: 300px; height: 300px"
         />
-        <h4>{{company.name}}</h4>
-        <p class="text-success">
-            <i class="fas fa-award text-success"></i> Doctor
-        </p>
-        <hr />
-        <p><i class="fas fa-phone"></i> {{company.phone}}</p>
-        <p><i class="fas fa-envelope-open"></i> {{company.email}}</p>
         </div>
-        {% endfor %}
-
     </div>
     </div>
 </section>
-{% endif %}
 
 {% endblock %}
