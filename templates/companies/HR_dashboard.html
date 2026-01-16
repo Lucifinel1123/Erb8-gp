@@ -32,12 +32,14 @@
 
 {% include 'partials/_alert.html' %}
 <section id="dashboard" class="py-4">
+    {% comment %}  need fix after we have the edit page{% endcomment %}
     <div class="container">
-        <a class="btn btn-info" href="{% url "companies:company_edit_info" company.id %}"
+        <p>Please provide your company informaion before post new job</p>
+        <a class="btn btn-info m-5" type="button"
+        href='{% url "companies:company_edit_info" %}'
                     >Edit Company infomation</a>
-    </div>
-    <div class="container">
-        <a class="btn btn-info" href="{% url "listings:job_post" company.id %}"
+        <a class="btn btn-info m-5" type="botton"
+        href='{% url "companies:job_post" %}'
                     >Post new job</a>
     </div>
     <div class="container">
@@ -62,9 +64,9 @@
                     <td>{{listing.post_date | date}}</td>
                     <td>{{listing | title}}</td>
                     <td>
-                    <a class="btn btn-light" href="{% url "listings:listing" post.listing_id %}"
+                    <a class="btn btn-light" href="{% url "listings:listing" listing_id %}"
                     >View Job details</a>
-                    <a class="btn btn-success" href="{% url "applies:View_candidate" post.id %}"
+                    <a class="btn btn-success" href="{% url "companies:view_candidate" listing_id %}"
                     >View Candidate</a>
                     
                     </td>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load widget_tweaks %} 
+{% comment %} {% load widget_tweaks %}  {% endcomment %}
 {% load static %}
 {% load humanize %}
 {% block content %}
@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{% url "companys:HR_dashboard" %}">
+            <a href="{% url "companies:HR_dashboard" %}">
                 back</a>
         </li>
         </ol>
@@ -24,26 +24,68 @@
                 <div class="card-header bg-primary text-white">
                     <h1 class="text-center mb-2"> Edit Company infomation</h1>
                 </div>
-                <form action="{% url 'companies:company_edit_info' company.id %}" method="POST">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        {{form.name | add_label_class:"form-label"}}
-                        {% if form.name.errors %}
-                        <div class="text-danger mb-2">{{form.name.errors}}</div>
-                        {% endif %}
-                        {{form.name | add_class:"form-control"}}
-
-                        {{form.description | add_label_class:"form-label"}}
-                        {% if form.description.errors %}
-                        <div class="text-danger mb-2">{{form.description.errors}}</div>
-                        {% endif %}
-                        {{form.description | add_class:"form-control"}}
-                    </div>
-                    <button class="btn btn-primary w-100" type="submit"> submit</button>
-                </form>
             </div>
         </div>
     </div>
 </section>
+                
+
+
+<div class="container">
+    <form method="POST" action="{% url 'companies:company_edit_info' %}">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{user.id}}" />
+        <div class="form-group">
+
+            <div class="form-group">
+                <label for="name" class="col-form-label">Company Name:</label>
+                <!-- prettier-ignore -->
+                <input
+                type="text"
+                name="name"
+                class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="col-form-label">Email:</label>
+                <!-- prettier-ignore -->
+                <input type="email" name="email" class="form-control" 
+                {% if user.is_authenticated %}
+                value="{{user.email}}"
+                {% endif %}  />
+            </div>
+
+            <div class="form-group">
+                <label for="phone" class="col-form-label">Phone:</label>
+                <input type="text" name="phone" class="form-control" 
+                {% if user.is_authenticated %}
+                value="{{user.phone}}"
+                {% endif %}  />
+            </div>
+            <div class="form-group">
+                <label for="industry" class="col-form-label">Industry:</label>
+                <textarea name="industry" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="serivces" class="col-form-label">serivces:</label>
+                <textarea name="serivces" class="form-control"></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <label for="description" class="col-form-label">Description:</label>
+                <textarea name="description" class="form-control"></textarea>
+            </div>
+            
+            <input
+                type="submit"
+                value="Send"
+                class="btn btn-block btn-secondary"
+            />
+            </form>
+        </div>
+</div>
+
 
 {% endblock %}
