@@ -61,8 +61,7 @@ def job_post(request):
     
 
 def view_candidate(request, listing_id):
-    listing_id = request.POST['listing_id']
     user_appliers = Apply.objects.all().filter(
         listing_id = listing_id).order_by('-apply_date')
-    context = {"user_appliers":user_appliers}
+    context = {"listing_id": listing_id,"user_appliers":user_appliers}
     return render(request, 'companies/view_candidate.html',context)

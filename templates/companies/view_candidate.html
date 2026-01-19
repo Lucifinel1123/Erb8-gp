@@ -1,1 +1,67 @@
-<h1>view_candidate</h1>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="container mt_4">
+<!-- Breadcrumb -->
+<section id="bc" class="mt-3">
+    <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url "pages:index" %}">
+                <i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url "companies:HR_dashboard" %}">
+                Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">View Candidate</li>
+        </ol>
+    </nav>
+    </div>
+</section>
+
+<section id="view" class="mt-3">
+    <h2>Candidates listing</h2>
+    
+    {% if user_appliers %}
+    
+    <div class="card mb-4 text-center">
+        <div class="card-header">
+            <h5>{{listing.title}}</h5>
+        <div class="card-body">
+        <table class="table tabel-striped">
+            <thead>
+                <tr>
+                    <th>Candidate Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>CV</th>
+                </tr>
+            </thead>
+    {% for apply in user_appliers %}
+        <tbody>
+            <tr>
+                <td>{{apply.name}}</td>
+                <td>{{apply.email}}</td>
+                <td>{{apply.phone}}</td>
+                <td>
+                    <a href="#" download calss="btn btn-sm btn-info">Download CV</a>
+                </td>
+            </tr>
+    {% endfor %}
+    {% else %}
+        <tr>
+            <td>There's no Candidates</td>
+        </tr>
+    {% endif %}
+        </tbody>
+        </table>
+        </div>
+        </div>
+    </div>
+</section>
+</div>
+
+{% endblock %}

@@ -36,7 +36,7 @@
     <div class="row">
         <div class="col-md-12">
         <h2>Welcome {{user.username | title}}</h2>
-        {% if contacts %}
+        {% if apply %}
         <p>Here are the clinic listings that you have inquired about</p>
         <table class="table">
             <thead>
@@ -49,28 +49,15 @@
             </thead>
             
             <tbody>
-                {% for apply in applies %}
+                {% for listing in apply %}
                 <tr>
-                    <td>{{apply.listing_id}}</td>
-                    <td>{{apply.apply_date | date}}</td>
-                    <td>{{apply.listing | title}}</td>
+                    <td>{{listing.listing_id}}</td>
+                    <td>{{listing.apply_date | date}}</td>
+                    <td>{{listing.listing | title}}</td>
                     <td>
-                    <a class="btn btn-light" href="{% url "listings:listing" contact.listing_id %}"
+                    <a class="btn btn-light" href="{% url 'listings:listing' listing.listing_id %}"
                     >View Listing</a>
-                {% comment %} Edit message {% endcomment %}
-                    <a class="btn btn-success" href="{% url "contacts:edit_contact" contact.id %}"
-                    >Edit</a>
-                {% comment %} Delete inquired{% endcomment %}
-                    <button 
-                    class="btn btn-danger" 
-                    data-url="{% url "contacts:delete_contact" contact.id %}"
-                    data-toggle="modal"
-                    {% comment %} on/off {% endcomment %}
-                    data-target="#deleteConfirmModal"
-                    {% comment %} using id name to direct the modal below {% endcomment %}
-                    data-id="{{contact.id}}"
-                    >Delete</button>
-                    
+                
                     </td>
                 </tr>
                 {% endfor %}
@@ -78,29 +65,12 @@
             
         </table>
         {% else %}
-        <p>You have not made any inquiries yet. </p>
+        <p>You have not apply any job yet. </p>
         {% endif %}
         </div>
     </div>
     </div>
 </section>
 
-{% comment %} delete modal {% endcomment %}
-<div class="modal fade" id="deleteConfirmModal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirm DELETE</h5>
-                {% comment %} the "X" for cencel the message {% endcomment %}
-                <button class="close" type="button" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure cencel?</p>
-                <a href="" class="btn btn-danger" id="confirmDeleteBtn">Yes</a>
-                <button class="btn btn-info" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 {% endblock %}
