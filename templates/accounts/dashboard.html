@@ -9,7 +9,7 @@
     <div class="row text-center">
         <div class="col-md-12">
         <h1 class="display-4">{{user.username | title}} Dashboard</h1>
-        <p class="lead">Manage your BC Health Care account</p>
+        <p class="lead">Manage your job inquiries</p>
         </div>
     </div>
     </div>
@@ -49,11 +49,11 @@
             </thead>
             
             <tbody>
-                {% for contact in contacts %}
+                {% for apply in applies %}
                 <tr>
-                    <td>{{contact.listing_id}}</td>
-                    <td>{{contact.contact_date | date}}</td>
-                    <td>{{contact.listing | title}}</td>
+                    <td>{{apply.listing_id}}</td>
+                    <td>{{apply.apply_date | date}}</td>
+                    <td>{{apply.listing | title}}</td>
                     <td>
                     <a class="btn btn-light" href="{% url "listings:listing" contact.listing_id %}"
                     >View Listing</a>

@@ -1,12 +1,12 @@
 from django.db import models
-from companies.models import Company
+from companies.models import Company 
 # Create your models here.
 
 class Listing(models.Model):
-    industry = models.CharField(max_length=50)
-    title = models.CharField(max_length=200)
-    budget = models.CharField(max_length=50)
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING)
+    title = models.CharField(max_length=200)
+    industry = models.CharField(max_length=50)
+    budget = models.CharField(max_length=50)
     duration = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     requirement = models.TextField(blank=True)
@@ -15,12 +15,4 @@ class Listing(models.Model):
     
     def __str__(self):
         return self.title
-
-
-
-
-
-
-
-
-
+    

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% comment %} {% load widget_tweaks %}  {% endcomment %}
 {% load static %}
 {% load humanize %}
 {% block content %}
@@ -17,7 +16,7 @@
     </div>
 </section>
 
-<section id="company_info" class="py-4">
+<section id="job_post" class="py-4">
     <div class="container mt-1">
         <div class="row justify-content-center" >
             <div class="col-md-6">
@@ -28,73 +27,57 @@
         </div>
     </div>
 </section>
-                
-
 
 <div class="container">
-    <form method="POST" action="{% url 'companies:company_edit_info' %}">
+    <form method="POST" action="{% url 'companies:job_post' %} " >
         {% csrf_token %}
-        <input type="hidden" name="user_id" value="{{user.id}}" />
-        <div class="form-group">
 
+        <input 
+        type="hidden" 
+        name="user_id" 
+        value="{{user.id}}" /> 
+        
+        <div class="form-group">
             <div class="form-group">
-                <label for="name" class="col-form-label">Company Name:</label>
+                <label for="title" class="col-form-label">Job title:</label>
                 <!-- prettier-ignore -->
                 <input
                 type="text"
-                name="name"
+                name="title"
                 class="form-control"/>
             </div>
 
             <div class="form-group">
-                <label for="email" class="col-form-label">Email:</label>
-                <!-- prettier-ignore -->
-                <input type="email" name="email" class="form-control" 
-                {% if user.is_authenticated %}
-                value="{{user.email}}"
-                {% endif %}  />
-            </div>
-
-            <div class="form-group">
-                <label for="phone" class="col-form-label">Phone:</label>
-                <input type="text" name="phone" class="form-control" 
-                {% if user.is_authenticated %}
-                value="{{user.phone}}"
-                {% endif %}  />
-            </div>
-            <div class="form-group">
                 <label for="industry" class="col-form-label">Industry:</label>
-                <textarea name="industry" class="form-control"></textarea>
+                <!-- prettier-ignore -->
+                <input type="text" name="industry" class="form-control" />
             </div>
 
             <div class="form-group">
-                <label for="serivces" class="col-form-label">serivces:</label>
-                <textarea name="serivces" class="form-control"></textarea>
+                <label for="budget" class="col-form-label">Budget:</label>
+                <input type="text" name="budget" class="form-control" />
             </div>
 
+            <div class="form-group">
+                <label for="duration" class="col-form-label">Duration:</label>
+                <textarea name="duration" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="requirement" class="col-form-label">Requirement:</label>
+                <textarea name="requirement" class="form-control"></textarea>
+            </div>
 
             <div class="form-group">
                 <label for="description" class="col-form-label">Description:</label>
                 <textarea name="description" class="form-control"></textarea>
             </div>
-
-            <div class="mb-3">
-                <label class="logo" >Logo</label>
-                <input 
-                    type="file" 
-                    class="form-control"
-                    name="logo"
-                    accept=".img">
-            </div>
-            <br><br>
+            
             <input
                 type="submit"
                 value="Send"
                 class="btn btn-block btn-secondary"
             />
-            </form>
-        </div>
+    </form>
 </div>
-
-
 {% endblock %}

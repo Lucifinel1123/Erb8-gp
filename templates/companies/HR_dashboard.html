@@ -8,7 +8,7 @@
     <div class="container">
     <div class="row text-center">
         <div class="col-md-12">
-        <h1 class="display-4">Company Dashboard</h1>
+        <h1 class="display-4">{{user.username}} Dashboard</h1>
         <p class="lead">Manage your Job listing</p>
         </div>
     </div>
@@ -30,35 +30,45 @@
     </div>
 </section>
 
+
 {% include 'partials/_alert.html' %}
 <section id="dashboard" class="py-4">
+    {% comment %}  need fix after we have the edit page{% endcomment %}
+    <div class="container">
+        <a class="btn btn-info m-5" type="button"
+        href='{% url "companies:company_edit_info" %}'
+                    >Import Company infomation</a>
+        <a class="btn btn-info m-5" type="botton"
+        href='{% url "companies:job_post" %}'
+                    >Post new job</a>
+    </div>
     <div class="container">
     <div class="row">
         <div class="col-md-12">
         <h2>Welcome {{user.username | title}}</h2>
-        {% if listings %}
+        {% if job_post %}
         <p>Here are the Job listings that you posted. </p>
         <table class="table">
             <thead>
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Date</th>
+                <th scope="col">Post Date</th>
                 <th scope="col">listing</th>
                 <th></th>
             </tr>
             </thead>
             
             <tbody>
-                {% for listing in listings %}
+                {% for listing in job_post %}
                 <tr>
-                    <td>{{post.listing_id}}</td>
-                    <td>{{post.post_date | date}}</td>
-                    <td>{{post.listing | title}}</td>
+                    <td>{{listing.id}}</td>
+                    <td>{{listing.publish_date | date}}</td>
+                    <td>{{listing.title | title}}</td> 
                     <td>
-                    <a class="btn btn-light" href="{% url "listings:listing" post.listing_id %}"
+                    <a class="btn btn-light" href="{% url 'listings:listing' listing.id %}"
                     >View Job details</a>
-                    <a class="btn btn-success" href="{% url "applies:View_candidate" post.id %}"
-                    >View Candidate</a>
+                    <a class="btn btn-success" href="{% url 'companies:view_candidate' listing.id %}"
+                    >View Candidate</a> 
                     </td>
                 </tr>
                 {% endfor %}

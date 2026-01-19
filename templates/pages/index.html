@@ -5,7 +5,8 @@
 {% block title %} | Welcome{% endblock title %}
 <!-- index main content -->
 {% block content %}
-<!-- Showcase -->
+
+{% comment %} seaching field {% endcomment %}
 <section id="showcase">
     <div class="container text-center">
     <div class="home-search p-5">
@@ -134,14 +135,13 @@
         </div>
         {% endfor %}{% else %}
         <div class='col-md-12'>
-            <h2>No Clinic Availbale</h2>
+            <h2>No Job Availbale</h2>
         </div>
         {% endif %}
 
     </div>
     </div>
 </section>
-
 
 {% endblock %}
 
