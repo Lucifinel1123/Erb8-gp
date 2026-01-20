@@ -1,39 +1,40 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %}
 <!--load humanize -->
-{% load humanize %}
-{% block title %} | {{listing.title}}{% endblock title %}
+{% load humanize %} {% block title %} | {{listing.title}}{% endblock title %}
 <!-- About main content -->
 {% block content %}
 
-
 <div class="card">
-    <div class="card-header">
-        <img class="card-img-top" src="" alt="Company Logo">
-        <h2>{{listing.title}} 
-            
-        </h2>
+  <div class="card-header">
+    <img class="card-img-top" src="" alt="Company Logo" />
+    <h2>{{listing.title}}</h2>
 
-        <h6 class="card-subtitle text-muted mb-2" >{{listing.company}}</h6>
-        <p class="mb-0">Budget: {{listing.budget}}</p>
-        <p>Duration: {{listing.duration}}</p>
-</div>
-        <div class="card-body">
-        <h5>Description: </h5>
-        <p>{{listing.description}}</p>
-        <h5>Requirement: </h5>
-        <p>{{listing.requirement}}</p>
-        <p>Published {{listing.publish_date|timesince}} ago</p>
-        {% if user.is_authenticated %}
-        <a href="{% url 'applies:apply' listing.id %}" class="btn btn-outline-primary">Apply
-            </a>
-        {% else %}
-        <a href="{% url 'accounts:login' %}?next={{ request.path }}" 
-            class="btn btn-outline-primary disabled" 
-            title="Please login to apply for jobs">Apply (Login Required)
-            </a>
-        {% endif %}
-    </div>
+    <h6 class="card-subtitle text-muted mb-2">{{listing.company}}</h6>
+    <a href="{% url  'companies:company'  listing.company.id %}">jjj</a>
+    <p class="mb-0">Budget: {{listing.budget}}</p>
+    <p>Duration: {{listing.duration}}</p>
+  </div>
+  <div class="card-body">
+    <h5>Description:</h5>
+    <p>{{listing.description}}</p>
+    <h5>Requirement:</h5>
+    <p>{{listing.requirement}}</p>
+    <p>Published {{listing.publish_date|timesince}} ago</p>
+    {% if user.is_authenticated %}
+    <a
+      href="{% url 'applies:apply' listing.id %}"
+      class="btn btn-outline-primary"
+      >Apply
+    </a>
+    {% else %}
+    <a
+      href="{% url 'accounts:login' %}?next={{ request.path }}"
+      class="btn btn-outline-primary disabled"
+      title="Please login to apply for jobs"
+      >Apply (Login Required)
+    </a>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock content %}

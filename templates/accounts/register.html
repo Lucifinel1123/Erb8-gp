@@ -47,8 +47,9 @@
 
                 <div class="form-group">
                     <label for="account_type">Account Type</label>
-                    <select id="account_type" name="account_type" class="form-control">
-                    <option value="user" {% if account_type == "user" %}selected{% endif %}>Individual user</option>
+                    <select id="account_type" name="account_type" class="form-control" required>
+                    <option value="" disabled selected>Select Account Type</option>
+                    <option value="user" {% if account_type == "user" %}selected{% endif %}>Individual User</option>
                     <option value="company" {% if account_type == "company" %}selected{% endif %}>Company HR</option>
                     </select>   
                 </div>
@@ -97,7 +98,7 @@
                     <label>Email</label>
                     <input
                     id="email"
-                    type="text"
+                    type="email"
                     name="email"
                     class="form-control"
                     />
@@ -107,7 +108,7 @@
                     <label>Phone</label>
                     <input
                     id="phone"
-                    type="text"
+                    type="tel"
                     name="phone"
                     class="form-control"
                     />
@@ -117,7 +118,7 @@
                     <label>Password</label>
                     <input
                     id="password"
-                    type="text"
+                    type="password"
                     name="password"
                     class="form-control"
                     />
@@ -127,7 +128,7 @@
                     <label>Confirm password</label>
                     <input
                     id="password2"
-                    type="text"
+                    type="password"
                     name="password2"
                     class="form-control"
                     />

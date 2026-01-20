@@ -64,14 +64,18 @@
             </div>
             <div class="form-group">
                 <label for="industry" class="col-form-label">Industry:</label>
-                <textarea name="industry" class="form-control"></textarea>
+                <select name="industry" class="form-control" required>
+                    <option value="" disabled selected>Select Industry</option>
+                    {% for key, value in industry_choices.items %}
+                    <option value="{{key}}" {% if company.industry == key %}selected{% endif %}>{{value}}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-group">
                 <label for="serivces" class="col-form-label">serivces:</label>
                 <textarea name="serivces" class="form-control"></textarea>
             </div>
-
 
             <div class="form-group">
                 <label for="description" class="col-form-label">Description:</label>
@@ -80,8 +84,8 @@
 
             <div class="mb-3">
                 <label class="logo" >Logo</label>
-                <input 
-                    type="file" 
+                <input
+                    type="file"
                     class="form-control"
                     name="logo"
                     accept=".img">
@@ -98,3 +102,4 @@
 
 
 {% endblock %}
+

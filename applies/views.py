@@ -10,9 +10,9 @@ def apply(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)
     if request.method=='POST':
         listing_id = request.POST.get('listing_id')
-        name = request.POST['name']
+        name = request.POST.get('name', '')
         email = request.POST['email']
-        phone = request.POST['phone']
+        phone = request.POST.get('phone', '')
         message = request.POST.get('message', '').strip()
 
         cv_file = request.FILES.get('cv')
@@ -25,7 +25,8 @@ def apply(request, listing_id):
                         email=email, phone=phone, message=message, user=request.user)
         apply.save()
         messages.success(request, 'Apply success')
-        return redirect('listings:listing', listing_id=listing_id)
+        return render(request, 'accounts:dashboard')
+        # return redirect('listings:listing', listing_id=listing_id)
     else:
         context = {"listing": listing}
         return render(request, 'applies/apply.html', context)

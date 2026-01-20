@@ -17,8 +17,7 @@
             freelancego website can help you work from home
         </p>
         <div class="search">
-            {% comment %} url need change {% endcomment %}
-            <form action="{% url "listings:search" %}" method = "GET">
+            <form action={% url "listings:search" %} method = "GET">
             <!-- Form Row 1 -->
             <div class="form-row">
                 <div class="col-md-12 mb-3">
@@ -27,43 +26,39 @@
                     type="text"
                     name="keywords"
                     class="form-control"
-                    placeholder="Keyword (Job Title, Type, Budget )"
+                    placeholder="Keyword (Job Title, Company, Job Description, Requirement)"
                 />
                 </div>
             </div>
             <!-- Form Row 2 -->
             <div class="form-row">
                 <div class="col-md-4 mb-3">
-                <label class="sr-only">Job Title</label>
-                {% comment %} name {% endcomment %}
-                <select name="district" class="form-control">
-                    <option selected="true" disabled="disabled">Job Title
-                    </option>
-                    {% comment %} for {% endcomment %}
-                    {% for key, value in district_choices.items %}
-                    <option value="{{key}}">{{value}}</option>
-                    {% endfor %}
-                    
-                </select>
-                </div>
-                <div class="col-md-4 mb-3">
-                <label class="sr-only">Type</label>
-                <select name="rooms" class="form-control">
-                    <option selected="true" disabled="disabled">
-                    Type
-                    </option>
-                    {% for key, value in rooms_choices.items %}
-                    <option value="{{key}}">{{value}}</option>
+                <label class="sr-only">Industry</label>
+                <select name="industry" class="form-control">
+                    <option value="" {% if not values.industry %} selected="true"{% endif %}>Industry (All)</option>
+                    {% for key, value in industry_choices.items %}
+                    <option value="{{key}}" 
+                    {% if values.industry == key %} 
+                        selected="true" 
+                    {% endif %}>
+                        {{value}}</option>
                     {% endfor %}
                 </select>
                 </div>
                 <div class="col-md-4 mb-3">
-                <select name="room_type" class="form-control" id="type">
-                    <option selected="true" disabled="disabled">
-                    Budget
-                    </option>
-                    {% for key, value in room_choices.items %}
-                    <option value="{{key}}">{{value}}</option>
+                <label class="sr-only">Budget</label>
+                <select name="budget" class="form-control">
+                    <option value="" {% if not values.budget %}selected="true"{% endif %}>Budget (All)</option>
+                    {% for key, value in budget_choices.items %}
+                    <option value="{{key}}" {% if values.budget == key %} selected="true" {% endif %}>{{value}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                <select name="duration" class="form-control" id="type">
+                    <option value="" {% if not values.duration %}selected="true"{% endif %}>Duration (All)</option>
+                    {% for key, value in duration_choices.items %}
+                      <option value="{{key}}" {% if values.duration == key %} selected="true" {% endif %}>{{value}}</option>
                     {% endfor %}
                 </select>
                 </div>

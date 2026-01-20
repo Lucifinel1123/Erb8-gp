@@ -35,12 +35,30 @@
 <section id="dashboard" class="py-4">
     {% comment %}  need fix after we have the edit page{% endcomment %}
     <div class="container">
+        {% if not company_info_complete %}
         <a class="btn btn-info m-5" type="button"
         href='{% url "companies:company_edit_info" %}'
-                    >Import Company infomation</a>
-        <a class="btn btn-info m-5" type="botton"
+                    >Import Company Information</a>
+        {% else %}
+        <button class="btn btn-secondary m-5" type="button" 
+                disabled
+                title="Company information already imported">
+            <i class="fas fa-check-circle"></i> Company Info Imported
+        </button>
+        {% endif %}
+        
+        {% if company_info_complete %}
+        <a class="btn btn-info m-5" type="button"
         href='{% url "companies:job_post" %}'
                     >Post new job</a>
+        {% else %}
+        <button class="btn btn-info m-5" type="button" 
+                id="disabled-job-post-btn"
+                style="opacity: 0.6; cursor: not-allowed;"
+                onclick="showCompanyInfoAlert()">
+            Post new job
+        </button>
+        {% endif %}
     </div>
     <div class="container">
     <div class="row">
@@ -83,5 +101,10 @@
     </div>
 </section>
 
+<script>
+function showCompanyInfoAlert() {
+    alert("Please complete your company information first before posting a new job. Click on 'Import Company Information' to complete your profile.");
+}
+</script>
 
 {% endblock %}
