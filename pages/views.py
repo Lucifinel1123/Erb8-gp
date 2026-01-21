@@ -9,6 +9,7 @@ def index(request):
         'industry_choices': industry_choices,
         'budget_choices': budget_choices,
         'duration_choices': duration_choices,
+        'values': request.GET,
     }
     return render(request,'pages/index.html', context)
 

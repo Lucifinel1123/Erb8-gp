@@ -20,6 +20,7 @@ def register(request):
         # Get account_type and company_name with defaults
         account_type = request.POST.get('account_type', 'user')
         company_name = request.POST.get('company_name', '')
+        phone = request.POST.get('phone', '00000000')  # Get phone with default
 
         if password == password2:
             if User.objects.filter(username=username).exists():
@@ -45,6 +46,7 @@ def register(request):
                         company = Company.objects.create(
                             name=company_name,
                             email=email,
+                            phone=phone,  # Save phone from registration
                             user=user,
                             serivces=''  # Initialize with empty services
                         )
@@ -99,3 +101,4 @@ def dashboard(request):
         apply = Apply.objects.filter(user=request.user).order_by('-apply_date')
         context = {'apply': apply}
         return render(request, "accounts/dashboard.html", context)
+

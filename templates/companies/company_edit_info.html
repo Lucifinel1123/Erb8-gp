@@ -6,14 +6,13 @@
 
 <section id="bc" class="mt-3">
     <div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url "companies:HR_dashboard" %}">
-                back</a>
-        </li>
-        </ol>
-    </nav>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url "companies:HR_dashboard" %}">Back to Dashboard</a>
+                </li>
+            </ol>
+        </nav>
     </div>
 </section>
 
@@ -22,7 +21,7 @@
         <div class="row justify-content-center" >
             <div class="col-md-6">
                 <div class="card-header bg-primary text-white">
-                    <h1 class="text-center mb-2"> Import Company infomation</h1>
+                    <h1 class="text-center mb-2"> Input/Edit Company Infomation</h1>
                 </div>
             </div>
         </div>
@@ -32,72 +31,68 @@
 
 
 <div class="container">
-    <form method="POST" action="{% url 'companies:company_edit_info' %}">
+    <form method="POST" action="{% url 'companies:company_edit_info' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="user_id" value="{{user.id}}" />
         <div class="form-group">
-
             <div class="form-group">
                 <label for="name" class="col-form-label">Company Name:</label>
                 <!-- prettier-ignore -->
                 <input
                 type="text"
                 name="name"
-                class="form-control"/>
+                class="form-control"
+                value="{{ company.name|default:'' }}"
+                />
             </div>
-
             <div class="form-group">
                 <label for="email" class="col-form-label">Email:</label>
-                <!-- prettier-ignore -->
                 <input type="email" name="email" class="form-control" 
-                {% if user.is_authenticated %}
-                value="{{user.email}}"
-                {% endif %}  />
+                value="{{ company.email|default:user.email }}" />
             </div>
-
             <div class="form-group">
                 <label for="phone" class="col-form-label">Phone:</label>
                 <input type="text" name="phone" class="form-control" 
-                {% if user.is_authenticated %}
-                value="{{user.phone}}"
-                {% endif %}  />
+                value="{{ company.phone|default:'00000000' }}" />
             </div>
             <div class="form-group">
                 <label for="industry" class="col-form-label">Industry:</label>
                 <select name="industry" class="form-control" required>
                     <option value="" disabled selected>Select Industry</option>
                     {% for key, value in industry_choices.items %}
-                    <option value="{{key}}" {% if company.industry == key %}selected{% endif %}>{{value}}</option>
+                    <option value="{{key}}" {% if company.industry == key %} selected {% endif %}>{{value}}</option>
                     {% endfor %}
                 </select>
             </div>
-
             <div class="form-group">
-                <label for="serivces" class="col-form-label">serivces:</label>
-                <textarea name="serivces" class="form-control"></textarea>
+                <label for="serivces" class="col-form-label">Serivces:</label>
+                <textarea name="serivces" class="form-control">{{ company.serivces|default:'' }}</textarea>
             </div>
-
             <div class="form-group">
                 <label for="description" class="col-form-label">Description:</label>
-                <textarea name="description" class="form-control"></textarea>
+                <textarea name="description" class="form-control">{{ company.description|default:'' }}</textarea>
             </div>
+        </div>
 
-            <div class="mb-3">
-                <label class="logo" >Logo</label>
-                <input
-                    type="file"
-                    class="form-control"
-                    name="logo"
-                    accept=".img">
-            </div>
-            <br><br>
+        <div class="mb-3">
+            <label class="logo" >Logo</label>
+            {% if company.logo %}
+                <div class="mb-2">
+                    <small class="text-muted">Current logo: {{ company.logo.name }}</small>
+                </div>
+            {% endif %}
+            <input
+                type="file"
+                class="form-control"
+                name="logo"
+                accept="image/*">
+        </div>
             <input
                 type="submit"
-                value="Send"
+                value="Submit"
                 class="btn btn-block btn-secondary"
             />
-            </form>
-        </div>
+    </form>
 </div>
 
 

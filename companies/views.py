@@ -4,6 +4,7 @@ from listings.models import Listing
 from applies.models import Apply
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from listings.choices import industry_choices, budget_choices, duration_choices
 
 # Create your views here.
 def company(request,company_id):
@@ -46,8 +47,6 @@ def company_edit_info(request):
         # User is not a company HR, silently redirect to individual dashboard
         return redirect('accounts:dashboard')
     
-    # Import industry choices from listings
-    from listings.choices import industry_choices
 
     if request.method=='POST':
         user_id = request.POST['user_id']
@@ -65,11 +64,18 @@ def company_edit_info(request):
         company.industry = industry
         company.serivces = serivces
         company.description = description
+
+        # Handle logo file upload
+        if 'logo' in request.FILES:
+            company.logo = request.FILES['logo']
+
         company.save()
         
         messages.success(request, 'Company information updated successfully')
         return redirect('companies:HR_dashboard')  
     else:
+        # Import industry choices from listings
+        from listings.choices import industry_choices
         context = {
             "company": company,
             "industry_choices": industry_choices
@@ -107,7 +113,12 @@ def job_post(request):
         messages.success(request, 'Job posted successfully')
         return redirect('companies:HR_dashboard')
     else:
-        context = {"company": company}
+        context = {
+            "company": company,
+            "industry_choices": industry_choices,
+            "budget_choices": budget_choices,
+            "duration_choices": duration_choices
+    }
         return render(request,'companies/job_post.html', context)
     
 @login_required

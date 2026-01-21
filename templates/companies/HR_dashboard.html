@@ -33,19 +33,12 @@
 
 {% include 'partials/_alert.html' %}
 <section id="dashboard" class="py-4">
-    {% comment %}  need fix after we have the edit page{% endcomment %}
     <div class="container">
-        {% if not company_info_complete %}
+
         <a class="btn btn-info m-5" type="button"
         href='{% url "companies:company_edit_info" %}'
-                    >Import Company Information</a>
-        {% else %}
-        <button class="btn btn-secondary m-5" type="button" 
-                disabled
-                title="Company information already imported">
-            <i class="fas fa-check-circle"></i> Company Info Imported
-        </button>
-        {% endif %}
+                    >Input/Edit Company Information</a>
+
         
         {% if company_info_complete %}
         <a class="btn btn-info m-5" type="button"
@@ -108,3 +101,4 @@ function showCompanyInfoAlert() {
 </script>
 
 {% endblock %}
+

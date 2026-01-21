@@ -2,35 +2,35 @@
 {% load static %}
 <!--load humanize -->
 {% load humanize %}
-{% block title %} | {{company.title}}{% endblock title %}
+{% block title %} | {{company.name}}{% endblock title %}
 <!-- About main content -->
 {% block content %}
 
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
-    <div class="row text-center">
-        <div class="col-md-12">
-        <h1 class="display-4">{{company.title | title}}</h1>
-        <p class="lead"><i class="fas fa-map-marker"></i> {{company.industry | title}}</p>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h1 class="display-4">{{company.name | title}}</h1>
+                <p class="lead"><i class="fas fa-map-marker"></i> {{company.industry | title}}</p>
+            </div>
         </div>
-    </div>
     </div>
 </section>
 
 <!-- Breadcrumb -->
 <section id="bc" class="mt-3">
     <div class="container">
-    <nav>
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href= {% url "pages:index" %}>Home</a>
-        </li>
-        <li class="breadcrumb-item">
-            <a href= {% url "listings:index" %}>Listings</a>
-        </li>
-        <li class="breadcrumb-item active">{{company.title | title}}</li>
-        </ol>
-    </nav>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href= {% url "pages:index" %}>Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href= {% url "listings:index" %}>Listings</a>
+                </li>
+                <li class="breadcrumb-item active">{{company.name | title}}</li>
+            </ol>
+        </nav>
     </div>
 </section>
 
@@ -39,50 +39,47 @@
 <section id="listing" class="py-4">
     <div class="container">
         <div class="row">
-            <div class="col-md-9">
-            
-            <div class="card mb-3">
-                <img
-                class="card-img-top"
-                src=""
-                alt="company logo"
-                />
-                <div class="card-body">
-                <h5 class="card-title">{{listing.company.name}}</h5>
+            <div class="col-md-9">            
+                <div class="card mb-3">
+                    {% if company.logo %}
+                        <img
+                            class="card-img-top"
+                            src="{{company.logo.url}}"
+                            alt="{{company.name}} logo"
+                        />
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{company.name}}</h5>
+                    </div>
                 </div>
-            </div>
-
             </div>
             <!-- Fields -->
             <div class="row mb-5 fields">
                 <div class="col-md-6">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-secondary">
-                    <i class="fas fa-bed"></i> Industry : 
-                    <span class="float-right">{{company.industry}}</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                    <i class="fas fa-bed"></i> Services : 
-                    <span class="float-right">{{company.serivces}}</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                    <i class="fas fa-bath"></i> Phone:
-                    <span class="float-right">{{company.phone}}</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                    <i class="fas fa-dumbbell"></i> Email:
-                    <span class="float-right">{{company.email}}</span>
-                    </li>
-                </ul>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-secondary">
+                            <i class="fas fa-bed"></i> Industry : 
+                            <span class="float-right">{{company.industry}}</span>
+                        </li>
+                        <li class="list-group-item text-secondary">
+                            <i class="fas fa-bed"></i> Services : 
+                            <span class="float-right">{{company.serivces}}</span>
+                        </li>
+                        <li class="list-group-item text-secondary">
+                            <i class="fas fa-bath"></i> Phone:
+                            <span class="float-right">{{company.phone}}</span>
+                        </li>
+                        <li class="list-group-item text-secondary">
+                            <i class="fas fa-dumbbell"></i> Email:
+                            <span class="float-right">{{company.email}}</span>
+                        </li>
+                    </ul>
                 </div>
                 <div class="row mb-5">
                     <div class="col-md-12">
-                    {{company.description | linebreaks}}
+                        {{company.description | linebreaks}}
                     </div>
                 </div>  
-            </div>
-
-            
             </div>
         </div>
     </div>
