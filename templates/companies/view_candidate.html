@@ -37,23 +37,38 @@
                     <th>Candidate Name</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th>Apply Date</th>
                     <th>CV</th>
+                    <th>Application Message</th>
                 </tr>
             </thead>
     {% for apply in user_appliers %}
         <tbody>
             <tr>
                 <td>{{apply.name}}</td>
-                <td>{{apply.email}}</td>
+                <td>
+                    <a href="mailto:{{apply.email}}?subject=Regarding Your Application for {{listing.title}}&body=Dear {{apply.name}}%2C%0D%0A%0D%0AThank you for applying for the position of {{listing.title}}.%0D%0A%0D%0A%0D%0ABest regards%2C%0D%0A{{user.username}}" class="text-primary">
+                        {{apply.email}}
+                    </a>
+                </td>
                 <td>{{apply.phone}}</td>
                 <td>
-                    <a href="#" download calss="btn btn-sm btn-info">Download CV</a>
+                    <small>{{apply.apply_date|date:"M d, Y"}}</small><br>
+                    <small class="text-muted">{{apply.apply_date|time:"H:i"}}</small>
+                </td>
+                <td>
+                    <a href="#" download class="btn btn-sm btn-info">Download CV</a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#messageModal{{ forloop.counter }}">
+                        View Message
+                    </button>
                 </td>
             </tr>
     {% endfor %}
     {% else %}
         <tr>
-            <td>There's no Candidates</td>
+            <td colspan="6">There's no Candidates</td>
         </tr>
     {% endif %}
         </tbody>
@@ -63,5 +78,33 @@
     </div>
 </section>
 </div>
+
+<!-- Message Modals -->
+{% for apply in user_appliers %}
+<div class="modal fade" id="messageModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="messageModalLabel{{ forloop.counter }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel{{ forloop.counter }}">
+                    Application Message from {{ apply.name }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if apply.message %}
+                    <p>{{ apply.message }}</p>
+                {% else %}
+                    <p class="text-muted">No message provided by the candidate.</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 
 {% endblock %}

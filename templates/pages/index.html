@@ -85,23 +85,24 @@
             <div class="card listing-preview">
                 <img
                 class="card-img-top"
-                src= "{{listing.photo_main.url}}" 
+                src= "{{listing.company.logo}}" 
                 alt= ""
                 />
                 <div class="card-img-overlay">
                 </div>
                 <div class="card-body">
                 <div class="listing-heading text-center">
-                    {% comment %} change title to job name {% endcomment %}
+                
                     <h4 class="text-primary">{{listing.title | title}}</h4>
-                    <p>
-                    {% comment %} <i class="fas fa-map-marker text-secondary"></i> {{listing.district | title}}
-                    </p> {% endcomment %}
+                    
+                    <p><a href="{% url 'companies:company' listing.company.id %}">
+                    <i class="fas fa-map-marker text-secondary"></i> {{listing.company | title}}
+                    </a></p> 
                 </div>
                 <hr />
-                <div class="row py-2 text-secondary">
+                {% comment %} <div class="row py-2 text-secondary">
                     <div class="col-12">
-                    <i class="fa-regular fa-money-bill-1"></i>  Budget: {{listing.service}}
+                    <i class="fa-regular fa-money-bill-1"></i> Budget: {{listing.budget}}
                     </div>
                 </div>
                 <div class="row py-2 text-secondary">
@@ -123,10 +124,14 @@
                     <div class="col-12">
                     <i class="fas fa-clock"></i> Post on {{listing.list_date}}
                     </div>
-                </div>
-                <hr />
-                <a href= {% url "listings:listing" listing.id %} class="btn btn-primary btn-block"
-                    >More Info</a>
+                </div> {% endcomment %}
+                <p class="card-subtitle">{{listing.budget}}</p>
+                            <p class="card-subtitle">{{listing.duration}}</p>
+
+                            <p class="card-text">Published {{listing.publish_date|timesince}} ago</p>
+                <hr />  
+                            <a href="{% url 'listings:listing' listing.id %}" class="btn btn-outline-primary">Read More</a>
+                
                 </div>
             </div>
         </div>

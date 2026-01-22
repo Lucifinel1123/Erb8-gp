@@ -82,14 +82,15 @@
                 <div class="card">
                     <div class="card columns">
                         <div class="card-body">
-                            <h4 class="card-title">{{listing.title}}</h4>
-                            <h6 class="card-subtitle text-muted mb-2">{{listing.company}}</h6>
+                            <h4 class="card-title">{{listing.title}} (Industry: {{listing.industry}})</h4>
+                            <a href="{% url 'companies:company' listing.company.id %}">
+                            <h6 class="card-subtitle text-muted mb-2">{{listing.company}}</h6></a>
                             <p class="card-subtitle">{{listing.budget}}</p>
                             <p class="card-subtitle">{{listing.duration}}</p>
                             <p class="card-text">{{listing.description|truncatechars:150}}</p>
                             <p class="card-text">{{listing.requirement|truncatechars:150}}</p>
                             <p class="card-text">Published {{listing.publish_date|timesince}} ago</p>
-                            <a href="#" class="btn btn-outline-primary">Read More</a>
+                            <a href="{% url 'listings:listing' listing.id %}" class="btn btn-outline-primary">Read More</a>
                         </div>
                     </div>
                 </div>
