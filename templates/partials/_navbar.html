@@ -2,8 +2,8 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     <div class="container">
-    {% comment %} <a class="navbar-brand" href= {% url "pages:index" %}> {% endcomment %}
-        <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href= {% url "pages:index" %}>
+        {% comment %} logo need change {% endcomment %}
         <img src= {% static "img/logo.png" %} class="logo" alt="" />
     </a>
     <button
@@ -17,35 +17,33 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav">
         <li {% if '/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
-            {% comment %} url refer to url.py in config {% endcomment %}
+            {% comment %} url refer to url.py in config{% endcomment %}
             <a class="nav-link" href= {% url "pages:index" %} >Home</a>
         </li>
-        {% comment %} url {% endcomment %}
         <li {% if '/about' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
             <a class="nav-link" href= {% url "pages:about" %} >About</a>
-            {% comment %} <a class="nav-link" href="#" >About</a> {% endcomment %}
         </li>
-        {% comment %} url {% endcomment %}
         <li {% if '/listings/' == request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
-            <a class="nav-link" href= {% url "listings:index" %} >Inpatient medical services</a>
-            {% comment %} <a class="nav-link" href="#" >Inpatient medical services</a> {% endcomment %}
+            {% comment %} need fix "listings:index"{% endcomment %}
+            <a class="nav-link" href= {% url "listings:index" %} >View Job listings</a>
         </li>
         </ul>
         {% comment %} ul: unorder list, li: list {% endcomment %}
+        
         <ul class="navbar-nav ml-auto">
 
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated %} 
 
             <li {% if 'dashboard' in request.path %} class="nav-item mr-3 active "{% else %} 
             class="nav-item mr-3" {% endif %}>
                 <a class="nav-link" href={% url "accounts:dashboard" %}>
-                <i class="fas fa-sign-in-alt"></i> Dashboard</a>
+                <i class="fas fa-sign-in-alt"></i> Dashboard </a>
             </li>
 
             <li class="nav-item mr-3">
                 <a href="javascript:{document.getElementById('logout').submit()}" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i> Logout</a>
-                    <form action='{% url "accounts:logout" %}' method="POST" id="logout">
+                    <i class="fas fa-sign-out-alt"></i>Logout</a>
+                <form action='{% url "accounts:logout" %}' method="POST" id="logout">
                     {% csrf_token %}
                     <input type="hidden" />
                 </form>
@@ -64,6 +62,7 @@
                 <i class="fas fa-sign-in-alt"></i>Login</a>
             </li>
             {% endif %}
+            
         </ul>
     </div>
     </div>

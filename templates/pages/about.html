@@ -5,14 +5,14 @@
 <!-- About main content -->
 {% block content %}
 
+{% comment %} heading {% endcomment %}
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
     <div class="row text-center">
         <div class="col-md-12">
-        <h1 class="display-4">Freelancergo Introduction</h1>
-            <p class="lead">
-            A job matching platform for freelancers and companies
-            </p>
+        <h1 class="display-3">About Freelance Go</h1>
+        <p class="lead">
+        </p>
         </div>
     </div>
     </div>
@@ -34,17 +34,17 @@
 </section>
 
 <section id="about" class="py-4">
-    <div class="container">
-    <div class="row">
-        <div class="col-md text-center">
-        <h1 class="display-4">
-            We bridge freelancers and companies.
-        </h1>
-        <p class="lead">
-        </p>
-        {% comment %} changed {% endcomment %}
-        <img src= {% static "img/about.jpg" %} alt="" />
-        <p class="mt-4 text-left" style="font-size: 20px" !important>
+      <div class="container text-center">
+        <div class="row">
+          <div class="col-md">
+            <h1 class="display-4">
+              We bridge freelancers and companies.
+            </h1>
+            <p class="lead">
+            </p>
+            <img src={% static "img/about_2.png" %} alt="" />
+
+            <p class="mt-4 text-left" style="font-size: 25px" !important>
         FreelancerGo was founded in 2026 by four ERB students majoring in Information Technology and Business Administration, evolving from a classroom project into a dedicated freelancer-matching platform. The team identified a critical gap: independent freelancers struggled to find stable clients, while small and medium-sized enterprises faced difficulties sourcing flexible, skilled talent. To address this, they launched the initial version of the platform—a streamlined information hub—with a core vision of "lightweight, transparent connection."
 <br/>
 <br/>
@@ -53,32 +53,30 @@
 <br/>
         Today, FreelancerGo serves over 5,000 freelancers and 2,000 businesses worldwide. It has also established a long-term partnership with ERB, becoming an official internship and entrepreneurship cooperation base. Rooted in their classroom origins, the founding team remains committed to their original mission—"enabling the fair flow of professional value"—making FreelancerGo a trusted digital hub for young freelancers and growing businesses alike.
 
-        </p>
+            </p>
         </div>
+
     </div>
     </div>
 </section>
 
 <!-- Work -->
-<section id="work" class="bg-dark text-white text-center">
-    <h2 class="display-4">We Work For You</h2>
-    <hr />
-    <a href={% url "listings:index" %} class="btn btn-secondary text-white btn-lg"
-    >View More Jobs</a
-    >
+<section id="work" class="bg-dark text-white text-center" style="padding: 5rem 0; margin: 0;">
+    <h2 class="display-4 mb-3" style="margin-bottom: 1rem !important;">We Work For You</h2>
+    <br/>
+    <a href="{% url 'listings:index' %}" class="btn btn-info text-white btn-lg mb-0"
+    style="padding: 1.2rem 3rem; font-size: 1.8rem; font-weight: 600;">
+        View Our Job Listings
+    </a>
 </section>
 
 <!-- Team -->
 <section id="team" class="py-5">
-    <div class="container">
-    <h2 class="text-center pb-4">Cooperation Companies</h2>
-    <div class="container">
-        {% comment %}A picture contains all the companies logo that we worked with{% endcomment %}
+    <div class="container"style="max-width: 900px; padding: 0; margin: 0 auto;">
         <img
-            src="{% static "img/about.jpg" %} ""
+            src="{% static "img/company_logos.png" %}" 
             alt="" 
-            class="rounded-circle mb-3 img-fluid"
-        />
+            class="mb-3 img-fluid"/> 
         </div>
     </div>
     </div>

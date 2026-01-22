@@ -4,80 +4,167 @@
 {% block title %} | {{user.username | title}}{% endblock title %}
 {% block content %}
 
+<!-- Custom CSS (matches candidate listing style) -->
+<style>
+    /* Dashboard Core Styles */
+    #showcase-inner {
+        background: linear-gradient(rgba(18, 66, 137, 0.91), rgba(18, 66, 137, 0.9)), 
+                    url('{% static "img/dashboard-bg.jpg" %}') center center/cover no-repeat;
+        min-height: 200px;
+    }
+    .dashboard-card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .dashboard-table {
+        --bs-table-hover-bg: #f8f9fa;
+    }
+    .dashboard-table th {
+        border-top: none;
+        font-weight: 600;
+        color: #212529;
+        background-color: #f8f9fa;
+    }
+    .dashboard-table td {
+        vertical-align: middle;
+    }
+    .btn-action {
+        font-size: 0.875rem;
+        padding: 0.375rem 0.75rem;
+        margin: 0 0.25rem;
+    }
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+    }
+    .breadcrumb-item a {
+        color: #094194;
+        text-decoration: none;
+    }
+    .breadcrumb-item.active {
+        color: #6c757d;
+    }
+    .empty-dashboard {
+        padding: 3rem 0;
+        color: #6c757d;
+        text-align: center;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+    }
+    .action-buttons .btn {
+        margin: 0 0.5rem 0.5rem 0;
+    }
+    /* New: Style for Import/Post New Job buttons */
+    .btn-custom-primary {
+        background-color: #094194 !important;
+        border-color: #094194 !important;
+        color: white !important;
+    }
+    .btn-custom-primary:hover {
+        background-color: #07357a !important;
+        border-color: #07357a !important;
+    }
+</style>
+
+<!-- Hero Section -->
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
-    <div class="row text-center">
-        <div class="col-md-12">
-        <h1 class="display-4">Company Dashboard</h1>
-        <p class="lead">Manage your Job listing</p>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h1 class="display-4 fw-bold">{{user.username}} Dashboard</h1>
+                <p class="lead">Manage your Job listings and candidates</p>
+            </div>
         </div>
-    </div>
     </div>
 </section>
 
 <!-- Breadcrumb -->
 <section id="bc" class="mt-3">
     <div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url "pages:index" %}">
-                <i class="fas fa-home"></i> Home</a>
-        </li>
-        <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-    </nav>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url "pages:index" %}">
+                        <i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
     </div>
 </section>
 
 {% include 'partials/_alert.html' %}
+
+<!-- Main Dashboard Content -->
 <section id="dashboard" class="py-4">
     <div class="container">
-        <a class="btn btn-info" href="{% url "companies:company_edit_info" company.id %}">Edit Company infomation</a>
-    </div>
-    <div class="container">
-        <a class="btn btn-info" href={% url "companies:job_post" company.id %}>Post new job</a>
-    </div>
-    <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-        <h2>Welcome {{user.username | title}}</h2>
-        {% if listings %}
-        <p>Here are the Job listings that you posted. </p>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Date</th>
-                <th scope="col">listing</th>
-                <th></th>
-            </tr>
-            </thead>
-            
-            <tbody>
-                {% for listing in listings %}
-                <tr>
-                    <td>{{listing.post_date | date}}</td>
-                    <td>{{listing | title}}</td>
-                    <td>
-                    <a class="btn btn-light" href="{% url "listings:listing" post.listing_id %}"
-                    >View Job details</a>
-                    <a class="btn btn-success" href="{% url "applies:View_candidate" post.id %}"
-                    >View Candidate</a>
-                    
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            
-        </table>
-        {% else %}
-        <p>You did not post any job yet. </p>
-        {% endif %}
+        <!-- Action Buttons (Styled) -->
+        <div class="action-buttons mb-4">
+            <!-- Updated: Added btn-custom-primary class -->
+            <a class="btn btn-info btn-action btn-custom-primary" type="button"
+            href='{% url "companies:company_edit_info" %}'>
+                <i class="fas fa-upload me-1"></i> Import Company Information
+            </a>
+            <!-- Updated: Added btn-custom-primary class -->
+            <a class="btn btn-info btn-action btn-custom-primary" type="button"  
+            href='{% url "companies:job_post" %}'>
+                <i class="fas fa-plus me-1"></i> Post New Job
+            </a>
+        </div>
+
+        <!-- Dashboard Card -->
+        <div class="dashboard-card">
+            <div class="card-body p-4">
+                <h2 class="h4 fw-bold mb-4 text-dark">Welcome {{user.username | title}}</h2>
+                
+                {% if job_post %}
+                    <p class="text-muted mb-3">Here are the job listings that you posted:</p>
+                    <!-- Responsive Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Post Date</th>
+                                    <th scope="col">Listing</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for listing in job_post %}
+                                <tr>
+                                    <td>{{listing.id}}</td>
+                                    <td>{{listing.publish_date | date:"M d, Y"}}</td> <!-- Formatted date -->
+                                    <td>{{listing.title | title}}</td>
+                                    <td>
+                                        <a class="btn btn-light btn-sm btn-action" href="{% url 'listings:listing' listing.id %}">
+                                            <i class="fas fa-eye me-1"></i> View Details
+                                        </a>
+                                        <a class="btn btn-success btn-sm btn-action" href="{% url 'companies:view_candidate' listing.id %}">
+                                            <i class="fas fa-users me-1"></i> View Candidates
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <!-- Styled Empty State -->
+                    <div class="empty-dashboard">
+                        <i class="fas fa-file-alt fs-1 mb-3"></i>
+                        <h5 class="card-title">No Jobs Posted Yet</h5>
+                        <p>You haven't created any job listings. Start by posting a new job!</p>
+                        <a href="{% url 'companies:job_post' %}" class="btn btn-info btn-action">
+                            <i class="fas fa-plus me-1"></i> Post New Job
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-    </div>
 </section>
-
 
 {% endblock %}

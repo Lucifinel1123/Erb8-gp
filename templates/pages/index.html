@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-<!--load humanize -->
 {% load humanize %}
 {% block title %} | Welcome{% endblock title %}
-<!-- index main content -->
 {% block content %}
 
 <!-- Showcase -->
@@ -29,32 +27,31 @@
                     type="text"
                     name="keywords"
                     class="form-control"
-                    placeholder="Keyword (Job Title, Type, Budget )"
+                    placeholder="Keyword (Job Title)"
                 />
                 </div>
             </div>
             <!-- Form Row 2 -->
             <div class="form-row">
                 <div class="col-md-4 mb-3">
-                <label class="sr-only">Job Title</label>
+                <label class="sr-only">Industry</label>
                 {% comment %} name {% endcomment %}
-                <select name="district" class="form-control">
-                    <option selected="true" disabled="disabled">Job Title
+                <select name="rooms" class="form-control">
+                    <option selected="true" disabled="disabled">
+                    Industry
                     </option>
-                    {% comment %} for {% endcomment %}
-                    {% for key, value in district_choices.items %}
+                    {% for key, value in industry_choices.items %}
                     <option value="{{key}}">{{value}}</option>
                     {% endfor %}
-                    
                 </select>
                 </div>
                 <div class="col-md-4 mb-3">
-                <label class="sr-only">Type</label>
+                <label class="sr-only">Budget</label>
                 <select name="rooms" class="form-control">
                     <option selected="true" disabled="disabled">
-                    Type
+                    Budget
                     </option>
-                    {% for key, value in rooms_choices.items %}
+                    {% for key, value in budget_choices.items %}
                     <option value="{{key}}">{{value}}</option>
                     {% endfor %}
                 </select>
@@ -62,15 +59,15 @@
                 <div class="col-md-4 mb-3">
                 <select name="room_type" class="form-control" id="type">
                     <option selected="true" disabled="disabled">
-                    Budget
+                    Duration
                     </option>
-                    {% for key, value in room_choices.items %}
+                    {% for key, value in duration_choices.items %}
                     <option value="{{key}}">{{value}}</option>
                     {% endfor %}
                 </select>
                 </div>
             </div>
-            <button class="btn btn-secondary btn-block mt-4" type="submit">
+            <button class="btn btn-info btn-block mt-4" type="submit">
                 Submit 
             </button>
             </form>
@@ -100,35 +97,33 @@
                 <div class="card-body">
                 <div class="listing-heading text-center">
                     {% comment %} change title to job name {% endcomment %}
-                    <h4 class="text-primary">{{listing.title | title}}</h4>
+                    <h4 class="text-primary">{{listings.title}}</h4>
                     <p>
-                    {% comment %} <i class="fas fa-map-marker text-secondary"></i> {{listing.district | title}}
-                    </p> {% endcomment %}
                 </div>
                 <hr />
-                <div class="row py-2 text-secondary">
+                <div class="row py-2"style="color: #124a81;">
                     <div class="col-12">
-                    <i class="fa-regular fa-money-bill-1"></i>  Budget: {{listing.service}}
+                    <i class="fa-regular fa-money-bill-1"></i>  Budget: {{listing.budget}}
                     </div>
                 </div>
-                <div class="row py-2 text-secondary">
+                <div class="row py-2"style="color: #124a81;">
                     <div class="col-12">
-                    <i class="fa-solid fa-calendar-days"></i> Period required:  {{listing.rooms}}
+                    <i class="fa-solid fa-calendar-days"></i> Period required:  {{listing.duration}}
                     </div>
                 </div>
-                <div class="row py-2 text-secondary">
+                <div class="row py-2"style="color: #124a81;">
                     <div class="col-12">
-                    <i class="fa-solid fa-briefcase"></i> Type: {{listing.room_type}}
+                    <i class="fa-solid fa-briefcase"></i> Type: {{listing.industry}}
                     </div>
                 </div>
                 <hr />
-                <div class="row py-2 text-secondary">
+                <div class="row py-2"style="color: #124a81;">
                     <div class="col-12">
-                    <i class="fa-solid fa-building"></i> Company: {{listing.doctor.name}}</div>
+                    <i class="fa-solid fa-building"></i> Company: {{listing.company}}</div>
                 </div>
-                <div class="row text-secondary pb-2">
+                <div class="row pb-2"style="color: #124a81;">
                     <div class="col-12">
-                    <i class="fas fa-clock"></i> Post on {{listing.list_date}}
+                    <i class="fas fa-clock"></i> Post on {{listing.publish_date}}
                     </div>
                 </div>
                 <hr />
@@ -146,7 +141,7 @@
 <div class="row">
     <div class="col-md-6"> 
         <div class="card text-white" style="border:none">
-            <img src="https://picsum.photos/id/870/200/300?grayscale&blur=2" 
+            <img src= {% static "img/freelancer.png" %}
             alt="" 
             class="rounded-img" 
             style="border-radius:20px; width:100%; height:auto">
@@ -155,13 +150,13 @@
         <p class="card-text">Explore new sources of employment</p>
         <h6 class="card-subtitle text-muted"> You can connect with more job opportunities on Freelancergo and have the chance to collaborate with major well-known organizations.</h6>
         <br/>
-        <a href={% url "accounts:login" %} class="btn btn-outline-info">Join in as freelancer</a>
+        <a href={% url "accounts:register" %} class="btn btn-outline-info">Join in as freelancer</a>
         </div>
         </div>
     </div>
     <div class="col-md-6"> 
         <div class="card text-white" style="border:none">
-            <img src="https://picsum.photos/id/237/200/300" 
+            <img src={% static "img/HR.png" %} 
             alt="" 
             class="rounded-img" 
             style="border-radius:20px; width:100%; height:auto">
@@ -170,7 +165,7 @@
         <p class="card-text">Let our experts solve your problem</p>
         <h6 class="card-subtitle text-muted"> Posting jobs directly to get a experts as quickly as possible. And you're sure to find a freelancer you like!</h6>
         <br/>
-        <a href={% url "accounts:login" %} class="btn btn-outline-info">Join in as HR</a>
+        <a href={% url "accounts:register" %} class="btn btn-outline-info">Join in as HR</a>
         </div>
         </div>
     </div>
@@ -184,4 +179,3 @@
 
 
 {% endblock %}
-
