@@ -1,76 +1,70 @@
 {% extends "base.html" %}
 {% load static %}
 {% load humanize %}
-{% block title %} | {{user.username | title}}{% endblock title %}
+{% block title %}
+    | {{ user.username | title }}
+{% endblock title %}
 {% block content %}
-
-<section id="showcase-inner" class="py-5 text-white">
-    <div class="container">
-    <div class="row text-center">
-        <div class="col-md-12">
-        <h1 class="display-4">{{user.username | title}} Dashboard</h1>
-        <p class="lead">Manage your job inquiries</p>
+    <section id="showcase-inner" class="py-5 text-white">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h1 class="display-4">{{ user.username | title }} Dashboard</h1>
+                    <p class="lead">Manage your job inquiries</p>
+                </div>
+            </div>
         </div>
-    </div>
-    </div>
-</section>
-
-<!-- Breadcrumb -->
-<section id="bc" class="mt-3">
-    <div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url "pages:index" %}">
-                <i class="fas fa-home"></i> Home</a>
-        </li>
-        <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-    </nav>
-    </div>
-</section>
-
-{% include 'partials/_alert.html' %}
-<section id="dashboard" class="py-4">
-    <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-        <h2>Welcome {{user.username | title}}</h2>
-        {% if apply %}
-        <p>{{user.username | title}} job listings that you have inquired about</p>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Job</th>
-                <th scope="col">Date</th>
-                <th></th>
-            </tr>
-            </thead>
-            
-            <tbody>
-                {% for listing in apply %}
-                <tr>
-                    <td>{{listing.listing_id}}</td>
-                    <td>{{listing.listing | title}}</td>
-                    <td>{{listing.apply_date | date}}</td>
-                    <td>
-                    <a class="btn btn-light" href="{% url 'listings:listing' listing.listing_id %}"
-                    >View Listing</a>
-                
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            
-        </table>
-        {% else %}
-        <p>You have not apply any job yet. </p>
-        {% endif %}
+    </section>
+    <!-- Breadcrumb -->
+    <section id="bc" class="mt-3">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url "pages:index" %}">
+                            <i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
         </div>
-    </div>
-    </div>
-</section>
-
-
+    </section>
+    {% include 'partials/_alert.html' %}
+    <section id="dashboard" class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Welcome {{ user.username | title }}</h2>
+                    {% if apply %}
+                        <p>{{ user.username | title }} job listings that you have inquired about</p>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Job</th>
+                                    <th scope="col">Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for listing in apply %}
+                                    <tr>
+                                        <td>{{ listing.listing_id }}</td>
+                                        <td>{{ listing.listing | title }}</td>
+                                        <td>{{ listing.apply_date | date }}</td>
+                                        <td>
+                                            <a class="btn btn-light"
+                                               href="{% url 'listings:listing' listing.listing_id %}">View Listing</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>You have not apply any job yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

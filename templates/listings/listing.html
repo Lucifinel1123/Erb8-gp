@@ -2,94 +2,195 @@
 {% load static %}
 <!--load humanize -->
 {% load humanize %}
-{% block title %} | {{listing.title}}{% endblock title %}
+{% block title %}
+  | {{ listing.title }}
+{% endblock title %}
 <!-- About main content -->
 {% block content %}
-
-<br/>
-<br/>
-
-<div style="
-    width: 100%;
-    min-height: 100vh;  
-    background: url('{% static "img/listingspicture.png" %}') no-repeat center center;
-    background-size: cover; 
-    background-color: #ffffff9e;  
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-sizing: border-box;
-">
-    <div style="
-        width: 100%;
-        max-width: 800px; 
-        background-color: #e8f9fc00; 
-        padding: 30px;
-        margin-right: 100px;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0);  
-        position: relative;
-        z-index: 10; 
-    ">
+  <!-- Success message alert -->
+  {% include "partials/_alert.html" %}
+  <div class="card"
+       style="width: 100%;
+              min-height: 100vh;
+              background: url('{% static "img/listingspicture.png" %}') no-repeat center center;
+              background-size: cover;
+              background-color: #ffffff9e;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 20px;
+              box-sizing: border-box">
+    <div class="card-header"
+         style="width: 100%;
+                max-width: 800px;
+                background-color: #e8f9fc00;
+                padding: 30px;
+                margin-right: 100px;
+                border-radius: 12px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0);
+                position: relative;
+                z-index: 10">
+      {% if listing.company.logo %}
         <div style=" margin-bottom: 20px;">
-            <img class="card-img-top" 
-                src="{{listing.company.logo.url}}" 
-                alt="Company Logo"
-                style="width: 200px; height: 200px; object-fit: contain; margin: 0 auto;">
+          <img class="card-img-top"
+               src="{{ listing.company.logo }}"
+               alt="Company Logo"
+               style="width: 200px;
+                      height: 200px;
+                      object-fit: contain;
+                      margin: 0 auto">
         </div>
-        
-        <h1 class="card-subtitle text-black mb-2" 
-        style="font-size: 30px; margin-bottom: 10px;">
-        <a href="{% url 'companies:company' listing.company.id %}" style="color: #212529; ">
-        {{listing.company}}
-        </a>
-        </h1>
-        
-        <h1 style="font-size: 20px; margin-bottom: 15px; color: #141414;">{{listing.title}}</h1>
-        
-        <h4 style="font-size: 20px; margin: 8px 0;">
-            <p class="mb-0">Budget: {{listing.budget}}</p>
-        </h4>
-        
-        <h4 style="font-size: 20px; margin: 8px 0;">
-            <p>Duration: {{listing.duration}}</p>
-        </h4>
-        
-        <h3 style="font-size: 22px; margin: 15px 0 8px 0;">
-            <strong>Description: </strong>
-        </h3>
-        
-        <h3 style="font-size: 20px; line-height: 1.6; color: #141414; margin-bottom: 15px;">
-            <p>{{listing.description}}</p>
-        </h3>
-        
-        <h3 style="font-size: 22px; margin: 15px 0 8px 0;">
-            <strong>Requirement: </strong>
-        </h3>
-        
-        <h4 style="font-size: 20px; color: #141414; margin: 10px 0 20px 0;">
-            <p>Published {{listing.publish_date|timesince}} ago</p>
-        </h4>
-        
-        {% if user.is_authenticated %}
-        <a href="{% url 'applies:apply' listing.id %}" 
-           class="btn btn-outline-primary btn-lg"
-           style="padding: 15px 30px; font-size: 25px;">
-            Apply
-        </a>
-        {% else %}
-        <a href="{% url 'accounts:login' %}?next={{ request.path }}" 
-            class="btn btn-outline-primary btn-lg disabled" 
-            title="Please login to apply for jobs"
-            style="padding: 15px 30px; font-size: 25px; cursor: not-allowed;">
-            Apply (Login Required)
-        </a>
-        {% endif %}
+      {% endif %}
+      <h2>{{ listing.title }}</h2>
+      <h1 style="font-size: 20px; margin-bottom: 15px; color: #141414;">
+        <a href="{% url 'companies:company' listing.company.id %}"
+           style="color: #212529">{{ listing.company }}</a>
+      </h1>
+      <h4 style="font-size: 20px; margin: 8px 0;">
+        <p class="mb-0">Budget: {{ listing.budget }}</p>
+      </h4>
+      <h4 style="font-size: 20px; margin: 8px 0;">
+        <p>Duration: {{ listing.duration }}</p>
+      </h4>
     </div>
-</div>
-<br/>
-<br/>
-</div>
-</div>
+    <div class="card-body"
+         style="width: 100%;
+                max-width: 800px;
+                background-color: #e8f9fc00;
+                padding: 30px;
+                margin-right: 100px;
+                border-radius: 12px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0);
+                position: relative;
+                z-index: 10">
+      <h3 style="font-size: 22px; margin: 15px 0 8px 0;">
+        <strong>Description:</strong>
+      </h3>
+      <h3 style="font-size: 20px;
+                 line-height: 1.6;
+                 color: #141414;
+                 margin-bottom: 15px">
+        <p>{{ listing.description }}</p>
+      </h3>
+      <h3 style="font-size: 22px; margin: 15px 0 8px 0;">
+        <strong>Requirement:</strong>
+      </h3>
+      <h3 style="font-size: 20px;
+                 line-height: 1.6;
+                 color: #141414;
+                 margin-bottom: 15px">
+        <p>{{ listing.requirement }}</p>
+      </h3>
+      <hr>
+      <h4 style="font-size: 20px; color: #141414; margin: 10px 0 20px 0;">
+        <p>Published {{ listing.publish_date|timesince }} ago</p>
+      </h4>
+      {% if is_own_company_listing %}
+        <!-- Edit button for Company HR viewing their own company's listing -->
+        <button type="button"
+                class="btn btn-warning"
+                data-toggle="modal"
+                data-target="#editJobModal">Edit Job</button>
+      {% else %}
+        {% if is_company_hr %}
+          <!-- Company HR viewing other company's listing - Apply disabled -->
+          <button type="button"
+                  class="btn btn-outline-primary disabled"
+                  title="Apply function is only available for individual users">
+            Apply (Company HR Cannot Apply)
+          </button>
+        {% else %}
+          <!-- Apply button for individual users -->
+          {% if user.is_authenticated %}
+            <a href="{% url 'applies:apply' listing.id %}"
+               class="btn btn-outline-primary">Apply</a>
+          {% else %}
+            <a href="{% url 'accounts:login' %}?next={{ request.path }}"
+               class="btn btn-outline-primary disabled"
+               title="Please login to apply for jobs">Apply (Login Required)</a>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+  <!-- Edit Job Modal -->
+  <div class="modal fade"
+       id="editJobModal"
+       tabindex="-1"
+       role="dialog"
+       aria-labelledby="editJobModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editJobModalLabel">Edit Job: {{ listing.title }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="editJobForm" method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" name="listing_id" value="{{ listing.id }}" />
+            <div class="form-group">
+              <label for="editTitle">Job Title</label>
+              <input type="text"
+                     class="form-control"
+                     id="editTitle"
+                     name="title"
+                     value="{{ listing.title }}"
+                     required />
+            </div>
+            <div class="form-group">
+              <label for="editIndustry">Industry</label>
+              <select class="form-control" id="editIndustry" name="industry" required>
+                <option value="" disabled>Select Industry</option>
+                {% for key, value in industry_choices.items %}
+                  <option value="{{ key }}" {% if listing.industry == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editBudget">Budget</label>
+              <select class="form-control" id="editBudget" name="budget" required>
+                <option value="" disabled>Select Budget</option>
+                {% for key, value in budget_choices.items %}
+                  <option value="{{ key }}" {% if listing.budget == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editDuration">Duration</label>
+              <select class="form-control" id="editDuration" name="duration" required>
+                <option value="" disabled>Select Duration</option>
+                {% for key, value in duration_choices.items %}
+                  <option value="{{ key }}" {% if listing.duration == key %}selected{% endif %}>{{ value }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editRequirement">Requirement</label>
+              <textarea class="form-control"
+                        id="editRequirement"
+                        name="requirement"
+                        rows="3"
+                        required>{{listing.requirement}}</textarea>
+            </div>
+            <div class="form-group">
+              <label for="editDescription">Description</label>
+              <textarea class="form-control"
+                        id="editDescription"
+                        name="description"
+                        rows="5"
+                        required>{{listing.description}}</textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          <button type="submit" form="editJobForm" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}

@@ -2,11 +2,100 @@
 {% load static %}
 {% load humanize %}
 <!-- index main content -->
-<!-- About main content -->
+{% block title %}
+  | Search
+{% endblock title %}
 {% block content %}
-
-<h1>job searching</h1>
-
-
-
+  <section id="showcase">
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">Searching for jobs</h1>
+          <p class="lead">freelancego website can help you work from home</p>
+          <div class="search">
+            <form action={% url "listings:search" %} method = "GET">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-12 mb-3">
+                  <label class="sr-only">jobs</label>
+                  <input type="text"
+                         name="keywords"
+                         class="form-control"
+                         placeholder="Keyword (Job Title, Company, Job Description, Requirement)"
+                         value="{{ values.keywords }}" />
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Industry</label>
+                  <select name="industry" class="form-control">
+                    <option value="" {% if not values.industry %}selected="true"{% endif %}>Industry (All)</option>
+                    {% for key, value in industry_choices.items %}
+                      <option value="{{ key }}"
+                              {% if key == values.industry %}selected="true"{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Budget</label>
+                  <select name="budget" class="form-control">
+                    <option value="" {% if not values.budget %}selected="true"{% endif %}>Budget (All)</option>
+                    {% for key, value in budget_choices.items %}
+                      <option value="{{ key }}"
+                              {% if key == values.budget %}selected="true"{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <select name="duration" class="form-control" id="duration">
+                    <option value="" {% if not values.duration %}selected="true"{% endif %}>Duration (All)</option>
+                    {% for key, value in duration_choices.items %}
+                      <option value="{{ key }}"
+                              {% if key == values.duration %}selected="true"{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Listings -->
+  <section id="listings" class="py-4">
+    <div class="container">
+      <div class="row">
+        {% if listings %}
+          {% for listing in listings %}
+            <div class="col-8">
+              <div class="card">
+                <div class="card columns">
+                  <div class="card-body">
+                    <h4 class="card-title">{{ listing.title }} (Industry: {{ listing.industry }})</h4>
+                    <a href="{% url 'companies:company' listing.company.id %}">
+                      <h6 class="card-subtitle text-muted mb-2">{{ listing.company }}</h6>
+                    </a>
+                    <p class="card-subtitle">{{ listing.budget }}</p>
+                    <p class="card-subtitle">{{ listing.duration }}</p>
+                    <p class="card-text">{{ listing.description|truncatechars:150 }}</p>
+                    <p class="card-text">{{ listing.requirement|truncatechars:150 }}</p>
+                    <p class="card-text">Published {{ listing.publish_date|timesince }} ago</p>
+                    <a href="{% url 'listings:listing' listing.id %}"
+                       class="btn btn-outline-primary">Read More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class='col-md-12'>
+            <h2>No listings available at the moment. Please chack back later.</h2>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
 {% endblock %}

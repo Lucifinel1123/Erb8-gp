@@ -1,10 +1,10 @@
 {% extends "base.html" %}
+{% comment %} {% load widget_tweaks %}  {% endcomment %}
 {% load static %}
 {% load humanize %}
 {% block content %}
-
-<!-- Custom CSS (exact match to HR dashboard style) -->
-<style>
+    <!-- Custom CSS (exact match to HR dashboard style) -->
+    <style>
     /* HR Dashboard Core Styles (consistent with your dashboard) */
     .breadcrumb {
         background-color: transparent;
@@ -83,96 +83,91 @@
     input[type="file"].form-control {
         padding: 0.375rem 0.75rem;
     }
-</style>
-
-<!-- Breadcrumb (HR dashboard style) -->
-<section id="bc" class="mt-3">
-    <div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="{% url "companies:HR_dashboard" %}">
-                <i class="fas fa-arrow-left me-1"></i> Back to Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">Import Company Information</li>
-        </ol>
-    </nav>
-    </div>
-</section>
-
-<!-- Main Form Section (HR dashboard card style) -->
-<section id="company_info" class="py-4">
-    <div class="container">
-        <!-- HR Dashboard Style Card (wraps form) -->
-        <div class="dashboard-card card">
-            <div class="card-header">
-                <h1 class="h4 mb-0">Import Company Information</h1>
-            </div>
-            <div class="card-body">
-                <!-- Your original form code - 100% unchanged -->
-                <form method="POST" action="{% url 'companies:company_edit_info' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <input type="hidden" name="user_id" value="{{user.id}}" />
-                    <div class="form-group">
+    </style>
+    <section id="bc" class="mt-3">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url "companies:HR_dashboard" %}">
+                            <i class="fas fa-arrow-left me-1"></i> Back to Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item active">Input/Edit Company Information</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+    <section id="company_info" class="py-4">
+        <div class="container">
+            <div class="dashboard-card card">
+                <div class="card-header">
+                    <h1 class="h4 mb-0">Input/Edit Company Information</h1>
+                </div>
+                <div class="card-body">
+                    <form method="POST"
+                          action="{% url 'companies:company_edit_info' %}"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id" value="{{ user.id }}" />
                         <div class="form-group">
-                            <label for="name" class="form-label">Company Name:</label>
-                            <input
-                                type="text"
-                                name="name"
-                                class="form-control"/>
+                            <div class="form-group">
+                                <label for="name" class="form-label">Company Name:</label>
+                                <!-- prettier-ignore -->
+                                <input type="text"
+                                       name="name"
+                                       class="form-control"
+                                       value="{{ company.name|default:'' }}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email"
+                                       name="email"
+                                       class="form-control"
+                                       value="{{ company.email|default:user.email }}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone:</label>
+                                <input type="text"
+                                       name="phone"
+                                       class="form-control"
+                                       value="{{ company.phone|default:'00000000' }}" />
+                            </div>
+                            <div class="form-group">
+                                <label for="industry" class="form-label">Industry:</label>
+                                <select name="industry" class="form-control" row="3" required>
+                                    <option value="" disabled selected>Select Industry</option>
+                                    {% for key, value in industry_choices.items %}
+                                        <option value="{{ key }}" {% if company.industry == key %}selected{% endif %}>{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="serivces" class="form-label">Serivces:</label>
+                                <textarea name="serivces" class="form-control" row="3">{{ company.serivces|default:'' }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea name="description" class="form-control" row="5">{{ company.description|default:'' }}</textarea>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" name="email" class="form-control" 
-                            {% if user.is_authenticated %}
-                            value="{{user.email}}"
-                            {% endif %}  />
-                        </div>
-
-                        <div class="form-group">
-                            <label for="phone" class="form-label">Phone:</label>
-                            <input type="text" name="phone" class="form-control" 
-                            {% if user.is_authenticated %}
-                            value="{{user.phone}}"
-                            {% endif %}  />
-                        </div>
-                        <div class="form-group">
-                            <label for="industry" class="form-label">Industry:</label>
-                            <textarea name="industry" class="form-control" rows="3"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="serivces" class="form-label">Services:</label>
-                            <textarea name="serivces" class="form-control" rows="3"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description" class="form-label">Description:</label>
-                            <textarea name="description" class="form-control" rows="5"></textarea>
-                        </div>
-
                         <div class="mb-3">
-                            <label class="form-label" >Logo</label>
-                            <input 
-                                type="file" 
-                                class="form-control"
-                                name="logo"
-                                accept=".png,.jpg,.jpeg"> <!-- Fixed accept format (corrected .img to valid formats) -->
+                            <label class="form-label">Logo</label>
+                            {% if company.logo %}
+                                <div class="mb-2">
+                                    <small class="text-muted">Current logo: {{ company.logo.name }}</small>
+                                </div>
+                            {% endif %}
+                            <input type="file"
+                                   class="form-control"
+                                   name="logo"
+                                   accept=".png,.jpg,.jpeg,image/*">
                         </div>
-<br/>
-<br/>
-<br/>
-                        <input
-                            type="submit"
-                            value="Submit Information"
-                            class="btn btn-block btn-submit"
-                        />
-                    </div>
-                </form>
+                        <input type="Submit Information"
+                               value="Submit"
+                               class="btn btn-block btn-submit" />
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 {% endblock %}
