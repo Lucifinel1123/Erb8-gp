@@ -4,6 +4,7 @@ from .choices import industry_choices, budget_choices, duration_choices
 from django.db.models import Q
 from companies.models import Company
 from django.contrib import messages  # Added import for messages
+from applies.models import Apply  # Added import for Apply model
 
 # Create your views here.
 
@@ -13,11 +14,6 @@ def listings(request):
         "listings": listings
     }
     return render(request, 'listings/listings.html', context)
-
-# def listing(request, listing_id):
-#     listing = get_object_or_404(Listing, pk=listing_id)
-#     context = {"listing": listing}
-#     return render(request, 'listings/listing.html', context)
 
 def search(request):
     queryset_list = Listing.objects.order_by('-publish_date')
@@ -82,6 +78,16 @@ def listing(request, listing_id):
     if is_company_hr and user_company:
         is_own_company_listing = (listing.company == user_company)
 
+    # Check if user has already applied for this job
+    has_applied = False
+    existing_application = None
+    if request.user.is_authenticated and not is_company_hr:
+        try:
+            existing_application = Apply.objects.get(listing=listing, user=request.user)
+            has_applied = True
+        except Apply.DoesNotExist:
+            has_applied = False
+
     # Handle POST request for editing job (from modal)
     if request.method == 'POST' and is_own_company_listing:
         # Update the job listing
@@ -104,6 +110,8 @@ def listing(request, listing_id):
         "company": company,
         "is_company_hr": is_company_hr,
         "is_own_company_listing": is_own_company_listing,
+        "has_applied": has_applied,
+        "existing_application": existing_application,
         "industry_choices": industry_choices,
         "budget_choices": budget_choices,
         "duration_choices": duration_choices,

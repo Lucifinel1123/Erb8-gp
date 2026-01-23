@@ -10,7 +10,7 @@
             <div class="row text-center">
                 <div class="col-md-12">
                     <h1 class="display-4">{{ user.username | title }} Dashboard</h1>
-                    <p class="lead">Manage your job inquiries</p>
+                    <p class="lead">Manage your job applications</p>
                 </div>
             </div>
         </div>
@@ -36,35 +36,105 @@
                 <div class="col-md-12">
                     <h2>Welcome {{ user.username | title }}</h2>
                     {% if apply %}
-                        <p>{{ user.username | title }} job listings that you have inquired about</p>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Job</th>
-                                    <th scope="col">Date</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for listing in apply %}
+                        <p>Here are the jobs you have applied for:</p>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="thead-light">
                                     <tr>
-                                        <td>{{ listing.listing_id }}</td>
-                                        <td>{{ listing.listing | title }}</td>
-                                        <td>{{ listing.apply_date | date }}</td>
-                                        <td>
-                                            <a class="btn btn-light"
-                                               href="{% url 'listings:listing' listing.listing_id %}">View Listing</a>
-                                        </td>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Job Title</th>
+                                        <th scope="col">Company</th>
+                                        <th scope="col">Applied Date</th>
+                                        <th scope="col">Actions</th>
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {% for application in apply %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>
+                                                <strong>{{ application.listing.title | title }}</strong>
+                                            </td>
+                                            <td>
+                                                {% if application.listing.company %}
+                                                    <a href="{% url 'companies:company' application.listing.company.id %}"
+                                                       class="text-primary"
+                                                       title="View company details">
+                                                        <i class="fas fa-building me-1"></i>
+                                                        {{ application.listing.company.name | title }}
+                                                    </a>
+                                                {% else %}
+                                                    <span class="text-muted">No company info</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <span class="text-muted">{{ application.apply_date | date:"M d, Y" }}</span>
+                                                <br>
+                                                <small class="text-muted">{{ application.apply_date | time:"g:i A" }}</small>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a class="btn btn-outline-primary"
+                                                       href="{% url 'listings:listing' application.listing_id %}"
+                                                       title="View job details">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </a>
+                                                    <a class="btn btn-outline-warning"
+                                                       href="{% url 'applies:apply' application.listing_id %}"
+                                                       title="Edit your application">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                    <button type="button"
+                                                            class="btn btn-outline-danger"
+                                                            onclick="confirmWithdraw('{% url 'applies:withdraw' application.listing_id %}')"
+                                                            title="Withdraw your application">
+                                                        <i class="fas fa-trash-alt"></i> Withdraw
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="alert alert-info mt-4">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Note:</strong> You can view job details, edit your application, or withdraw your application at any time.
+                        </div>
                     {% else %}
-                        <p>You have not apply any job yet.</p>
+                        <div class="text-center py-5">
+                            <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">No Applications Yet</h4>
+                            <p class="text-muted">You haven't applied for any jobs yet.</p>
+                            <a href="{% url 'listings:listings' %}" class="btn btn-primary mt-2">
+                                <i class="fas fa-search"></i> Browse Jobs
+                            </a>
+                        </div>
                     {% endif %}
                 </div>
             </div>
         </div>
     </section>
+    <script>
+    function confirmWithdraw(url) {
+        if (confirm('Are you sure you want to withdraw your application?\\n\\nThis action cannot be undone. You will need to apply again if you change your mind.')) {
+            // Create a form to submit the withdrawal request
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            
+            // Add CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+            
+            // Submit the form
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+    </script>
 {% endblock %}

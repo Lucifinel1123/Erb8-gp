@@ -67,6 +67,14 @@
         background-color: #07357a !important;
         border-color: #07357a !important;
     }
+    .company-info-required {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        margin: 2rem 0;
+    }
     </style>
     <!-- Hero Section -->
     <section id="showcase-inner" class="py-5 text-white">
@@ -97,103 +105,109 @@
     <!-- Main Dashboard Content -->
     <section id="dashboard" class="py-4">
         <div class="container">
-            <a class="btn btn-info btn-action btn-custom-primary"
-               type="button"
-               href='{% url "companies:company_edit_info" %}'><i class="fas fa-upload me-1"></i> Input/Edit Company Information</a>
-            {% if company_info_complete %}
+            <!-- Action Buttons -->
+            <div class="action-buttons mb-4">
                 <a class="btn btn-info btn-action btn-custom-primary"
                    type="button"
-                   href='{% url "companies:job_post" %}'>
-                    <i class="fas fa-plus me-1"></i> Post New Job
+                   href='{% url "companies:company_edit_info" %}'>
+                    <i class="fas fa-upload me-1"></i> Input/Edit Company Information
                 </a>
-            {% else %}
-                <button class="btn btn-info btn-action btn-custom-primary"
-                        type="button"
-                        id="disabled-job-post-btn"
-                        style="opacity: 0.6;
-                               cursor: not-allowed"
-                        onclick="showCompanyInfoAlert()">Post new job</button>
-            {% endif %}
-        </div>
-        <div class="dashboard-card">
-            <div class="card-body p-4">
-                <div class="col-md-12">
-                    <h2 class="h4 fw-bold mb-4 text-dark">Welcome {{ user.username | title }}</h2>
-                    {% if job_post %}
-                        <p class="text-muted mb-3">Here are the job listings that you posted:</p>
-                        {% comment %} <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Id</th>
-                                    <th scope="col">Post Date</th>
-                                    <th scope="col">listing</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for listing in job_post %}
-                                    <tr>
-                                        <td>{{ listing.id }}</td>
-                                        <td>{{ listing.publish_date | date }}</td>
-                                        <td>{{ listing.title | title }}</td>
-                                        <td>
-                                            <a class="btn btn-light" href="{% url 'listings:listing' listing.id %}">View Job details</a>
-                                            <a class="btn btn-success" href="{% url 'companies:view_candidate' listing.id %}">View Candidate</a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table> {% endcomment %}
-                        <!-- Responsive Table -->
-                        <div class="table-responsive">
-                            <table class="table table-striped dashboard-table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Post Date</th>
-                                        <th scope="col">Listing</th>
-                                        <th scope="col">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for listing in job_post %}
+                {% if company_info_complete %}
+                    <a class="btn btn-info btn-action btn-custom-primary"
+                       type="button"
+                       href='{% url "companies:job_post" %}'>
+                        <i class="fas fa-plus me-1"></i> Post New Job
+                    </a>
+                {% endif %}
+            </div>
+            <div class="dashboard-card">
+                <div class="card-body p-4">
+                    <div class="col-md-12">
+                        <h2 class="h4 fw-bold mb-4 text-dark">Welcome {{ user.username }}</h2>
+                        {% if not company_info_complete %}
+                            <!-- Company Information Required Section -->
+                            <div class="company-info-required">
+                                <i class="fas fa-building fa-3x text-warning mb-3"></i>
+                                <h4 class="text-dark mb-3">Complete Your Company Profile</h4>
+                                <p class="mb-4">
+                                    Before you can post job listings, you need to complete your company information.
+                                    This helps candidates learn more about your organization.
+                                </p>
+                                <a href="{% url 'companies:company_edit_info' %}"
+                                   class="btn btn-warning btn-lg">
+                                    <i class="fas fa-edit me-2"></i>Complete Company Information
+                                </a>
+                                <p class="text-muted mt-3 mb-0">
+                                    <small>
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Required: Company name, email, phone, industry, and description
+                                    </small>
+                                </p>
+                            </div>
+                        {% elif job_post %}
+                            <!-- Has job postings -->
+                            <p class="text-muted mb-3">Here are the job listings that you posted:</p>
+                            <!-- Responsive Table -->
+                            <div class="table-responsive">
+                                <table class="table table-striped dashboard-table">
+                                    <thead>
                                         <tr>
-                                            <td>{{ listing.id }}</td>
-                                            <td>{{ listing.publish_date | date:"M d, Y" }}</td>
-                                            <!-- Formatted date -->
-                                            <td>{{ listing.title | title }}</td>
-                                            <td>
-                                                <a class="btn btn-light btn-sm btn-action"
-                                                   href="{% url 'listings:listing' listing.id %}">
-                                                    <i class="fas fa-eye me-1"></i> View Details
-                                                </a>
-                                                <a class="btn btn-success btn-sm btn-action"
-                                                   href="{% url 'companies:view_candidate' listing.id %}">
-                                                    <i class="fas fa-users me-1"></i> View Candidates
-                                                </a>
-                                            </td>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Post Date</th>
+                                            <th scope="col">Listing</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <!-- Styled Empty State -->
-                        <div class="empty-dashboard">
-                            <i class="fas fa-file-alt fs-1 mb-3"></i>
-                            <h5 class="card-title">No Jobs Posted Yet</h5>
-                            <p>You haven't created any job listings. Start by posting a new job!</p>
-                            <a href="{% url 'companies:job_post' %}" class="btn btn-info btn-action">
-                                <i class="fas fa-plus me-1"></i> Post New Job
-                            </a>
-                        </div>
-                    {% endif %}
+                                    </thead>
+                                    <tbody>
+                                        {% for listing in job_post %}
+                                            <tr>
+                                                <td>{{ listing.id }}</td>
+                                                <td>{{ listing.publish_date | date:"M d, Y" }}</td>
+                                                <!-- Formatted date -->
+                                                <td>{{ listing.title | title }}</td>
+                                                <td>
+                                                    <a class="btn btn-light btn-sm btn-action"
+                                                       href="{% url 'listings:listing' listing.id %}">
+                                                        <i class="fas fa-eye me-1"></i> View Details
+                                                    </a>
+                                                    <a class="btn btn-success btn-sm btn-action"
+                                                       href="{% url 'companies:view_candidate' listing.id %}">
+                                                        <i class="fas fa-users me-1"></i> View Candidates
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <!-- Company info complete but no job postings -->
+                            <div class="empty-dashboard">
+                                <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
+                                <h4 class="text-dark mb-3">Ready to Hire?</h4>
+                                <p class="mb-4">
+                                    Your company profile is complete! Now you can start posting job listings
+                                    to find qualified candidates for your open positions.
+                                </p>
+                                <a href="{% url 'companies:job_post' %}" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-plus me-2"></i>Post Your First Job
+                                </a>
+                                <p class="text-muted mt-3 mb-0">
+                                    <small>
+                                        <i class="fas fa-lightbulb me-1"></i>
+                                        Tip: Be specific about job requirements to attract the right candidates
+                                    </small>
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </section>
-        <script>
-function showCompanyInfoAlert() {
-    alert("Please complete your company information first before posting a new job. Click on 'Import Company Information' to complete your profile.");
-}
-        </script>
-    {% endblock %}
+        </div>
+    </section>
+    <script>
+    function showCompanyInfoAlert() {
+        alert("Please complete your company information first before posting a new job. Click on 'Import Company Information' to complete your profile.");
+    }
+    </script>
+{% endblock %}

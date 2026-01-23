@@ -85,12 +85,15 @@
       <h4 style="font-size: 20px; color: #141414; margin: 10px 0 20px 0;">
         <p>Published {{ listing.publish_date|timesince }} ago</p>
       </h4>
+      
+      <!-- Button Logic -->
       {% if is_own_company_listing %}
         <!-- Edit button for Company HR viewing their own company's listing -->
         <button type="button"
                 class="btn btn-warning"
                 data-toggle="modal"
                 data-target="#editJobModal">Edit Job</button>
+      
       {% else %}
         {% if is_company_hr %}
           <!-- Company HR viewing other company's listing - Apply disabled -->
@@ -99,20 +102,82 @@
                   title="Apply function is only available for individual users">
             Apply (Company HR Cannot Apply)
           </button>
+        
         {% else %}
-          <!-- Apply button for individual users -->
+          <!-- Individual users -->
           {% if user.is_authenticated %}
-            <a href="{% url 'applies:apply' listing.id %}"
-               class="btn btn-outline-primary">Apply</a>
+            {% if has_applied %}
+              <!-- User has already applied - Show Edit Application and Withdraw buttons -->
+              <div class="application-status-card p-3 mb-4 border rounded bg-light">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="fas fa-check-circle text-success fa-lg me-2"></i>
+                  <h5 class="mb-0">Application Submitted</h5>
+                </div>
+                
+                <div class="mb-3">
+                  <p class="mb-1">
+                    <i class="fas fa-calendar-alt text-muted me-1"></i>
+                    <strong>Applied on:</strong> 
+                    <span class="text-primary">{{ existing_application.apply_date|date:"F j, Y" }}</span>
+                    at 
+                    <span class="text-primary">{{ existing_application.apply_date|time:"g:i A" }}</span>
+                  </p>
+                  <p class="text-muted mb-0">
+                    <small>
+                      <i class="fas fa-info-circle me-1"></i>
+                      You can edit your application or withdraw it below.
+                    </small>
+                  </p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-flex flex-wrap gap-2">
+                  <a href="{% url 'applies:apply' listing.id %}"
+                     class="btn btn-warning flex-grow-1"
+                     title="Edit your existing application">
+                    <i class="fas fa-edit"></i> Edit Application
+                  </a>
+                  <button type="button"
+                          class="btn btn-outline-danger"
+                          onclick="confirmWithdraw('{% url 'applies:withdraw' listing.id %}')"
+                          title="Withdraw your application">
+                    <i class="fas fa-trash-alt"></i> Withdraw
+                  </button>
+                </div>
+              </div>
+            
+            {% else %}
+              <!-- User hasn't applied yet - Show Apply button -->
+              <div class="text-center">
+                <a href="{% url 'applies:apply' listing.id %}"
+                   class="btn btn-outline-primary btn-lg px-5">
+                  <i class="fas fa-paper-plane me-2"></i>Apply Now
+                </a>
+                <p class="text-muted mt-2">
+                  <small>Click to submit your application for this position</small>
+                </p>
+              </div>
+            {% endif %}
+          
           {% else %}
-            <a href="{% url 'accounts:login' %}?next={{ request.path }}"
-               class="btn btn-outline-primary disabled"
-               title="Please login to apply for jobs">Apply (Login Required)</a>
+            <!-- Not logged in -->
+            <div class="text-center">
+              <a href="{% url 'accounts:login' %}?next={{ request.path }}"
+                 class="btn btn-outline-primary disabled btn-lg"
+                 title="Please login to apply for jobs">
+                <i class="fas fa-sign-in-alt me-2"></i>Login to Apply
+              </a>
+              <p class="text-muted mt-2">
+                <small>You need to be logged in to apply for this job</small>
+              </p>
+            </div>
           {% endif %}
         {% endif %}
       {% endif %}
+      
     </div>
   </div>
+
   <!-- Edit Job Modal -->
   <div class="modal fade"
        id="editJobModal"
@@ -193,4 +258,28 @@
       </div>
     </div>
   </div>
+
+  <script>
+  function confirmWithdraw(url) {
+    if (confirm('Are you sure you want to withdraw your application?\\n\\nThis action cannot be undone. You will need to apply again if you change your mind.')) {
+      // Create a form to submit the withdrawal request
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = url;
+      
+      // Add CSRF token
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const csrfInput = document.createElement('input');
+      csrfInput.type = 'hidden';
+      csrfInput.name = 'csrfmiddlewaretoken';
+      csrfInput.value = csrfToken;
+      form.appendChild(csrfInput);
+      
+      // Submit the form
+      document.body.appendChild(form);
+      form.submit();
+    }
+  }
+  </script>
+
 {% endblock content %}

@@ -140,18 +140,3 @@ def view_candidate(request, listing_id):
         "user_appliers": user_appliers
     }
     return render(request, 'companies/view_candidate.html', context)
-
-def job_post(request, company_id):
-    company = get_object_or_404(Company, pk = company_id)
-    if request.method == "POST":    
-        form = Job_post(request.POST, instance = company)
-        if form.is_valid():
-            form.save()
-            return redirect('companies:HR_dashboard', company_id)
-    else:
-        form = Job_post(instance = company)
-    context = {
-        "company": company,
-        "form": form,       
-    }
-    return render (request, "companies/job_post.html", context)

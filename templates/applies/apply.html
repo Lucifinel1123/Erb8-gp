@@ -5,74 +5,213 @@
 {% load humanize %}
 <!-- humanize -->
 {% block content %}
-<br/>
-<div class="contanier mt-5">
-    <h1 class="text-center mb-4">Apply for {{ listing.title }}</h1>
-
-    <form class="form7-group" 
-        method="POST" 
-        action="{% url 'applies:apply' listing.id %}"
-        enctype="multipart/form-data"
-        style="width: 50% ;margin: 40px auto"> 
-
-    {% csrf_token %} 
-
-    <input type="hidden" name="listing_id" value="{{listing.id}}"/>
-
-        <div class="mb-3">
-            <label for="name" class="form-label">Job title</label>
-            <input type="text" 
-            class="form-control" 
-            id="name" 
-            name="name"
-            value="{{listing.title}}">    
-        </div>
-
-        <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" 
-            class="form-control" 
-            id="name" 
-            name="name"
-            {% if user.is_authenticated %}
-            value="{{user.name}}"
-            {% endif %}>    
-        </div>
-        
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" 
-            class="form-control" 
-            id="email" 
-            name="email"
-            {% if user.is_authenticated %}
-            value="{{user.email}}"
-            {% endif %} >
-        </div>
-
-        <div class="mb-3">
-            <label for="phone" class="form-label">Phone</label>
-            <input type="tel" class="form-control" id="phone" name="phone"
-            {% if user.is_authenticated %}
-            value="{{user.phone}}"
-            {% endif %} >
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Upload CV (PDF/Word, ≤10M)</label>
-            <input 
-                type="file" 
-                class="form-control"
-                name="cv"
-                accept=".pdf,.doc,.docx"
-                required>
-            <div class="form-text">Only PDF, DOC, DOCX files are allowed (max 10MB).</div>
-        </div>
-        
-        <br/>
-        <button type="submit" class="btn btn-primary w-100">Apply</button>
-    </form>
-    
-</div>
-
+    <br />
+    <div class="contanier mt-5">
+        {% if is_edit_mode %}
+            <h1 class="text-center mb-4">Edit Application</h1>
+            <!-- Application Status Card -->
+            <div class="card border-success mb-4 mx-auto" style="max-width: 600px;">
+                <div class="card-header bg-success text-white">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle fa-lg me-2"></i>
+                        <h5 class="mb-0">Application Submitted</h5>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <i class="fas fa-calendar-alt text-muted me-2"></i>
+                                <strong>Applied Date:</strong>
+                            </p>
+                            <h4 class="text-primary">{{ existing_application.apply_date|date:"F j, Y" }}</h4>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-2">
+                                <i class="fas fa-clock text-muted me-2"></i>
+                                <strong>Applied Time:</strong>
+                            </p>
+                            <h4 class="text-primary">{{ existing_application.apply_date|time:"g:i A" }}</h4>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-muted mb-0">
+                            <i class="fas fa-info-circle me-1"></i>
+                            You can update your application information below. All fields are editable.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <h1 class="text-center mb-4">Application</h1>
+        {% endif %}
+        <form class="form7-group"
+              method="POST"
+              action="{% url 'applies:apply' listing.id %}"
+              enctype="multipart/form-data"
+              style="width: 50%;
+                     margin: 40px auto">
+            {% csrf_token %}
+            <input type="hidden" name="listing_id" value="{{ listing.id }}" />
+            <!-- Job Title (Display only, not editable) -->
+            <div class="mb-3">
+                <label class="form-label">Job Title</label>
+                <div class="form-control-plaintext border rounded p-2 bg-light">
+                    <strong>{{ listing.title }}</strong>
+                </div>
+                <input type="hidden" name="job_title" value="{{ listing.title }}" />
+            </div>
+            <!-- Applicant Name -->
+            <div class="mb-3">
+                <label for="applicant_name" class="form-label">
+                    Your Name <span class="text-danger">*</span>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="applicant_name"
+                       name="name"
+                       value="{% if existing_application %}{{ existing_application.name }}{% else %}{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}{% endif %}"
+                       required>
+            </div>
+            <!-- Applicant Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">
+                    Email <span class="text-danger">*</span>
+                </label>
+                <input type="email"
+                       class="form-control"
+                       id="email"
+                       name="email"
+                       value="{% if existing_application %}{{ existing_application.email }}{% else %}{{ user.email }}{% endif %}"
+                       required>
+            </div>
+            <!-- Applicant Phone (Optional) -->
+            <div class="mb-3">
+                <label for="phone" class="form-label">
+                    Phone <span class="text-muted">(Optional)</span>
+                </label>
+                <input type="tel"
+                       class="form-control"
+                       id="phone"
+                       name="phone"
+                       value="{% if existing_application %}{{ existing_application.phone }}{% endif %}"
+                       placeholder="Enter your phone number">
+            </div>
+            <!-- Application Message (Optional) -->
+            <div class="mb-3">
+                <label for="application_message" class="form-label">
+                    Application Message <span class="text-muted">(Optional)</span>
+                </label>
+                <textarea class="form-control"
+                          id="application_message"
+                          name="message"
+                          rows="4"
+                          placeholder="Tell us why you're interested in this position and why you'd be a good fit...">{% if existing_application %}{{ existing_application.message }}{% endif %}</textarea>
+                <div class="form-text">Add a cover letter or additional information about your application.</div>
+            </div>
+            <!-- CV Upload (Required for new applications, optional for edits) -->
+            <div class="mb-3">
+                <label class="form-label">
+                    Upload CV (PDF/Word, ≤10M)
+                    {% if not is_edit_mode %}<span class="text-danger">*</span>{% endif %}
+                </label>
+                {% if is_edit_mode and existing_application.cv %}
+                    <div class="mb-2">
+                        <small class="text-muted">Current CV: {{ existing_application.cv.name|cut:"cv/" }}</small>
+                        <a href="{{ existing_application.cv.url }}"
+                           class="btn btn-sm btn-outline-info ml-2"
+                           download
+                           title="Download your current CV">
+                            <i class="fas fa-download"></i> Download CV
+                        </a>
+                        <br>
+                        <small class="text-info">Leave empty to keep current CV, or upload a new one.</small>
+                    </div>
+                {% endif %}
+                <input type="file"
+                       class="form-control"
+                       name="cv"
+                       accept=".pdf,.doc,.docx"
+                       {% if not is_edit_mode %}required{% endif %}>
+                <div class="form-text">Only PDF, DOC, DOCX files are allowed (max 10MB).</div>
+            </div>
+            <br />
+            <!-- Action Buttons -->
+            <div class="application-actions">
+                {% if is_edit_mode %}
+                    <!-- Edit mode: Primary action - Update Application -->
+                    <div class="mb-4">
+                        <button type="submit" class="btn btn-warning btn-lg w-100">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <p class="text-muted text-center mt-2">
+                            <small>Update your application information above</small>
+                        </p>
+                    </div>
+                    <!-- Secondary actions: Cancel and Withdraw -->
+                    <div class="border-top pt-4 mt-4">
+                        <div class="d-flex flex-wrap gap-2 justify-content-center mb-3">
+                            <a href="{% url 'listings:listing' listing.id %}"
+                               class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Job Listing
+                            </a>
+                            <button type="button"
+                                    class="btn btn-outline-danger"
+                                    onclick="confirmWithdraw('{% url 'applies:withdraw' listing.id %}')">
+                                <i class="fas fa-trash-alt"></i> Withdraw Application
+                            </button>
+                        </div>
+                        <p class="text-muted text-center">
+                            <small>
+                                <i class="fas fa-exclamation-triangle text-warning"></i>
+                                Withdrawing will permanently delete your application
+                            </small>
+                        </p>
+                    </div>
+                {% else %}
+                    <!-- New application: Submit button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="fas fa-paper-plane"></i> Submit Application
+                        </button>
+                        <a href="{% url 'listings:listing' listing.id %}"
+                           class="btn btn-outline-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <p class="text-muted mt-4 text-center">
+                <small>
+                    {% if not is_edit_mode %}
+                        Fields marked with <span class="text-danger">*</span> are required
+                    {% else %}
+                        Update any fields you want to change. CV upload is optional when editing.
+                    {% endif %}
+                </small>
+            </p>
+        </form>
+    </div>
+    <script>
+    function confirmWithdraw(url) {
+        if (confirm('Are you sure you want to withdraw your application?\n\nThis action cannot be undone. You will need to apply again if you change your mind.')) {
+            // Create a form to submit the withdrawal request
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            
+            // Add CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+            
+            // Submit the form
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+    </script>
 {% endblock %}
