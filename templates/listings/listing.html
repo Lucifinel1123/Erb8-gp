@@ -10,7 +10,7 @@
   <!-- Success message alert -->
   {% include "partials/_alert.html" %}
   <div class="card"
-       style="width: 100%;
+      style="width: 100%;
               min-height: 100vh;
               background: url('{% static "img/listingspicture.png" %}') no-repeat center center;
               background-size: cover;
@@ -21,7 +21,7 @@
               padding: 20px;
               box-sizing: border-box">
     <div class="card-header"
-         style="width: 100%;
+        style="width: 100%;
                 max-width: 800px;
                 background-color: #e8f9fc00;
                 padding: 30px;
@@ -33,9 +33,9 @@
       {% if listing.company.logo %}
         <div style=" margin-bottom: 20px;">
           <img class="card-img-top"
-               src="{{ listing.company.logo }}"
-               alt="Company Logo"
-               style="width: 200px;
+              src="{{ listing.company.logo }}"
+            alt="Company Logo"
+              style="width: 200px;
                       height: 200px;
                       object-fit: contain;
                       margin: 0 auto">
@@ -44,7 +44,7 @@
       <h2>{{ listing.title }}</h2>
       <h1 style="font-size: 20px; margin-bottom: 15px; color: #141414;">
         <a href="{% url 'companies:company' listing.company.id %}"
-           style="color: #212529">{{ listing.company }}</a>
+          style="color: #212529">{{ listing.company }}</a>
       </h1>
       <h4 style="font-size: 20px; margin: 8px 0;">
         <p class="mb-0">Budget: {{ listing.budget }}</p>
@@ -54,7 +54,7 @@
       </h4>
     </div>
     <div class="card-body"
-         style="width: 100%;
+        style="width: 100%;
                 max-width: 800px;
                 background-color: #e8f9fc00;
                 padding: 30px;
@@ -67,18 +67,18 @@
         <strong>Description:</strong>
       </h3>
       <h3 style="font-size: 20px;
-                 line-height: 1.6;
-                 color: #141414;
-                 margin-bottom: 15px">
+                line-height: 1.6;
+                color: #141414;
+                margin-bottom: 15px">
         <p>{{ listing.description }}</p>
       </h3>
       <h3 style="font-size: 22px; margin: 15px 0 8px 0;">
         <strong>Requirement:</strong>
       </h3>
       <h3 style="font-size: 20px;
-                 line-height: 1.6;
-                 color: #141414;
-                 margin-bottom: 15px">
+                line-height: 1.6;
+                color: #141414;
+                margin-bottom: 15px">
         <p>{{ listing.requirement }}</p>
       </h3>
       <hr>
@@ -90,7 +90,7 @@
       {% if is_own_company_listing %}
         <!-- Edit button for Company HR viewing their own company's listing -->
         <button type="button"
-                class="btn btn-warning"
+                class="btn btn-primary"
                 data-toggle="modal"
                 data-target="#editJobModal">Edit Job</button>
       
@@ -133,8 +133,8 @@
                 <!-- Action Buttons -->
                 <div class="d-flex flex-wrap gap-2">
                   <a href="{% url 'applies:apply' listing.id %}"
-                     class="btn btn-warning flex-grow-1"
-                     title="Edit your existing application">
+                    class="btn btn-warning flex-grow-1"
+                    title="Edit your existing application">
                     <i class="fas fa-edit"></i> Edit Application
                   </a>
                   <button type="button"
@@ -163,8 +163,8 @@
             <!-- Not logged in -->
             <div class="text-center">
               <a href="{% url 'accounts:login' %}?next={{ request.path }}"
-                 class="btn btn-outline-primary disabled btn-lg"
-                 title="Please login to apply for jobs">
+                class="btn btn-outline-primary disabled btn-lg"
+                title="Please login to apply for jobs">
                 <i class="fas fa-sign-in-alt me-2"></i>Login to Apply
               </a>
               <p class="text-muted mt-2">
@@ -180,11 +180,11 @@
 
   <!-- Edit Job Modal -->
   <div class="modal fade"
-       id="editJobModal"
-       tabindex="-1"
-       role="dialog"
-       aria-labelledby="editJobModalLabel"
-       aria-hidden="true">
+      id="editJobModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editJobModalLabel"
+      aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -200,11 +200,11 @@
             <div class="form-group">
               <label for="editTitle">Job Title</label>
               <input type="text"
-                     class="form-control"
-                     id="editTitle"
-                     name="title"
-                     value="{{ listing.title }}"
-                     required />
+                    class="form-control"
+                    id="editTitle"
+                    name="title"
+                    value="{{ listing.title }}"
+                    required />
             </div>
             <div class="form-group">
               <label for="editIndustry">Industry</label>

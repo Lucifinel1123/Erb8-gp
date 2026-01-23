@@ -92,7 +92,7 @@
                         <a href="{% url "companies:HR_dashboard" %}">
                             <i class="fas fa-arrow-left me-1"></i> Back to Dashboard</a>
                     </li>
-                    <li class="breadcrumb-item active">Input/Edit Company Information</li>
+                    <li class="breadcrumb-item active">Input / Edit Company Information</li>
                 </ol>
             </nav>
         </div>
@@ -101,7 +101,7 @@
         <div class="container">
             <div class="dashboard-card card">
                 <div class="card-header">
-                    <h1 class="h4 mb-0">Input/Edit Company Information</h1>
+                    <h1 class="h4 mb-0">Input / Edit Company Information</h1>
                 </div>
                 <div class="card-body">
                     <form method="POST"
@@ -134,7 +134,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="industry" class="form-label">Industry:</label>
-                                <select name="industry" class="form-control" row="4" required>
+                                <select name="industry" class="form-control form-control-lg" row="4" required>
                                     <option value="" disabled selected>Select Industry</option>
                                     {% for key, value in industry_choices.items %}
                                         <option value="{{ key }}" {% if company.industry == key %}selected{% endif %}>{{ value }}</option>
@@ -142,7 +142,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="serivces" class="form-label">Serivces:</label>
+                                <label for="services" class="form-label">Services:</label>
                                 <textarea name="serivces" class="form-control" row="3">{{ company.serivces|default:'' }}</textarea>
                             </div>
                             <div class="form-group">
