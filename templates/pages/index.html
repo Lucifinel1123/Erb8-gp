@@ -144,7 +144,8 @@
                                         You can connect with more job opportunities on Freelancergo and have the chance to collaborate with major well-known organizations.
                                     </h6>
                                     <br />
-                                    <a href={% url "accounts:register" %} class="btn btn-outline-info">Join in as freelancer</a>
+                                    <a href="{% url 'accounts:register' %}?account_type=individual"
+                                       class="btn btn-outline-info">Join in as freelancer</a>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +164,8 @@
                                         Posting jobs directly to get a experts as quickly as possible. And you're sure to find a freelancer you like!
                                     </h6>
                                     <br />
-                                    <a href={% url "accounts:register" %} class="btn btn-outline-info">Join in as HR</a>
+                                    <a href="{% url 'accounts:register' %}?account_type=hr"
+                                       class="btn btn-outline-info">Join in as HR</a>
                                 </div>
                             </div>
                         </div>

@@ -77,4 +77,4 @@ def withdraw_application(request, listing_id):
         messages.error(request, 'You have not applied for this job.')
     
     # Redirect back to the job listing page
-    return redirect('listings:listing', listing_id=listing_id)
+    return render(request, "accounts/dashboard.html")

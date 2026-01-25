@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-
-<!-- Custom CSS (EXACT match to dashboard/import form pages + extra spacing) -->
-<style>
+    <!-- Custom CSS (EXACT match to dashboard/import form pages + extra spacing) -->
+    <style>
     /* Reuse identical styles from dashboard/import form pages */
     .breadcrumb {
         background-color: transparent;
@@ -79,35 +78,50 @@
         margin: 1rem auto;
         border-radius: 4px;
     }
-</style>
-
-<div class="container py-5">
-    {% include "partials/_alert.html" %}
-
-    <!-- EXACT form-card structure from import company info page -->
-    <div class="card form-card">
-        <div class="card-header">
-            <h3 class="mb-0">Login</h3> <!-- Kept your original "Login" heading -->
-        </div>
-        <div class="card-body p-4">
-            <!-- Your original form code - only added password-group class -->
-            <form method="post" action="{% url 'accounts:login' %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control" required />
-                </div>
-                <!-- Added password-group class for extra spacing -->
-                <div class="form-group password-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" required />
-                </div>
-                <br/>
-                <br/>
-                <br/>
-                <button type="submit" class="btn btn-primary btn-submit">Login</button>
-            </form>
+    /* Forgot password link styles */
+    .forgot-password {
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .forgot-password a {
+        color: #094194;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .forgot-password a:hover {
+        color: #07357a;
+        text-decoration: underline;
+    }
+    </style>
+    <div class="container py-5">
+        {% include "partials/_alert.html" %}
+        <!-- EXACT form-card structure from import company info page -->
+        <div class="card form-card">
+            <div class="card-header">
+                <h3 class="mb-0">Login</h3>
+                <!-- Kept your original "Login" heading -->
+            </div>
+            <div class="card-body p-4">
+                <!-- Your original form code - only added password-group class -->
+                <form method="post" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" required />
+                    </div>
+                    <!-- Added password-group class for extra spacing -->
+                    <div class="form-group password-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required />
+                    </div>
+                    <!-- Forgot password link -->
+                    <div class="forgot-password">
+                        <a href="{% url 'accounts:password_reset' %}">Forgot your password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">Login</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

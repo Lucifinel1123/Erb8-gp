@@ -59,7 +59,24 @@ def register(request):
             messages.error(request, 'Passwords do not match')
             return redirect("accounts:register")
     else:    
-        return render(request, 'accounts/register.html')
+        # Get account_type from URL parameter
+        url_account_type = request.GET.get('account_type', 'user')
+
+        # Map URL parameters to form values
+        account_type_map = {
+            'individual': 'user',
+            'hr': 'company',
+            'user': 'user',
+            'company': 'company'
+        }
+
+        # Get the mapped account type, default to 'user'
+        account_type = account_type_map.get(url_account_type, 'user')
+
+        context = {
+            'account_type': account_type
+        }
+        return render(request, 'accounts/register.html', context)
 
 def login_view(request):
     if request.method == 'POST':
@@ -99,5 +116,5 @@ def dashboard(request):
         # User is an individual, show their dashboard
         apply = Apply.objects.filter(user=request.user).order_by('-apply_date')
         context = {'apply': apply}
-        return render(request, "accounts/dashboard.html", context)
+
 

@@ -5,6 +5,7 @@ from applies.models import Apply
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from listings.choices import industry_choices, budget_choices, duration_choices
+from django.db.models import Count, Q  # Added Count and Q for aggregation
 
 # Create your views here.
 def company(request,company_id):
@@ -17,8 +18,21 @@ def HR_dashboard(request):
     # Check if user is associated with a company
     try:
         company = Company.objects.get(user=request.user)
-        job_posts = Listing.objects.all().filter(company = company).order_by('-publish_date')
 
+        # Get job posts with applicant count annotation
+        job_posts = Listing.objects.filter(company=company).annotate(
+            applicant_count=Count('applications')
+        ).order_by('-publish_date')
+        
+        # Calculate statistics
+        total_jobs = job_posts.count()
+        active_jobs = job_posts.filter(is_active=True).count()
+        
+        # Calculate total applicants across all jobs
+        total_applicants = 0
+        for job in job_posts:
+            total_applicants += job.applicant_count
+        
         # Check if company info is complete
         # Essential fields: name, email, phone, industry, description
         company_info_complete = all([
@@ -28,10 +42,14 @@ def HR_dashboard(request):
             company.industry,
             company.description
         ])
+        
         context = {
-                "company": company,
-                "job_post": job_posts,
-                "company_info_complete": company_info_complete
+            "company": company,
+            "job_post": job_posts,
+            "company_info_complete": company_info_complete,
+            "total_jobs": total_jobs,
+            "active_jobs": active_jobs,
+            "total_applicants": total_applicants,
         }
         return render(request, 'companies/HR_dashboard.html', context)
     except Company.DoesNotExist:
@@ -140,3 +158,29 @@ def view_candidate(request, listing_id):
         "user_appliers": user_appliers
     }
     return render(request, 'companies/view_candidate.html', context)
+
+@login_required
+def toggle_job_status(request, listing_id):
+    # Check if user is associated with a company
+    try:
+        company = Company.objects.get(user=request.user)
+    except Company.DoesNotExist:
+        # User is not a company HR
+        messages.error(request, 'You are not authorized to perform this action.')
+        return redirect('accounts:dashboard')
+    
+    # Verify that the listing belongs to the user's company
+    listing = get_object_or_404(Listing, pk=listing_id, company=company)
+    
+    # Toggle the is_active status
+    listing.is_active = not listing.is_active
+    listing.save()
+    
+    # Set appropriate message
+    if listing.is_active:
+        messages.success(request, f'Job "{listing.title}" has been activated and is now visible to candidates.')
+    else:
+        messages.success(request, f'Job "{listing.title}" has been deactivated and is now hidden from candidates.')
+    
+    # Redirect back to HR dashboard
+    return redirect('companies:HR_dashboard')

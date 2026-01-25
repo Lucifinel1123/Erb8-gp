@@ -5,7 +5,6 @@
 {% load humanize %}
 <!-- humanize -->
 {% block content %}
-
     <div class="contanier mt-5 ">
         {% if is_edit_mode %}
             <h1 class="text-center mb-4">Edit Application</h1>
@@ -53,11 +52,46 @@
                      margin: 40px auto">
             {% csrf_token %}
             <input type="hidden" name="listing_id" value="{{ listing.id }}" />
-            <!-- Job Title (Display only, not editable) -->
-            <div class="mb-3">
-                <label class="form-label">Job Title</label>
-                <div class="form-control-plaintext border rounded p-2 bg-light">
-                    <strong>{{ listing.title }}</strong>
+            <!-- Job Title and Status (Display only, not editable) -->
+            <div class="mb-4">
+                <label class="form-label">Job Details</label>
+                <div class="border rounded p-3 bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h5 class="mb-0">{{ listing.title }}</h5>
+                        <!-- Job Status Badge -->
+                        {% if listing.is_active %}
+                            <span class="badge badge-success p-2">
+                                <i class="fas fa-check-circle me-1"></i>Active Job
+                            </span>
+                        {% else %}
+                            <span class="badge badge-secondary p-2">
+                                <i class="fas fa-times-circle me-1"></i>Inactive Job
+                            </span>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="fas fa-building me-1"></i>{{ listing.company }}
+                            </small>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="fas fa-money-bill-wave me-1"></i>{{ listing.budget }}
+                            </small>
+                        </div>
+                    </div>
+                    {% if not listing.is_active %}
+                        <div class="alert alert-warning mt-3 mb-0 p-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <div>
+                                    <strong class="d-block">Job is Inactive</strong>
+                                    <small class="d-block">This job is no longer active. Your application may not be considered by the company.</small>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
                 <input type="hidden" name="job_title" value="{{ listing.title }}" />
             </div>
@@ -215,5 +249,19 @@
             form.submit();
         }
     }
+    
+    // Show warning when submitting/editing application for inactive job
+    document.addEventListener('DOMContentLoaded', function() {
+        const submitButton = document.querySelector('button[type="submit"]');
+        const inactiveBadge = document.querySelector('.badge.badge-secondary');
+        
+        if (submitButton && inactiveBadge && inactiveBadge.textContent.includes('Inactive Job')) {
+            submitButton.addEventListener('click', function(e) {
+                if (!confirm('⚠️ JOB IS INACTIVE ⚠️\n\nThis job is no longer active.\n\nYour application may not be considered by the company.\n\nDo you still want to submit your application?')) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
     </script>
 {% endblock %}

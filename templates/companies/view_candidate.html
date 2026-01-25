@@ -105,11 +105,21 @@
                                             <small class="text-muted">{{ apply.apply_date|time:"H:i" }}</small>
                                         </td>
                                         <td>
-                                            <a href="{{ apply.cv_file.url|default:"#" }}"
-                                               download
-                                               class="btn btn-sm btn-download-cv">
-                                                <i class="fas fa-download me-1"></i> Download CV <!-- Added icon for clarity -->
-                                            </a>
+                                            {% if apply.cv and apply.cv.url %}
+                                                <a href="{{ apply.cv.url }}"
+                                                   download
+                                                   class="btn btn-sm btn-download-cv"
+                                                   title="Download CV: {{ apply.cv.name|cut:'cv/' }}">
+                                                    <i class="fas fa-download me-1"></i> Download CV
+                                                </a>
+                                                <br>
+                                                <small class="text-muted mt-1 d-block">
+                                                    <i class="fas fa-file me-1"></i>
+                                                    {{ apply.cv.name|cut:'cv/'|truncatechars:20 }}
+                                                </small>
+                                            {% else %}
+                                                <span class="text-muted">No CV uploaded</span>
+                                            {% endif %}
                                         </td>
                                         <td>
                                             <button type="button"
@@ -166,4 +176,39 @@
         </div>
     </div>
 {% endfor %}
+<script>
+// Function to handle CV download with confirmation
+function handleCvDownload(event, candidateName, fileName) {
+    event.preventDefault();
+    const downloadUrl = event.currentTarget.href;
+    
+    if (confirm(`Download CV for ${candidateName}?\n\nFile: ${fileName}`)) {
+        // Create a temporary link to trigger the download
+        const tempLink = document.createElement('a');
+        tempLink.href = downloadUrl;
+        tempLink.download = fileName;
+        tempLink.style.display = 'none';
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        document.body.removeChild(tempLink);
+    }
+}
+
+// Attach download handlers to all CV download buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const cvDownloadButtons = document.querySelectorAll('.btn-download-cv');
+    
+            cvDownloadButtons.forEach(function(button) {
+            const row = button.closest('tr');
+            if (row) {
+                const candidateName = row.querySelector('td:first-child').textContent.trim();
+                const fileName = button.getAttribute('title') ? button.getAttribute('title').replace('Download CV: ', '') : 'CV.pdf';
+                
+                button.addEventListener('click', function(e) {
+                    handleCvDownload(e, candidateName, fileName);
+                });
+            }
+        });
+});
+</script>
 {% endblock %}
