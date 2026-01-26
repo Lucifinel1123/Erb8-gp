@@ -13,10 +13,10 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-12">
-                    <h1 class="display-4">{{ company.title | title }}</h1>
-                    <p class="lead">
+                    <h1 class="display-4">{{ company.name | title }}</h1>
+                    {% comment %} <p class="lead">
                         <i class="fas fa-map-marker"></i> {{ company.industry | title }}
-                    </p>
+                    </p> {% endcomment %}
                 </div>
             </div>
         </section>
@@ -47,7 +47,7 @@
                          style="width: 60px;
                                 height: 60px;
                                 object-fit: contain"
-                         src="{{ listing.company.logo }}"
+                         src="{{ company.logo.url }}"
                          alt="company logo" />
                     <h1 class="mb-0" style="margin: 0;">{{ listing.company.name }}</h1>
                 </div>
@@ -55,29 +55,30 @@
                 <div class="row mb-5 fields">
                     <div class="col-md-12">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item" style="color: #124a81;">
-                                <i class="fa-solid fa-industry"></i> Industry :
-                                <span class="float-right">{{ company.industry }}</span>
+                            <li class="list-group-item" style="color: #092541;">
+                                <i class="fa-solid fa-industry"></i> Industry : <span style="color: #124a81;">{{ company.industry }}</span>
                             </li>
-                            <li class="list-group-item "style="color: #124a81;">
+                            <li class="list-group-item "style="color: #092541;">
                                 <i class="fa-solid fa-align-center"></i> Services :
-                                <span class="float-right">{{ company.serivces }}</span>
+                                <span class="float-right" style="color: #124a81;">{{ company.serivces }}</span>
                             </li>
-                            <li class="list-group-item"style="color: #124a81;">
-                                <i class="fa-solid fa-phone"></i> Phone:
-                                <span class="float-right">{{ company.phone }}</span>
+                            <li class="list-group-item"style="color: #092541;">
+                                <i class="fa-solid fa-phone"></i> Phone: <span style="color: #124a81;">{{ company.phone }}</span>
                             </li>
-                            <li class="list-group-item"style="color: #124a81;">
+                            <li class="list-group-item"style="color: #092541;">
                                 <i class="fa-solid fa-envelope"></i> Email:
-                                <span class="float-right">{{ company.email }}</span>
+                                <span style="color: #124a81;">: {{ company.email }}</span>
                             </li>
-                            <li class="list-group-item"style="color: #124a81;">
+                            <li class="list-group-item"style="color: #092541;">
+                                <i class="fa-solid fa-file"></i> Description:
+                                <span style="color: #124a81;">{{ company.description | linebreaks }}</span>
+                            </li>
+                            <li class="list-group-item"style="color: #092541;">
                                 <i class="fa-solid fa-envelope"></i> Description:
                                 <span class="float-right">{{ company.description | linebreaks }}</span>
                             </li>
                         </ul>
                     </div>
-
                 </div>
             </div>
         </div>

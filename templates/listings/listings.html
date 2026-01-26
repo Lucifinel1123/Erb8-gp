@@ -243,7 +243,6 @@
             </nav>
         </div>
     </section>
-    <!-- Listings -  -->
     <section id="listings" class="py-4">
         <div class="container">
             <div class="row">
@@ -253,17 +252,19 @@
                             <div class="card">
                                 <div class="card-info">
                                     <h4 class="card-title">{{ listing.title }}</h4>
-                                    <h6 class="card-subtitle text-muted mb-2">{{ listing.company }}</h6>
+                                    <h6 class="card-subtitle text-muted mb-2">
+                                        <a href="{% url 'companies:company' listing.company.id %}">{{ listing.company }}</a>
+                                    </h6>
                                     <p class="card-subtitle">{{ listing.budget }}</p>
                                     <p class="card-subtitle">{{ listing.duration }}</p>
                                     <p class="card-text">{{ listing.description|truncatechars:150 }}</p>
                                     <p class="card-text">{{ listing.requirement|truncatechars:150 }}</p>
                                     <p class="card-text">Published {{ listing.publish_date|timesince }} ago</p>
                                     <a href="{% url 'listings:listing' listing.id %}"
-                                    class="btn btn-outline-primary">Read More</a>
+                                       class="btn btn-outline-primary">Read More</a>
                                 </div>
                                 <div class="card-logo">
-                                    <img src="{{ listing.company.logo.url }}" alt="{{ listing.company }} logo">
+                                    <img src="{{ listing.company.logo.url }}" alt="{{ listing.company }} Logo">
                                 </div>
                             </div>
                         </div>

@@ -9,7 +9,7 @@
         {% if is_edit_mode %}
             <h1 class="text-center mb-4">Edit Application</h1>
             <!-- Application Status Card -->
-            <div class="card border-success mb-4 mx-auto" style="max-width: 600px;">
+            <div class="card border-success mb-4 mx-auto" style="max-width: 650px;">
                 <div class="card-header bg-success text-white">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-check-circle fa-lg me-2"></i>
@@ -54,94 +54,98 @@
             <input type="hidden" name="listing_id" value="{{ listing.id }}" />
             <!-- Job Title and Status (Display only, not editable) -->
             <div class="mb-4">
-                <label class="form-label">Job Details</label>
-                <div class="border rounded p-3 bg-light">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h5 class="mb-0">{{ listing.title }}</h5>
-                        <!-- Job Status Badge -->
-                        {% if listing.is_active %}
-                            <span class="badge badge-success p-2">
-                                <i class="fas fa-check-circle me-1"></i>Active Job
-                            </span>
-                        {% else %}
-                            <span class="badge badge-secondary p-2">
-                                <i class="fas fa-times-circle me-1"></i>Inactive Job
-                            </span>
-                        {% endif %}
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <small class="text-muted">
-                                <i class="fas fa-building me-1"></i>{{ listing.company }}
-                            </small>
+                <label class="form-label" style="font-size:1.5em;">
+                    <b>Job Details
+                    </label>
+                    <div class="border rounded p-3 bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">{{ listing.title }}</h5>
+                            <!-- Job Status Badge -->
+                            {% if listing.is_active %}
+                                <span class="badge badge-success p-2">
+                                    <i class="fas fa-check-circle me-1"></i>Active Job
+                                </span>
+                            {% else %}
+                                <span class="badge badge-secondary p-2">
+                                    <i class="fas fa-times-circle me-1"></i>Inactive Job
+                                </span>
+                            {% endif %}
                         </div>
-                        <div class="col-md-6">
-                            <small class="text-muted">
-                                <i class="fas fa-money-bill-wave me-1"></i>{{ listing.budget }}
-                            </small>
-                        </div>
-                    </div>
-                    {% if not listing.is_active %}
-                        <div class="alert alert-warning mt-3 mb-0 p-2">
-                            <div class="d-flex align-items-center">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <div>
-                                    <strong class="d-block">Job is Inactive</strong>
-                                    <small class="d-block">This job is no longer active. Your application may not be considered by the company.</small>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <small class="text-muted" style = "font-size : 18px">
+                                    <i class="fas fa-building me-1" style = "font-size:18px"></i> <strong>{{ listing.company }}</strong>
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <small class="text-muted" style = "font-size :18px">
+                                    <i class="fas fa-money-bill-wave me-1" style =" font-size:18px"></i> <strong>{{ listing.budget }}</strong>
+                                </small>
                             </div>
                         </div>
-                    {% endif %}
+                        {% if not listing.is_active %}
+                            <div class="alert alert-warning mt-3 mb-0 p-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <div>
+                                        <strong class="d-block">Job is Inactive</strong>
+                                        <small class="d-block">This job is no longer active. Your application may not be considered by the company.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <input type="hidden" name="job_title" value="{{ listing.title }}" />
                 </div>
-                <input type="hidden" name="job_title" value="{{ listing.title }}" />
-            </div>
-            <!-- Applicant Name -->
-            <div class="mb-3">
-                <label for="applicant_name" class="form-label">
-                    Your Name <span class="text-danger">*</span>
-                </label>
-                <input type="text"
-                       class="form-control"
-                       id="applicant_name"
-                       name="name"
-                       value="{% if existing_application %}{{ existing_application.name }}{% else %}{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}{% endif %}"
-                       required>
-            </div>
-            <!-- Applicant Email -->
-            <div class="mb-3">
-                <label for="email" class="form-label">
-                    Email <span class="text-danger">*</span>
-                </label>
-                <input type="email"
-                       class="form-control"
-                       id="email"
-                       name="email"
-                       value="{% if existing_application %}{{ existing_application.email }}{% else %}{{ user.email }}{% endif %}"
-                       required>
-            </div>
-            <!-- Applicant Phone (Optional) -->
-            <div class="mb-3">
-                <label for="phone" class="form-label">
-                    Phone <span class="text-muted">(Optional)</span>
-                </label>
-                <input type="tel"
-                       class="form-control"
-                       id="phone"
-                       name="phone"
-                       value="{% if existing_application %}{{ existing_application.phone }}{% endif %}"
-                       placeholder="Enter your phone number">
-            </div>
-            <!-- Application Message (Optional) -->
-            <div class="mb-3">
-                <label for="application_message" class="form-label">
-                    Application Message <span class="text-muted">(Optional)</span>
-                </label>
-                <textarea class="form-control"
-                          id="application_message"
-                          name="message"
-                          rows="4"
-                          placeholder="Tell us why you're interested in this position and why you'd be a good fit...">{% if existing_application %}{{ existing_application.message }}{% endif %}</textarea>
-                <div class="form-text">Add a cover letter or additional information about your application.</div>
+                <!-- Applicant Name -->
+                <div class="mb-3">
+                    <label for="applicant_name" class="form-label" style="font-size:1.5em;">
+                        Your Name <span class="text-danger">*</span>
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="applicant_name"
+                           name="name"
+                           value="{% if existing_application %}{{ existing_application.name }}{% else %}{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}{% endif %}"
+                           required>
+                </div>
+                <!-- Applicant Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label" style="font-size:1.5em;">
+                        Email <span class="text-danger">*</span>
+                    </label>
+                    <input type="email"
+                           class="form-control"
+                           id="email"
+                           name="email"
+                           value="{% if existing_application %}{{ existing_application.email }}{% else %}{{ user.email }}{% endif %}"
+                           required>
+                </div>
+                <!-- Applicant Phone (Optional) -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label" style="font-size:1.5em;">
+                        Phone <span class="text-muted">(Optional)</span>
+                    </label>
+                    <input type="tel"
+                           class="form-control"
+                           id="phone"
+                           name="phone"
+                           value="{% if existing_application %}{{ existing_application.phone }}{% endif %}"
+                           placeholder="Enter your phone number">
+                </div>
+                <!-- Application Message (Optional) -->
+                <div class="mb-3">
+                    <label for="application_message" class="form-label" style="font-size:1.5em;">
+                        Application Message <span class="text-muted">(Optional)</span>
+                    </label>
+                    <textarea class="form-control"
+                              id="application_message"
+                              name="message"
+                              rows="4"
+                              placeholder="Tell us why you're interested in this position and why you'd be a good fit...">{% if existing_application %}{{ existing_application.message }}{% endif %}</textarea>
+                    <div class="form-text">
+                    </b>Add a cover letter or additional information about your application.
+                </div>
             </div>
             <!-- CV Upload (Required for new applications, optional for edits) -->
             <div class="mb-3">
@@ -165,9 +169,10 @@
                 <input type="file"
                        class="form-control"
                        name="cv"
+                       style="min-height:45px"
                        accept=".pdf,.doc,.docx"
                        {% if not is_edit_mode %}required{% endif %}>
-                <div class="form-text">Only PDF, DOC, DOCX files are allowed (max 10MB).</div>
+                <div class="form-text small">Only PDF, DOC, DOCX files are allowed (max 10MB).</div>
             </div>
             <br />
             <!-- Action Buttons -->
