@@ -8,15 +8,15 @@
 <!-- About main content -->
 {% block content %}
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <section id="showcase-inner" class="py-5 text-white">
         <div class="container">
             <div class="row text-center">
                 <div class="col-md-12">
-                    <h1 class="display-4">{{ company.title | title }}</h1>
-                    <p class="lead">
+                    <h1 class="display-4">{{ company.name | title }}</h1>
+                    {% comment %} <p class="lead">
                         <i class="fas fa-map-marker"></i> {{ company.industry | title }}
-                    </p>
+                    </p> {% endcomment %}
                 </div>
             </div>
         </section>
@@ -44,37 +44,36 @@
                 <a href={% url "listings:index" %} class="btn btn-light mb-4">Back To Jobs details</a>
                 <div class="d-flex align-items-center " style="gap:0.5rem;">
                     <img class="me-3"
-                         style="width: 60px;
+                        style="width: 60px;
                                 height: 60px;
                                 object-fit: contain"
-                         src="{{ company.logo }}"
-                         alt="company logo" />
+                        src="{{ company.logo.url }}"
+                        alt="company logo" />
                     <h1 class="mb-0" style="margin: 0;">{{ listing.company.name }}</h1>
                 </div>
                 <!-- Fields -->
                 <div class="row mb-5 fields">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item" style="color: #124a81;">
-                                <i class="fa-solid fa-industry"></i> Industry :
-                                <span class="float-right">{{ company.industry }}</span>
+                            <li class="list-group-item" style="color: #092541;">
+                                <i class="fa-solid fa-industry"></i> Industry : <span style="color: #124a81;">{{ company.industry }}</span>
                             </li>
-                            <li class="list-group-item "style="color: #124a81;">
+                            <li class="list-group-item "style="color: #092541;">
                                 <i class="fa-solid fa-align-center"></i> Services :
-                                <span class="float-right">{{ company.serivces }}</span>
+                                <span class="float-right" style="color: #124a81;">{{ company.serivces }}</span>
                             </li>
-                            <li class="list-group-item"style="color: #124a81;">
-                                <i class="fa-solid fa-phone"></i> Phone:
-                                <span class="float-right">{{ company.phone }}</span>
+                            <li class="list-group-item"style="color: #092541;">
+                                <i class="fa-solid fa-phone"></i> Phone: <span style="color: #124a81;">{{ company.phone }}</span>
                             </li>
-                            <li class="list-group-item"style="color: #124a81;">
-                                <i class="fa-solid fa-envelope"></i> Email:
-                                <span class="float-right">{{ company.email }}</span>
+                            <li class="list-group-item"style="color: #092541;">
+                                <i class="fa-solid fa-envelope"></i> Email: 
+                                <span style="color: #124a81;" > : {{ company.email }}</span>
+                            </li>
+                            <li class="list-group-item"style="color: #092541;">
+                                <i class="fa-solid fa-file"></i> Description: 
+                                <span style="color: #124a81;">{{ company.description | linebreaks  }}</span>
                             </li>
                         </ul>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-12">{{ company.description | linebreaks }}</div>
                     </div>
                 </div>
             </div>

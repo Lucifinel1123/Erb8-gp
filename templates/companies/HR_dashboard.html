@@ -75,6 +75,78 @@
         text-align: center;
         margin: 2rem 0;
     }
+    .ready-to-hire-card {
+        background-color: #4269eb;
+        border: 1px solid #19077c;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .status-active {
+        color: #198754;
+        font-weight: 600;
+    }
+    .status-inactive {
+        color: #dc3545;
+        font-weight: 600;
+    }
+    .candidates-count {
+        background-color: #e7f1ff;
+        color: #0d6efd;
+        border-radius: 12px;
+        padding: 2px 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    .stat-card {
+        border: none;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-radius: 8px;
+        transition: transform 0.2s;
+        height: 100%;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .stat-card:hover {
+        transform: translateY(-2px);
+    }
+    .stat-card .card-body {
+        padding: 1.5rem;
+    }
+    .stat-card h3 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .stat-card p {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+    }
+    /* Status toggle button */
+    .status-toggle-btn {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.85rem;
+        border-radius: 20px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .status-toggle-btn.active {
+        background-color: #d1e7dd;
+        color: #0f5132;
+        border-color: #badbcc;
+    }
+    .status-toggle-btn.inactive {
+        background-color: #f8d7da;
+        color: #842029;
+        border-color: #f5c2c7;
+    }
+    .status-toggle-btn:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
     </style>
     <!-- Hero Section -->
     <section id="showcase-inner" class="py-5 text-white">
@@ -114,12 +186,20 @@
                 </a>
                 {% if company_info_complete %}
                     <a class="btn btn-info btn-action btn-custom-primary"
-                       type="button"
-                       href='{% url "companies:job_post" %}'>
-                        <i class="fas fa-plus me-1"></i> Post New Job
+                    type="button"
+                    href='{% url "companies:company_edit_info" %}'>
+                        <i class="fas fa-edit me-1"></i> Edit Company Information
                     </a>
-                {% endif %}
-            </div>
+                    <!-- Post New Job button (only shown AFTER first job is posted) -->
+                    {% if job_post %}
+                        <a class="btn btn-info btn-action btn-custom-primary"
+                        type="button"
+                        href='{% url "companies:job_post" %}'>
+                            <i class="fas fa-plus me-1"></i> Post New Job
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
             <div class="dashboard-card">
                 <div class="card-body p-4">
                     <div class="col-md-12">
@@ -127,14 +207,14 @@
                         {% if not company_info_complete %}
                             <!-- Company Information Required Section -->
                             <div class="company-info-required">
-                                <i class="fas fa-building fa-3x text-success mb-3"></i>
+                                <i class="fas fa-building fa-3x text-info mb-3"></i>
                                 <h4 class="text-dark mb-3">Complete Your Company Profile</h4>
                                 <p class="mb-4">
                                     Before you can post job listings, you need to complete your company information.
                                     This helps candidates learn more about your organization.
                                 </p>
                                 <a href="{% url 'companies:company_edit_info' %}"
-                                   class="btn btn-primary btn-lg">
+                                class="btn btn-primary btn-lg">
                                     <i class="fas fa-edit me-2"></i>Complete Company Information
                                 </a>
                                 <p class="text-muted mt-3 mb-0">
@@ -145,8 +225,37 @@
                                 </p>
                             </div>
                         {% elif job_post %}
-                            <!-- Has job postings -->
+                                                        <!-- Summary Statistics -->
                             <p class="text-muted mb-3">Here are the job listings that you posted:</p>
+                            <div class="row mt-4 g-3">
+                                <div class="col-md-4">
+                                    <div class="card stat-card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-primary">{{ total_jobs }}</h3>
+                                            <p class="text-muted mb-0">Total Jobs Posted</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card stat-card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-success">{{ active_jobs }}</h3>
+                                            <p class="text-muted mb-0">Active Jobs</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card stat-card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-info">{{ total_applicants }}</h3>
+                                            <p class="text-muted mb-0">Total Applicants</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <!-- State 3: Company info complete AND has job postings -->
                             <!-- Responsive Table -->
                             <div class="table-responsive">
                                 <table class="table table-striped dashboard-table">
@@ -166,38 +275,112 @@
                                                 <!-- Formatted date -->
                                                 <td>{{ listing.title | title }}</td>
                                                 <td>
-                                                    <a class="btn btn-light btn-sm btn-action"
-                                                       href="{% url 'listings:listing' listing.id %}">
-                                                        <i class="fas fa-eye me-1"></i> View Details
-                                                    </a>
-                                                    <a class="btn btn-success btn-sm btn-action"
-                                                       href="{% url 'companies:view_candidate' listing.id %}">
-                                                        <i class="fas fa-users me-1"></i> View Candidates
-                                                    </a>
+                                                    <strong>{{ listing.title | title }}</strong>
+                                                </td>
+                                                <td>
+                                                    <button type="button"
+                                                            class="status-toggle-btn {% if listing.is_active %}active{% else %}inactive{% endif %}"
+                                                            onclick="confirmToggleStatus('{% url 'companies:toggle_job_status' listing.id %}', '{{ listing.is_active|yesno:'true,false' }}', '{{ listing.title|escapejs }}')"
+                                                            title="Click to toggle job status">
+                                                        {% if listing.is_active %}
+                                                            <i class="fas fa-toggle-on me-1"></i>Active
+                                                        {% else %}
+                                                            <i class="fas fa-toggle-off me-1"></i>Inactive
+                                                        {% endif %}
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <span class="text-muted">{{ listing.publish_date | date:"M d, Y" }}</span>
+                                                        <br>
+                                                        <small class="text-muted">{{ listing.publish_date | time:"g:i A" }}</small>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {% if listing.applicant_count > 0 %}
+                                                        <span class="candidates-count">
+                                                            <i class="fas fa-users me-1"></i>{{ listing.applicant_count }} applicant
+                                                            {% if listing.applicant_count != 1 %}s{% endif %}
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="text-muted">
+                                                            <i class="fas fa-user-slash me-1"></i>No applicants yet
+                                                        </span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex flex-wrap gap-1">
+                                                        <a class="btn btn-light btn-sm btn-action"
+                                                        href="{% url 'listings:listing' listing.id %}"
+                                                        title="View job details">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                        <a class="btn btn-success btn-sm btn-action"
+                                                        href="{% url 'companies:view_candidate' listing.id %}"
+                                                        title="View candidates">
+                                                            <i class="fas fa-users"></i>
+                                                        </a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
+                            {% comment %} <!-- Summary Statistics -->
+                            <div class="row mt-4 g-3">
+                                <div class="col-md-4">
+                                    <div class="card stat-card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-primary">{{ total_jobs }}</h3>
+                                            <p class="text-muted mb-0">Total Jobs Posted</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card stat-card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-success">{{ active_jobs }}</h3>
+                                            <p class="text-muted mb-0">Active Jobs</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card stat-card border-0 bg-light">
+                                        <div class="card-body text-center">
+                                            <h3 class="text-info">{{ total_applicants }}</h3>
+                                            <p class="text-muted mb-0">Total Applicants</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
                         {% else %}
-                            <!-- Company info complete but no job postings -->
-                            <div class="empty-dashboard">
-                                <i class="fas fa-briefcase fa-3x text-primary mb-3"></i>
-                                <h4 class="text-dark mb-3">Ready to Hire?</h4>
-                                <p class="mb-4">
+                            <!-- State 2: Company info complete but NO job postings yet -->
+                            <div class="ready-to-hire-card">
+                                <i class="fas fa-briefcase fa-3x text-light mb-3"></i>
+                                <h4 class="text-light mb-3">Ready to Hire?</h4>
+                                <p class="text-light mb-4">
                                     Your company profile is complete! Now you can start posting job listings
                                     to find qualified candidates for your open positions.
                                 </p>
                                 <a href="{% url 'companies:job_post' %}" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-plus me-2"></i>Post Your First Job
+                                    <i class="fas fa-plus me-2"></i> Post Your First Job Now
                                 </a>
-                                <p class="text-muted mt-3 mb-0">
-                                    <small>
-                                        <i class="fas fa-lightbulb me-1"></i>
-                                        Tip: Be specific about job requirements to attract the right candidates
-                                    </small>
-                                </p>
+                                <style>
+                                        .tip-text {
+                                            color: #e5def1; 
+                                        }
+                                        .tip-icon {
+                                            color: #d6c7ec; 
+                                        }
+                                    </style>
+
+                                    <p class="tip-text mt-3 mb-0">
+                                        <small>
+                                            <i class="fas fa-lightbulb me-1 tip-icon"></i>
+                                            Tip: Be specific about job requirements to attract the right candidates
+                                        </small>
+                                    </p>
                             </div>
                         {% endif %}
                     </div>
@@ -208,6 +391,37 @@
     <script>
     function showCompanyInfoAlert() {
         alert("Please complete your company information first before posting a new job. Click on 'Import Company Information' to complete your profile.");
+    }
+    
+    function confirmToggleStatus(url, currentStatus, jobTitle) {
+        // Convert string 'true'/'false' to boolean
+        const isActive = currentStatus === 'true';
+        const currentStatusText = isActive ? 'Active' : 'Inactive';
+        const newStatusText = isActive ? 'Inactive' : 'Active';
+        
+        const message = `Are you sure you want to change the status of "${jobTitle}"?\n\n` +
+                    `Current: ${currentStatusText}\n` +
+                    `New: ${newStatusText}\n\n` +
+                    `Active jobs are visible to candidates. Inactive jobs are hidden.`;
+        
+        if (confirm(message)) {
+            // Create a form to submit the status toggle request
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = url;
+            
+            // Add CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = 'csrfmiddlewaretoken';
+            csrfInput.value = csrfToken;
+            form.appendChild(csrfInput);
+            
+            // Submit the form
+            document.body.appendChild(form);
+            form.submit();
+        }
     }
     </script>
 {% endblock %}
