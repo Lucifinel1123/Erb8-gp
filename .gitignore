@@ -176,5 +176,10 @@ cython_debug/
 .vscode
 
 # file
-photos/
 cv/
+photos/
+dummy_data/
+dummy_data_generation/
+import_log.txt
+import_report.txt
+cookies.txt
