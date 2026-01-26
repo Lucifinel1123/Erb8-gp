@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect #, HttpResponse
+from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from applies.models import Apply
 from companies.models import Company
 from django.contrib.auth.decorators import login_required
-# from contacts.models import Contact
+from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse_lazy
 
 def register(request):
     if request.method == 'POST':
@@ -118,4 +119,29 @@ def dashboard(request):
         context = {'apply': apply}
         return render(request, "accounts/dashboard.html", context)
 
+def custom_password_reset(request):
+    """Custom password reset view with debug logging"""
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        print(f"DEBUG: Password reset requested for email: '{email}'")
+
+        # Check if user exists
+        users = User.objects.filter(email__iexact=email)
+        print(f"DEBUG: Found {users.count()} user(s) with email '{email}'")
+
+        for user in users:
+            print(f"DEBUG: User found - username: {user.username}, email: {user.email}, is_active: {user.is_active}")
+            # Check if user is associated with a company
+            try:
+                company = Company.objects.get(user=user)
+                print(f"DEBUG: User is a company HR for company: {company.name}")
+            except Company.DoesNotExist:
+                print(f"DEBUG: User is an individual user")
+
+    # Use Django's built-in PasswordResetView
+    return PasswordResetView.as_view(
+        template_name="accounts/password_reset.html",
+        success_url=reverse_lazy('accounts:password_reset_done'),
+        email_template_name="registration/password_reset_email.html"
+    )(request)
 

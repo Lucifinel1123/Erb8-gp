@@ -10,7 +10,23 @@ from django.db.models import Count, Q  # Added Count and Q for aggregation
 # Create your views here.
 def company(request,company_id):
     company = get_object_or_404(Company, pk = company_id)
-    context = {'company':company}
+    
+    # Check if the current user is the HR (owner) of this company
+    is_company_hr = request.user.is_authenticated and hasattr(request.user, 'company') and request.user.company.id == company.id
+    
+    # Get job listings based on user type
+    if is_company_hr:
+        # Company HR sees ALL jobs (active and inactive)
+        job_listings = Listing.objects.filter(company=company).order_by('-publish_date')
+    else:
+        # Regular users see only ACTIVE jobs
+        job_listings = Listing.objects.filter(company=company, is_active=True).order_by('-publish_date')
+    
+    context = {
+        'company': company,
+        'job_listings': job_listings,
+        'is_company_hr': is_company_hr
+    }
     return render(request,'companies/company.html', context)
 
 @login_required

@@ -112,7 +112,7 @@
         padding-right: 10px;
     }
 
-    /* Company logo - STRICTLY RIGHT side（不变） */
+    /* Company logo - STRICTLY RIGHT side */
     #listings .card-logo {
         width: 90px;
         height: 90px;
@@ -264,7 +264,11 @@
                                        class="btn btn-outline-primary">Read More</a>
                                 </div>
                                 <div class="card-logo">
-                                    <img src="{{ listing.company.logo.url }}" alt="{{ listing.company }} Logo">
+                                    {% if listing.company.logo %}
+                                        <img src="{{ listing.company.logo.url }}" alt="{{ listing.company }} Logo">
+                                    {% else %}
+                                        <p>Company Logo</p>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
