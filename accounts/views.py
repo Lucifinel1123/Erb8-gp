@@ -116,5 +116,6 @@ def dashboard(request):
         # User is an individual, show their dashboard
         apply = Apply.objects.filter(user=request.user).order_by('-apply_date')
         context = {'apply': apply}
+        return render(request, "accounts/dashboard.html", context)
 
 

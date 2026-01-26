@@ -243,7 +243,7 @@
             </nav>
         </div>
     </section>
-    <!-- Listings - Logo右对齐（不变） -->
+    <!-- Listings -  -->
     <section id="listings" class="py-4">
         <div class="container">
             <div class="row">
@@ -260,10 +260,10 @@
                                     <p class="card-text">{{ listing.requirement|truncatechars:150 }}</p>
                                     <p class="card-text">Published {{ listing.publish_date|timesince }} ago</p>
                                     <a href="{% url 'listings:listing' listing.id %}"
-                                       class="btn btn-outline-primary">Read More</a>
+                                    class="btn btn-outline-primary">Read More</a>
                                 </div>
                                 <div class="card-logo">
-                                    <img src="{{ listing.company.logo }}" alt="{{ listing.company }} Logo">
+                                    <img src="{{ listing.company.logo.url }}" alt="{{ listing.company }} logo">
                                 </div>
                             </div>
                         </div>

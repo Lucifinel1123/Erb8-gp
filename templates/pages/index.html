@@ -75,14 +75,24 @@
     <!-- Listings -->
     <section id="listings" class="py-5">
         <div class="container">
-            <h3 class="text-center mb-3">Latest Job Posts</h3>
+            <h3 class="text-center mb-3"style="font-size:50px;">Latest Job Posts</h3>
             <div class="row">
                 {% if listings %}
                     <!-- Listing 1 -->
                     {% for listing in listings %}
                         <div class="col-md-6 col-lg-4 mb-4">
-                            <div class="card listing-preview">
-                                <img class="card-img-top" src= "{{ listing.company.logo }}" alt= "" />
+                            <div class="card listing-preview" style="
+                                    display: flex;
+                                    flex-direction: column; 
+                                    justify-content: center; 
+                                    align-items: center; 
+                                    min-height: 200px; 
+                                    padding: 20px 0;">
+                                <img class="card-img-top" 
+                                    src="{{ listing.company.logo }}" 
+                                    alt="Company Logo" 
+                                    style="width: 100px; height: 100px; object-fit: contain;display: block; 
+               margin: 0 auto" />
                                 <div class="card-img-overlay"></div>
                                 <div class="card-body">
                                     <div class="listing-heading text-center">
@@ -107,11 +117,11 @@
                                     <hr />
                                     <div class="row py-2"style="color: #124a81;">
                                         <div class="col-12">
-                                            <i class="fa-solid fa-building"></i> Company: <a href="{% url 'companies:company' listing.company.id %}">{{ listing.company }}</a>
+                                            <i class="fa-solid fa-building"></i> Company: <a href="{% url 'companies:company' listing.company.id %}"style="color: #124a81;">{{ listing.company }}</a>
                                         </div>
                                     </div>
-                                    <div class="row text-secondary pb-2">
-                                        <div class="col-12">
+                                    <div class="row pb-2">
+                                        <div class="col-12"style="color: #124a81;">
                                             <i class="fas fa-clock"></i> Post on {{ listing.publish_date }}
                                         </div>
                                     </div>

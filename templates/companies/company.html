@@ -47,13 +47,13 @@
                          style="width: 60px;
                                 height: 60px;
                                 object-fit: contain"
-                         src="{{ company.logo }}"
+                         src="{{ listing.company.logo }}"
                          alt="company logo" />
                     <h1 class="mb-0" style="margin: 0;">{{ listing.company.name }}</h1>
                 </div>
                 <!-- Fields -->
                 <div class="row mb-5 fields">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item" style="color: #124a81;">
                                 <i class="fa-solid fa-industry"></i> Industry :
@@ -71,11 +71,13 @@
                                 <i class="fa-solid fa-envelope"></i> Email:
                                 <span class="float-right">{{ company.email }}</span>
                             </li>
+                            <li class="list-group-item"style="color: #124a81;">
+                                <i class="fa-solid fa-envelope"></i> Description:
+                                <span class="float-right">{{ company.description | linebreaks }}</span>
+                            </li>
                         </ul>
                     </div>
-                    <div class="row mb-5">
-                        <div class="col-md-12">{{ company.description | linebreaks }}</div>
-                    </div>
+
                 </div>
             </div>
         </div>

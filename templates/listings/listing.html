@@ -33,18 +33,21 @@
       {% if listing.company.logo %}
         <div style=" margin-bottom: 20px;">
           <img class="card-img-top"
-               src="{{ listing.company.logo }}"
-               alt="Company Logo"
+               src="{{ listing.company.logo.url }}"
+               alt="{{listing.company}} Logo"
                style="width: 200px;
                       height: 200px;
                       object-fit: contain;
                       margin: 0 auto">
-        </div>
+            <br/>
+        <a href="{% url 'companies:company' listing.company.id %}"
+           style="color: #212529;font-size: 25px; ">{{ listing.company }}</a>
+      </h1>
+        
+                    </div>
       {% endif %}
       <h2>{{ listing.title }}</h2>
-      <h1 style="font-size: 20px; margin-bottom: 15px; color: #141414;">
-        <a href="{% url 'companies:company' listing.company.id %}"
-           style="color: #212529">{{ listing.company }}</a>
+      <h1 style="font-size: 25px; margin-bottom: 15px; color: #141414;">
       </h1>
       <h4 style="font-size: 20px; margin: 8px 0;">
         <p class="mb-0">Budget: {{ listing.budget }}</p>
@@ -88,6 +91,7 @@
           <div class="text-center">
             <button type="button"
                     class="btn btn-warning btn-lg px-5"
+                    style="background-color: rgb(17, 41, 79); color:white; border:white"
                     data-toggle="modal"
                     data-target="#editJobModal">
               <i class="fas fa-edit me-2"></i>Edit Job
@@ -161,7 +165,7 @@
                   <!-- Action Buttons -->
                   <div class="d-flex flex-wrap gap-3 justify-content-center">
                     <a href="{% url 'applies:apply' listing.id %}"
-                       class="btn btn-warning btn-lg px-4"
+                       class="btn btn-primary btn-lg px-4"
                        title="Edit your existing application">
                       <i class="fas fa-edit me-2"></i>Edit Application
                     </a>
