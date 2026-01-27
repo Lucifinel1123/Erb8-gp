@@ -15,67 +15,72 @@
                         <div class="mb-3 d-flex align-items-center">
                             <i class="fas fa-envelope-open me-3" style="width: 20px;"></i>
                             <span>
-                                <a href="mailto:contact@freelancergo.co" class="text-white text-decoration-none">
-                                    contact@freelancergo.co
-                                </a>
+                                <a href="mailto:contact@freelancergo.co"
+                                   class="text-white text-decoration-none">contact@freelancergo.co</a>
                             </span>
                         </div>
                         <div class="mb-3 d-flex align-items-center">
                             <i class="fa-solid fa-clock me-3" style="width: 20px;"></i>
                             <span>Office Hours: 10:00AM - 7:00PM</span>
                         </div>
-                        <div class="d-flex align-items-start">
-                            <i class="fa-solid fa-location-dot me-3 mt-1" style="width: 20px;"></i>
+                        <div class="mb-3 d-flex align-items-start">
+                            <i class="fa-solid fa-location-dot mt-1 " style="width: 30px;"></i>
                             <span>Room 801, Wong Tze Building, 71 Hoi Yuen Road, Kwun Tong, Kowloon, Hong Kong</span>
                         </div>
                     </div>
                 </div>
-                
                 <!-- Quick Links -->
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5 class="mb-3 border-bottom pb-2">Quick Links</h5>
                     <ul class="list-unstyled">
                         <li class="mb-2">
-                            <a href="{% url 'pages:index' %}" class="text-white text-decoration-none">
-                                <i class="fas fa-home me-2"></i>Home
+                            <a href="{% url 'pages:index' %}"
+                               class="text-white text-decoration-none">
+                                <i class="fas fa-home me-2"></i> Home
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="{% url 'pages:about' %}" class="text-white text-decoration-none">
-                                <i class="fas fa-info-circle me-2"></i>About
+                            <a href="{% url 'pages:about' %}"
+                               class="text-white text-decoration-none">
+                                <i class="fas fa-info-circle me-2"></i> About
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a href="{% url 'listings:index' %}" class="text-white text-decoration-none">
-                                <i class="fas fa-briefcase me-2"></i>Job Listings
+                            <a href="{% url 'listings:index' %}"
+                               class="text-white text-decoration-none">
+                                <i class="fas fa-briefcase me-2"></i> Job Listings
                             </a>
                         </li>
                         {% if user.is_authenticated %}
-                        <li class="mb-2">
-                            <a href="{% url 'accounts:dashboard' %}" class="text-white text-decoration-none">
-                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                            </a>
-                        </li>
+                            <li class="mb-2">
+                                <a href="{% url 'accounts:dashboard' %}"
+                                   class="text-white text-decoration-none">
+                                    <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                                </a>
+                            </li>
                         {% else %}
-                        <li class="mb-2">
-                            <a href="{% url 'accounts:login' %}" class="text-white text-decoration-none">
-                                <i class="fas fa-sign-in-alt me-2"></i>Login
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a href="{% url 'accounts:register' %}" class="text-white text-decoration-none">
-                                <i class="fas fa-user-plus me-2"></i>Register
-                            </a>
-                        </li>
+                            <li class="mb-2">
+                                <a href="{% url 'accounts:login' %}"
+                                   class="text-white text-decoration-none">
+                                    <i class="fas fa-sign-in-alt me-2"></i> Login
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="{% url 'accounts:register' %}"
+                                   class="text-white text-decoration-none">
+                                    <i class="fas fa-user-plus me-2"></i>Register
+                                </a>
+                            </li>
                         {% endif %}
                     </ul>
                 </div>
-                
                 <!-- Map Section -->
                 <div class="col-lg-6 col-md-12 mb-4">
                     <h5 class="mb-3 border-bottom pb-2">Find Us on Map</h5>
                     <div class="map-container rounded overflow-hidden shadow-lg position-relative">
-                        <div class="map-placeholder position-absolute top-0 start-0 w-100 h-100 bg-light d-flex align-items-center justify-content-center text-center p-4" style="z-index: 1; display: flex;">
+                        <div class="map-placeholder position-absolute top-0 start-0 w-100 h-100 bg-light d-flex align-items-center justify-content-center text-center p-4"
+                             style="z-index: 1;
+                                    display: flex">
                             <div>
                                 <i class="fas fa-map-marker-alt fa-2x mb-3 text-danger"></i>
                                 <p class="mb-0">
@@ -88,7 +93,9 @@
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3691.676418824229!2d114.22431477499293!3d22.31217637969453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3404014f5c6c0001%3A0x6e5f4b2b9b4c4c4c!2sWong%20Tze%20Building%2C%2071%20Hoi%20Yuen%20Rd%2C%20Kwun%20Tong%2C%20Hong%20Kong!5e0!3m2!1sen!2sus!4v1690000000000&q=Room+801+Wong+Tze+Building+71+Hoi+Yuen+Road+Kwun+Tong+Kowloon+Hong+Kong&z=17&output=embed&maptype=roadmap&markers=color:red%7Clabel:Office%7C22.312176,114.226503"
                                 width="100%"
                                 height="250"
-                                style="border:0; position: relative; z-index: 2;"
+                                style="border:0;
+                                       position: relative;
+                                       z-index: 2"
                                 allowfullscreen=""
                                 loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"
@@ -109,8 +116,7 @@
                                 <i class="fas fa-external-link-alt me-1"></i>
                                 Open in Google Maps
                             </a>
-                            <button onclick="refreshMap()"
-                                    class="btn btn-sm btn-outline-light">
+                            <button onclick="refreshMap()" class="btn btn-sm btn-outline-light">
                                 <i class="fas fa-redo me-1"></i>
                                 Reload Map
                             </button>
@@ -118,7 +124,6 @@
                     </div>
                 </div>
             </div>
-            
             <!-- Copyright -->
             <div class="row mt-4 pt-3 border-top">
                 <div class="col-12 text-center">

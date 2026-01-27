@@ -7,6 +7,7 @@
 {% endblock title %}
 {% block content %}
   <!-- Custom  -->
+  <!-- Custom  -->
   <style>
     body {
         font-family: Arial, Helvetica, sans-serif;
@@ -250,7 +251,7 @@
     <div class="container text-center">
       <div class="home-search p-5">
         <div class="overlay p-5">
-          <h1 class="display-4 mb-4">Search for jobs</h1>
+          <h1 class="display-4 mb-4">Searching for jobs</h1>
           <p class="lead">freelancego website can help you work from home</p>
           <div class="search">
             <form action={% url "listings:search" %} method = "GET">
@@ -312,20 +313,19 @@
           {% for listing in listings %}
             <div class="job-col">
               <div class="card">
-                <div class="card columns">
-                  <div class="card-body">
-                    <h4 class="card-title">{{ listing.title }} (Industry: {{ listing.industry }})</h4>
-                    <a href="{% url 'companies:company' listing.company.id %}">
-                      <h6 class="card-subtitle text-muted mb-2">{{ listing.company }}</h6>
-                    </a>
-                    <p class="card-subtitle">{{ listing.budget }}</p>
-                    <p class="card-subtitle">{{ listing.duration }}</p>
-                    <p class="card-text">{{ listing.description|truncatechars:150 }}</p>
-                    <p class="card-text">{{ listing.requirement|truncatechars:150 }}</p>
-                    <p class="card-text">Published {{ listing.publish_date|timesince }} ago</p>
-                    <a href="{% url 'listings:listing' listing.id %}"
-                       class="btn btn-outline-primary">Read More</a>
-                  </div>
+                <div class="card-info">
+                  <h4 class="card-title">{{ listing.title }}</h4>
+                  <h6 class="card-subtitle text-muted mb-2">{{ listing.company }}</h6>
+                  <p class="card-subtitle">{{ listing.budget }}</p>
+                  <p class="card-subtitle">{{ listing.duration }}</p>
+                  <p class="card-text">{{ listing.description|truncatechars:150 }}</p>
+                  <p class="card-text">{{ listing.requirement|truncatechars:150 }}</p>
+                  <p class="card-text">Published {{ listing.publish_date|timesince }} ago</p>
+                  <a href="{% url 'listings:listing' listing.id %}"
+                     class="btn btn-outline-primary">Read More</a>
+                </div>
+                <div class="card-logo">
+                  <img src="{{ listing.company.logo.url }}" alt="{{ listing.company }} Logo">
                 </div>
               </div>
             </div>
